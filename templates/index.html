@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EcoTransfert · Plateforme de Médiation Financière</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gold-light:#E8C96E;--gold-dark:#9A7A32;--deep:#0A0E1A;--surface:#111827;--surface2:#1A2236;--surface3:#243047;--text:#F0EDE8;--text-dim:#8A9AB5;--green:#22C55E;--red:#EF4444;--blue:#3B82F6;--radius:12px;--shadow:0 8px 32px rgba(0,0,0,.4)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--deep);color:var(--text);min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(10,14,26,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(201,168,76,.15);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:900;color:var(--gold);display:flex;align-items:center;gap:.5rem;cursor:pointer}
+.logo-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.9rem}
+.nav-tabs{display:flex;gap:.25rem;background:var(--surface);padding:4px;border-radius:10px;border:1px solid rgba(255,255,255,.06)}
+.nav-tab{padding:.4rem 1rem;border-radius:7px;border:none;background:transparent;color:var(--text-dim);font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .2s}
+.nav-tab.active{background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--deep);font-weight:600}
+.nav-tab:hover:not(.active){color:var(--text);background:var(--surface2)}
+.page{display:none;padding-top:64px;min-height:100vh;position:relative;z-index:1}
+.page.active{display:block}
+.hero{padding:5rem 2rem 3rem;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(ellipse,rgba(201,168,76,.08) 0%,transparent 70%);pointer-events:none}
+.hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);color:var(--gold-light);padding:.35rem .9rem;border-radius:50px;font-size:.78rem;font-weight:500;letter-spacing:.05em;text-transform:uppercase;margin-bottom:1.5rem;animation:fadeInDown .6s ease}
+@keyframes fadeInDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+h1.hero-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;line-height:1.1;margin-bottom:1.2rem;animation:fadeInUp .7s ease}
+h1.hero-title span{background:linear-gradient(135deg,var(--gold-light),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero-sub{color:var(--text-dim);font-size:1.05rem;max-width:520px;margin:0 auto 2.5rem;line-height:1.65;animation:fadeInUp .8s ease}
+.rate-ticker{display:inline-flex;align-items:center;gap:1.5rem;background:var(--surface);border:1px solid rgba(201,168,76,.2);border-radius:50px;padding:.6rem 1.5rem;margin-bottom:3rem;font-size:.88rem;animation:fadeInUp .9s ease;flex-wrap:wrap;justify-content:center}
+.rate-item{display:flex;align-items:center;gap:.5rem}
+.rate-label{color:var(--text-dim)}
+.rate-val{font-family:'JetBrains Mono',monospace;color:var(--gold-light);font-weight:500}
+.rate-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.3)}}
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem 4rem}
+.card{background:var(--surface);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:2rem;box-shadow:var(--shadow);transition:border-color .3s}
+.card:hover{border-color:rgba(201,168,76,.2)}
+.card-title{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:.4rem}
+.card-sub{color:var(--text-dim);font-size:.85rem;margin-bottom:1.8rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+@media(max-width:768px){.grid-2,.grid-3{grid-template-columns:1fr}}
+.form-group{margin-bottom:1.25rem}
+label{display:block;font-size:.8rem;font-weight:600;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+input,select,textarea{width:100%;background:var(--surface2);border:1px solid rgba(255,255,255,.09);border-radius:8px;padding:.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:.95rem;transition:all .2s;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--gold);background:var(--surface3);box-shadow:0 0 0 3px rgba(201,168,76,.12)}
+input::placeholder{color:rgba(138,154,181,.5)}
+select option{background:var(--surface2)}
+textarea{resize:vertical;min-height:80px}
+.converter-box{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.03));border:1px solid rgba(201,168,76,.25);border-radius:var(--radius);padding:1.5rem;margin:1.5rem 0}
+.converter-row{display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.amount-display{flex:1;min-width:200px}
+.amount-display .label{font-size:.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+.amount-display .value{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:500;color:var(--gold-light);line-height:1;margin-top:.3rem}
+.amount-display .currency{font-size:.9rem;color:var(--text-dim);margin-left:.3rem}
+.arrow-icon{font-size:1.5rem;color:var(--gold);opacity:.6}
+.commission-note{font-size:.78rem;color:var(--text-dim);margin-top:.8rem;display:flex;gap:1.5rem;flex-wrap:wrap}
+.btn{padding:.75rem 1.75rem;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:.5rem}
+.btn-primary{background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--deep);box-shadow:0 4px 16px rgba(201,168,76,.25)}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(201,168,76,.4)}
+.btn-outline{background:transparent;border:1px solid rgba(201,168,76,.4);color:var(--gold-light)}
+.btn-outline:hover{background:rgba(201,168,76,.08)}
+.btn-success{background:linear-gradient(135deg,#16A34A,#22C55E);color:white;box-shadow:0 4px 16px rgba(34,197,94,.25)}
+.btn-danger{background:linear-gradient(135deg,#DC2626,#EF4444);color:white}
+.btn-sm{padding:.45rem 1rem;font-size:.8rem}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.upload-zone{border:2px dashed rgba(201,168,76,.3);border-radius:var(--radius);padding:2rem;text-align:center;cursor:pointer;transition:all .3s;background:rgba(201,168,76,.02)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.upload-zone .upload-icon{font-size:2.5rem;margin-bottom:.75rem}
+.upload-zone p{color:var(--text-dim);font-size:.88rem}
+.upload-zone strong{color:var(--gold-light)}
+.upload-zone input[type="file"]{display:none}
+.upload-preview{display:none;margin-top:1rem;background:var(--surface2);border-radius:8px;padding:.75rem 1rem;align-items:center;gap:.75rem}
+.upload-preview.show{display:flex}
+.upload-preview img{width:48px;height:48px;object-fit:cover;border-radius:6px}
+.upload-preview .file-name{font-size:.85rem;color:var(--text);flex:1}
+.upload-preview .file-size{font-size:.75rem;color:var(--text-dim)}
+.badge{display:inline-flex;align-items:center;gap:.3rem;padding:.25rem .7rem;border-radius:50px;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.badge-pending{background:rgba(251,191,36,.15);color:#FDE047;border:1px solid rgba(251,191,36,.25)}
+.badge-review{background:rgba(59,130,246,.15);color:#93C5FD;border:1px solid rgba(59,130,246,.25)}
+.badge-validated{background:rgba(34,197,94,.15);color:#86EFAC;border:1px solid rgba(34,197,94,.25)}
+.badge-rejected{background:rgba(239,68,68,.15);color:#FCA5A5;border:1px solid rgba(239,68,68,.25)}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th{text-align:left;padding:.8rem 1rem;font-size:.72rem;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid rgba(255,255,255,.06)}
+td{padding:1rem;border-bottom:1px solid rgba(255,255,255,.04);vertical-align:middle}
+tr:hover td{background:rgba(201,168,76,.03)}
+.mono{font-family:'JetBrains Mono',monospace;font-size:.85rem}
+.stat-card{background:var(--surface);border:1px solid rgba(255,255,255,.07);border-radius:var(--radius);padding:1.5rem;position:relative;overflow:hidden}
+.stat-card::after{content:'';position:absolute;top:0;right:0;width:80px;height:80px;background:radial-gradient(circle,rgba(201,168,76,.12),transparent 70%);border-radius:50%}
+.stat-icon{font-size:1.5rem;margin-bottom:.75rem}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:500;color:var(--gold-light);line-height:1;margin-bottom:.25rem}
+.stat-label{font-size:.8rem;color:var(--text-dim);font-weight:500}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:200;align-items:center;justify-content:center;padding:1rem}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:2rem;max-width:560px;width:100%;box-shadow:0 24px 64px rgba(0,0,0,.5);animation:modalIn .3s ease}
+@keyframes modalIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem}
+.modal-proof-img{width:100%;border-radius:8px;border:1px solid rgba(255,255,255,.08);margin-bottom:1.5rem;max-height:300px;object-fit:contain}
+.modal-actions{display:flex;gap:.75rem;justify-content:flex-end}
+.alert{padding:1rem 1.25rem;border-radius:8px;font-size:.88rem;display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+.alert-success{background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25);color:#86EFAC}
+.alert-info{background:rgba(59,130,246,.1);border:1px solid rgba(59,130,246,.25);color:#93C5FD}
+.alert-warning{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.25);color:#FDE047}
+.steps{display:flex;gap:0;margin:3rem 0;flex-wrap:wrap}
+.step{flex:1;min-width:200px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:1.5rem;position:relative}
+.step:not(:last-child)::after{content:'→';position:absolute;right:-8px;top:2.2rem;color:var(--gold);font-size:1.2rem}
+.step-num{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));color:var(--deep);font-weight:900;font-size:1.1rem;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;box-shadow:0 4px 16px rgba(201,168,76,.3)}
+.step h3{font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+.step p{font-size:.8rem;color:var(--text-dim);line-height:1.5}
+.section-title{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;margin-bottom:.5rem}
+.section-title span{color:var(--gold)}
+.section-sub{color:var(--text-dim);font-size:.9rem;margin-bottom:2rem}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.2),transparent);margin:2rem 0}
+.toast-container{position:fixed;bottom:2rem;right:2rem;z-index:300;display:flex;flex-direction:column;gap:.75rem}
+.toast{background:var(--surface2);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem;box-shadow:0 8px 32px rgba(0,0,0,.3);animation:toastIn .4s ease;max-width:320px}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+.toast.success{border-left:3px solid var(--green)}
+.toast.error{border-left:3px solid var(--red)}
+.toast.info{border-left:3px solid var(--gold)}
+.toast .toast-msg{font-size:.85rem;flex:1}
+.login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
+.login-card{background:var(--surface);border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:2.5rem;width:100%;max-width:420px;box-shadow:0 24px 64px rgba(0,0,0,.4)}
+.login-logo{text-align:center;margin-bottom:2rem}
+.login-logo .logo-big{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:var(--gold);display:block;margin-bottom:.3rem}
+.admin-layout{display:flex;min-height:calc(100vh - 64px)}
+.admin-sidebar{width:220px;background:var(--surface);border-right:1px solid rgba(255,255,255,.06);padding:1.5rem 0;flex-shrink:0}
+.sidebar-item{display:flex;align-items:center;gap:.75rem;padding:.75rem 1.5rem;font-size:.88rem;color:var(--text-dim);cursor:pointer;transition:all .2s;border-right:2px solid transparent}
+.sidebar-item:hover{color:var(--text);background:rgba(255,255,255,.03)}
+.sidebar-item.active{color:var(--gold-light);background:rgba(201,168,76,.06);border-right-color:var(--gold);font-weight:600}
+.admin-main{flex:1;padding:2rem;overflow-x:auto}
+.proof-thumb{width:40px;height:40px;border-radius:6px;object-fit:cover;cursor:pointer;border:1px solid rgba(255,255,255,.1);transition:transform .2s}
+.proof-thumb:hover{transform:scale(1.1)}
+.no-proof{width:40px;height:40px;border-radius:6px;background:var(--surface2);border:1px dashed rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1rem}
+.account-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--gold-dark),var(--gold));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--deep);font-weight:900;margin-bottom:1rem}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+::-webkit-scrollbar{width:6px}
+::-webkit-scrollbar-track{background:var(--surface)}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:3px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo" onclick="showPage('home')">
+    <div class="logo-icon">₣</div>
+    EcoTransfert
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">🏠 Accueil</button>
+    <button class="nav-tab" onclick="showPage('client')">👤 Espace Client</button>
+    <button class="nav-tab" onclick="showPage('admin')">⚙️ Administration</button>
+  </div>
+</nav>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ══ HOME ══════════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+  <div class="hero">
+    <div class="hero-badge">🔒 Plateforme Sécurisée · Tiers de Confiance</div>
+    <h1 class="hero-title">Transferts d'argent<br><span>sans risque d'arnaque</span></h1>
+    <p class="hero-sub">EcoTransfert sert de médiateur financier entre l'expéditeur et le bénéficiaire. Vos fonds ne transitent que lorsque la preuve est vérifiée et validée.</p>
+    <div class="rate-ticker">
+      <div class="rate-item"><div class="rate-dot"></div><span class="rate-label">Taux EUR → FCFA</span><span class="rate-val" id="liveRate">655.96</span></div>
+      <div class="rate-item"><span class="rate-label">Commission</span><span class="rate-val" id="liveComm">2%</span></div>
+      <div class="rate-item"><span class="rate-label">Délai</span><span class="rate-val">24h max</span></div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="section-title">Comment ça <span>marche ?</span></div>
+    <p class="section-sub">3 étapes simples pour un transfert 100% sécurisé</p>
+    <div class="steps">
+      <div class="step"><div class="step-num">1</div><h3>Créez votre demande</h3><p>Renseignez le montant en euros, le bénéficiaire et la méthode d'envoi</p></div>
+      <div class="step"><div class="step-num">2</div><h3>Envoyez la preuve</h3><p>Téléversez votre capture d'écran Mobile Money ou virement bancaire</p></div>
+      <div class="step"><div class="step-num">3</div><h3>Validation & Libération</h3><p>L'admin vérifie la preuve et libère les FCFA chez le bénéficiaire</p></div>
+    </div>
+    <div class="divider"></div>
+    <div class="card">
+      <div class="card-title">💱 Simulateur de transfert</div>
+      <div class="card-sub">Calculez instantanément ce que recevra votre bénéficiaire</div>
+      <div class="form-group">
+        <label>Montant à envoyer (€)</label>
+        <input type="number" id="simAmount" placeholder="Ex : 200" oninput="calcSim()" value="200">
+      </div>
+      <div class="converter-box">
+        <div class="converter-row">
+          <div class="amount-display"><div class="label">Vous envoyez</div><div class="value" id="simSend">200<span class="currency">€</span></div></div>
+          <div class="arrow-icon">→</div>
+          <div class="amount-display"><div class="label">Bénéficiaire reçoit</div><div class="value" id="simReceive">—<span class="currency">FCFA</span></div></div>
+        </div>
+        <div class="commission-note">
+          <span>📌 Taux : <strong id="simRate">655.96</strong> FCFA/€</span>
+          <span>📌 Commission : <span id="simComm">—</span></span>
+          <span>📌 Net : <span id="simNet">—</span></span>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="showPage('client')">Démarrer un transfert →</button>
+    </div>
+    <div class="divider"></div>
+    <div class="grid-3">
+      <div class="card"><div style="font-size:2rem;margin-bottom:.75rem">🛡️</div><div class="card-title" style="font-size:1rem">Anti-arnaque</div><p style="color:var(--text-dim);font-size:.83rem;line-height:1.6">Chaque centime est tracé. La validation manuelle garantit que les fonds ont bien été reçus avant libération.</p></div>
+      <div class="card"><div style="font-size:2rem;margin-bottom:.75rem">⚡</div><div class="card-title" style="font-size:1rem">Ultra-réactif</div><p style="color:var(--text-dim);font-size:.83rem;line-height:1.6">Notification WhatsApp instantanée dès réception de votre preuve. Délai de traitement : moins de 24 heures.</p></div>
+      <div class="card"><div style="font-size:2rem;margin-bottom:.75rem">📜</div><div class="card-title" style="font-size:1rem">Historique complet</div><p style="color:var(--text-dim);font-size:.83rem;line-height:1.6">Toutes vos transactions sont sauvegardées en base de données et consultables à tout moment.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CLIENT ════════════════════════════════════════════════ -->
+<div id="page-client" class="page">
+  <div id="clientLogin" class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo"><span class="logo-big">EcoTransfert</span><span style="color:var(--text-dim);font-size:.85rem">Espace Client</span></div>
+      <div id="loginForm">
+        <div class="form-group"><label>Adresse e-mail</label><input type="email" id="loginEmail" placeholder="vous@exemple.com"></div>
+        <div class="form-group"><label>Mot de passe</label><input type="password" id="loginPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')clientLogin()"></div>
+        <button class="btn btn-primary" id="loginBtn" style="width:100%;justify-content:center;margin-top:.5rem" onclick="clientLogin()">Se connecter</button>
+        <p style="text-align:center;margin-top:1rem;font-size:.83rem;color:var(--text-dim)">Pas encore de compte ? <span style="color:var(--gold-light);cursor:pointer;text-decoration:underline" onclick="toggleRegister()">S'inscrire</span></p>
+      </div>
+      <div id="registerForm" style="display:none">
+        <div class="grid-2">
+          <div class="form-group"><label>Prénom</label><input type="text" id="regFirst" placeholder="Jean"></div>
+          <div class="form-group"><label>Nom</label><input type="text" id="regLast" placeholder="Dupont"></div>
+        </div>
+        <div class="form-group"><label>E-mail</label><input type="email" id="regEmail" placeholder="vous@exemple.com"></div>
+        <div class="form-group"><label>Téléphone</label><input type="tel" id="regPhone" placeholder="+33 6 12 34 56 78"></div>
+        <div class="form-group"><label>Mot de passe</label><input type="password" id="regPwd" placeholder="Minimum 8 caractères"></div>
+        <button class="btn btn-primary" id="regBtn" style="width:100%;justify-content:center;margin-top:.5rem" onclick="clientRegister()">Créer mon compte</button>
+        <p style="text-align:center;margin-top:1rem;font-size:.83rem;color:var(--text-dim)">Déjà un compte ? <span style="color:var(--gold-light);cursor:pointer;text-decoration:underline" onclick="toggleRegister()">Se connecter</span></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="clientDashboard" style="display:none">
+    <div class="container" style="padding-top:2rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem">
+        <div>
+          <div class="section-title">Bonjour, <span id="clientName">—</span> 👋</div>
+          <div class="section-sub" style="margin-bottom:0">Gérez vos transferts en toute sécurité</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="clientLogout()">Déconnexion</button>
+      </div>
+      <div class="grid-3" style="margin-bottom:2rem">
+        <div class="stat-card"><div class="stat-icon">📤</div><div class="stat-val" id="cTotalTx">0</div><div class="stat-label">Transferts totaux</div></div>
+        <div class="stat-card"><div class="stat-icon">✅</div><div class="stat-val" id="cValidated">0</div><div class="stat-label">Validés</div></div>
+        <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val" id="cPending">0</div><div class="stat-label">En attente</div></div>
+      </div>
+      <div style="display:flex;gap:.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+        <button class="btn btn-primary btn-sm" id="cTab1" onclick="showClientTab('new')">➕ Nouveau transfert</button>
+        <button class="btn btn-outline btn-sm" id="cTab2" onclick="showClientTab('history')">📋 Historique</button>
+        <button class="btn btn-outline btn-sm" id="cTab3" onclick="showClientTab('account')">👤 Mon compte</button>
+      </div>
+
+      <!-- NEW TRANSFER -->
+      <div id="cTabNew">
+        <div class="card">
+          <div class="card-title">Nouvelle demande de transfert</div>
+          <div class="card-sub">Remplissez les informations ci-dessous.</div>
+          <div class="grid-2">
+            <div class="form-group"><label>Montant à envoyer (€)</label><input type="number" id="txAmount" placeholder="Ex : 150" oninput="calcTx()" min="10"></div>
+            <div class="form-group"><label>Méthode d'envoi</label>
+              <select id="txMethod">
+                <option value="virement">Virement bancaire</option>
+                <option value="wave">Wave</option>
+                <option value="mtn">MTN Mobile Money</option>
+                <option value="moov">Moov Money</option>
+                <option value="orange">Orange Money</option>
+                <option value="paypal">PayPal</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid-2">
+            <div class="form-group"><label>Nom du bénéficiaire</label><input type="text" id="txBenef" placeholder="Nom complet"></div>
+            <div class="form-group"><label>Téléphone bénéficiaire</label><input type="tel" id="txBenefPhone" placeholder="+229 XX XX XX XX"></div>
+          </div>
+          <div class="form-group"><label>Note (optionnel)</label><textarea id="txNote" placeholder="Raison du transfert..."></textarea></div>
+          <div class="converter-box" id="txConverter" style="display:none">
+            <div class="converter-row">
+              <div class="amount-display"><div class="label">Vous envoyez</div><div class="value" id="txSend">—<span class="currency">€</span></div></div>
+              <div class="arrow-icon">→</div>
+              <div class="amount-display"><div class="label">Bénéficiaire reçoit</div><div class="value" id="txReceive">—<span class="currency">FCFA</span></div></div>
+            </div>
+            <div class="commission-note">
+              <span>Taux : <span id="txRate">655.96</span> FCFA/€</span>
+              <span>Commission : <span id="txComm">—</span></span>
+              <span>Net : <span id="txNet">—</span></span>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="card-title" style="margin-bottom:.4rem">📎 Preuve de paiement</div>
+          <p style="color:var(--text-dim);font-size:.83rem;margin-bottom:1rem">Téléversez votre capture d'écran après avoir effectué le paiement.</p>
+          <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()"
+            ondragover="event.preventDefault();this.classList.add('dragover')"
+            ondragleave="this.classList.remove('dragover')"
+            ondrop="handleDrop(event)">
+            <div class="upload-icon">📤</div>
+            <p><strong>Cliquez pour choisir</strong> ou glissez-déposez</p>
+            <p style="margin-top:.3rem;font-size:.75rem">JPG, PNG, PDF · Max 5 Mo</p>
+            <input type="file" id="fileInput" accept="image/*,.pdf" onchange="handleFileSelect(this)">
+          </div>
+          <div class="upload-preview" id="uploadPreview">
+            <img id="previewImg" src="" alt="preview">
+            <div><div class="file-name" id="previewName">—</div><div class="file-size" id="previewSize">—</div></div>
+            <span style="cursor:pointer;color:var(--red)" onclick="clearUpload()">✕</span>
+          </div>
+          <div style="margin-top:1.5rem;display:flex;gap:.75rem;flex-wrap:wrap">
+            <button class="btn btn-primary" id="submitBtn" onclick="submitTransfer()">📨 Soumettre la demande</button>
+            <button class="btn btn-outline" onclick="resetTransferForm()">Réinitialiser</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- HISTORY -->
+      <div id="cTabHistory" style="display:none">
+        <div class="card">
+          <div class="card-title">Historique de mes transferts</div>
+          <div class="card-sub">Toutes vos demandes et leur statut en temps réel</div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Réf.</th><th>Date</th><th>Montant</th><th>FCFA</th><th>Bénéficiaire</th><th>Méthode</th><th>Statut</th></tr></thead>
+              <tbody id="clientTxTable"><tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:2rem">Chargement...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCOUNT -->
+      <div id="cTabAccount" style="display:none">
+        <div class="grid-2">
+          <div class="card">
+            <div style="display:flex;align-items:center;gap:1.25rem;margin-bottom:1.5rem">
+              <div class="account-avatar" id="avatarInit">?</div>
+              <div>
+                <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700" id="accFullName">—</div>
+                <div style="color:var(--text-dim);font-size:.83rem" id="accEmailDisplay">—</div>
+              </div>
+            </div>
+            <div class="form-group"><label>Téléphone</label><input type="tel" id="accPhone" placeholder="+33..."></div>
+            <button class="btn btn-primary btn-sm" onclick="saveAccount()">💾 Sauvegarder</button>
+          </div>
+          <div class="card">
+            <div class="card-title">🔒 Sécurité</div>
+            <div class="card-sub">Modifier votre mot de passe</div>
+            <div class="form-group"><label>Nouveau mot de passe</label><input type="password" id="newPwd" placeholder="••••••••"></div>
+            <button class="btn btn-outline btn-sm" onclick="showToast('Fonctionnalité disponible en v2','info')">Changer le mot de passe</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ ADMIN ═════════════════════════════════════════════════ -->
+<div id="page-admin" class="page">
+  <div id="adminLogin" class="login-wrap">
+    <div class="login-card">
+      <div class="login-logo"><span class="logo-big">⚙️ Admin</span><span style="color:var(--text-dim);font-size:.85rem">Panneau d'administration</span></div>
+      <div class="alert alert-warning">🔐 Accès restreint — Administrateurs uniquement</div>
+      <div class="form-group"><label>Identifiant</label><input type="text" id="adminUser" placeholder="admin" value="admin"></div>
+      <div class="form-group"><label>Mot de passe</label><input type="password" id="adminPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')adminLogin()"></div>
+      <button class="btn btn-primary" id="adminLoginBtn" style="width:100%;justify-content:center;margin-top:.5rem" onclick="adminLogin()">Accéder au panneau</button>
+      <p style="text-align:center;margin-top:1rem;font-size:.75rem;color:var(--text-dim)">Mot de passe par défaut : admin123 (modifiable via variable d'env)</p>
+    </div>
+  </div>
+
+  <div id="adminDashboard" style="display:none">
+    <div class="admin-layout">
+      <div class="admin-sidebar">
+        <div style="padding:.5rem 1.5rem 1.5rem;border-bottom:1px solid rgba(255,255,255,.06);margin-bottom:1rem">
+          <div style="font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--text-dim)">Connecté</div>
+          <div style="font-weight:600;color:var(--gold-light);margin-top:.3rem">Admin Principal</div>
+        </div>
+        <div class="sidebar-item active" onclick="showAdminTab('overview',this)">📊 Vue d'ensemble</div>
+        <div class="sidebar-item" onclick="showAdminTab('pending',this)">⏳ En attente <span id="pendingBadge" style="margin-left:auto;background:var(--red);color:white;border-radius:50px;padding:.15rem .5rem;font-size:.7rem;font-weight:700">0</span></div>
+        <div class="sidebar-item" onclick="showAdminTab('all',this)">📋 Toutes les tx</div>
+        <div class="sidebar-item" onclick="showAdminTab('users',this)">👥 Utilisateurs</div>
+        <div class="sidebar-item" onclick="showAdminTab('settings',this)">⚙️ Paramètres</div>
+        <div class="sidebar-item" style="border-top:1px solid rgba(255,255,255,.06);margin-top:2rem" onclick="adminLogout()">🚪 Déconnexion</div>
+      </div>
+
+      <div class="admin-main">
+        <!-- OVERVIEW -->
+        <div id="aTabOverview">
+          <div class="section-title" style="margin-bottom:1.5rem">Vue d'<span>ensemble</span></div>
+          <div class="grid-3" style="margin-bottom:2rem">
+            <div class="stat-card"><div class="stat-icon">📨</div><div class="stat-val" id="aTotalTx">—</div><div class="stat-label">Transactions totales</div></div>
+            <div class="stat-card"><div class="stat-icon">💰</div><div class="stat-val" id="aVolume">—</div><div class="stat-label">Volume traité</div></div>
+            <div class="stat-card"><div class="stat-icon">💳</div><div class="stat-val" id="aCommission">—</div><div class="stat-label">Commissions gagnées</div></div>
+          </div>
+          <div class="grid-2" style="margin-bottom:2rem">
+            <div class="stat-card"><div class="stat-icon">⏳</div><div class="stat-val" id="aPending">—</div><div class="stat-label">En attente de validation</div></div>
+            <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-val" id="aUsers">—</div><div class="stat-label">Clients inscrits</div></div>
+          </div>
+          <div class="card"><div class="card-title">⚡ Activité récente</div><div class="card-sub">Dernières transactions</div>
+            <div class="table-wrap"><table><thead><tr><th>Client</th><th>Montant</th><th>FCFA</th><th>Preuve</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="aRecentTable"><tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:2rem">Chargement...</td></tr></tbody></table></div>
+          </div>
+        </div>
+
+        <!-- PENDING -->
+        <div id="aTabPending" style="display:none">
+          <div class="section-title" style="margin-bottom:1.5rem">Transactions <span>en attente</span></div>
+          <div class="alert alert-info">🔔 Ces transactions nécessitent votre validation. Vérifiez chaque preuve avant de valider.</div>
+          <div class="card"><div class="table-wrap"><table>
+            <thead><tr><th>Réf.</th><th>Client</th><th>Montant</th><th>FCFA</th><th>Bénéficiaire</th><th>Méthode</th><th>Preuve</th><th>Actions</th></tr></thead>
+            <tbody id="aPendingTable"><tr><td colspan="8" style="text-align:center;color:var(--text-dim);padding:2rem">Aucune transaction en attente ✅</td></tr></tbody>
+          </table></div></div>
+        </div>
+
+        <!-- ALL TX -->
+        <div id="aTabAll" style="display:none">
+          <div class="section-title" style="margin-bottom:1.5rem">Toutes les <span>transactions</span></div>
+          <div style="display:flex;gap:.75rem;margin-bottom:1.25rem;flex-wrap:wrap">
+            <input type="text" placeholder="🔍 Rechercher..." style="max-width:280px" oninput="filterAdminTable(this.value)">
+            <select onchange="loadAdminTx(this.value)" style="max-width:200px">
+              <option value="">Tous les statuts</option>
+              <option value="pending">En attente</option>
+              <option value="review">En examen</option>
+              <option value="validated">Validé</option>
+              <option value="rejected">Rejeté</option>
+            </select>
+          </div>
+          <div class="card"><div class="table-wrap"><table>
+            <thead><tr><th>Réf.</th><th>Client</th><th>Montant</th><th>FCFA</th><th>Bénéficiaire</th><th>Méthode</th><th>Preuve</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="aAllTable"><tr><td colspan="10" style="text-align:center;color:var(--text-dim);padding:2rem">Chargement...</td></tr></tbody>
+          </table></div></div>
+        </div>
+
+        <!-- USERS -->
+        <div id="aTabUsers" style="display:none">
+          <div class="section-title" style="margin-bottom:1.5rem">Gestion des <span>utilisateurs</span></div>
+          <div class="card"><div class="table-wrap"><table>
+            <thead><tr><th>Nom</th><th>E-mail</th><th>Téléphone</th><th>Inscription</th><th>Nb tx</th><th>Volume (€)</th></tr></thead>
+            <tbody id="aUsersTable"><tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:2rem">Chargement...</td></tr></tbody>
+          </table></div></div>
+        </div>
+
+        <!-- SETTINGS -->
+        <div id="aTabSettings" style="display:none">
+          <div class="section-title" style="margin-bottom:1.5rem">Paramètres <span>plateforme</span></div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card-title">💱 Taux de change</div>
+              <div class="card-sub">Mise à jour du taux EUR → FCFA</div>
+              <div class="form-group"><label>Taux (FCFA/€)</label><input type="number" id="rateInput" value="655.96" step="0.01"></div>
+              <div class="form-group"><label>Commission (%)</label><input type="number" id="commInput" value="2" step="0.1" min="0" max="10"></div>
+              <button class="btn btn-primary btn-sm" onclick="saveSettings()">💾 Sauvegarder</button>
+            </div>
+            <div class="card">
+              <div class="card-title">📱 Notifications WhatsApp</div>
+              <div class="card-sub">Numéro de réception des alertes admin</div>
+              <div class="form-group"><label>Numéro WhatsApp admin</label><input type="tel" id="waNumber" placeholder="+33 6 XX XX XX XX"></div>
+              <div class="alert alert-info" style="font-size:.78rem;margin-top:.5rem">📌 Un lien WhatsApp s'ouvrira dès qu'une preuve est soumise.</div>
+              <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem">
+                <button class="btn btn-primary btn-sm" onclick="saveSettings()">💾 Sauvegarder</button>
+                <button class="btn btn-outline btn-sm" onclick="testWhatsApp()">🧪 Tester</button>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">🏦 Compte de réception</div>
+              <div class="card-sub">Coordonnées affichées aux clients</div>
+              <div class="form-group"><label>IBAN / Numéro</label><input type="text" id="ibanInput" placeholder="FR76 XXXX..."></div>
+              <div class="form-group"><label>Titulaire</label><input type="text" id="ibanName" placeholder="EcoTransfert"></div>
+              <button class="btn btn-primary btn-sm" onclick="saveSettings()">💾 Sauvegarder</button>
+            </div>
+            <div class="card">
+              <div class="card-title">🔐 Mot de passe admin</div>
+              <div class="card-sub">Défini via variable d'environnement <code style="background:var(--surface2);padding:.1rem .4rem;border-radius:4px;font-size:.8rem">ADMIN_PASSWORD</code></div>
+              <div class="alert alert-info" style="font-size:.78rem">Pour changer le mot de passe, modifiez la variable d'env sur votre hébergeur puis redéployez.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROOF MODAL -->
+<div class="modal-overlay" id="proofModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div><div class="card-title" id="modalTitle">Preuve de paiement</div><div style="color:var(--text-dim);font-size:.83rem" id="modalRef">—</div></div>
+      <span style="cursor:pointer;font-size:1.5rem;color:var(--text-dim)" onclick="closeModal()">✕</span>
+    </div>
+    <img class="modal-proof-img" id="modalImg" src="" alt="Preuve">
+    <div class="modal-actions">
+      <button class="btn btn-danger btn-sm" onclick="modalAction('rejected')">✕ Rejeter</button>
+      <button class="btn btn-success" onclick="modalAction('validated')">✓ Valider la transaction</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ CONFIG ══════════════════════════════════════════════════
+const API = '';  // Même domaine — Flask sert le frontend
+let RATE = { eur_fcfa: 655.96, commission: 2 };
+let currentModalTxId = null;
+let uploadedFile = null;
+let currentUser = null;
+let adminTxCache = [];
+
+// ══ INIT ════════════════════════════════════════════════════
+async function init() {
+  await loadPublicSettings();
+  calcSim();
+  // Check session
+  try {
+    const r = await fetch(`${API}/api/me`, { credentials: 'include' });
+    if (r.ok) { currentUser = await r.json(); showClientDash(); }
+  } catch(e) {}
+  try {
+    const r = await fetch(`${API}/api/admin/stats`, { credentials: 'include' });
+    if (r.ok) { showAdminDash(); refreshAdmin(); }
+  } catch(e) {}
+}
+
+async function loadPublicSettings() {
+  try {
+    const r = await fetch(`${API}/api/settings/public`);
+    if (r.ok) {
+      const s = await r.json();
+      RATE.eur_fcfa = s.eur_fcfa;
+      RATE.commission = s.commission;
+      document.getElementById('liveRate').textContent = s.eur_fcfa.toFixed(2);
+      document.getElementById('liveComm').textContent = s.commission + '%';
+      document.getElementById('simRate').textContent = s.eur_fcfa.toFixed(2);
+      document.getElementById('txRate').textContent = s.eur_fcfa.toFixed(2);
+    }
+  } catch(e) {}
+}
+
+init();
+
+// ══ NAV ═════════════════════════════════════════════════════
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + page).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t, i) => {
+    t.classList.toggle('active', ['home','client','admin'][i] === page);
+  });
+  if (page === 'admin' && document.getElementById('adminDashboard').style.display !== 'none') refreshAdmin();
+  if (page === 'client' && currentUser && document.getElementById('clientDashboard').style.display !== 'none') loadClientTx();
+}
+
+// ══ UTILS ═══════════════════════════════════════════════════
+function fmt(n) { return Number(n).toLocaleString('fr-FR'); }
+function calcAmount(eur) {
+  const comm = eur * RATE.commission / 100;
+  const net = eur - comm;
+  const fcfa = net * RATE.eur_fcfa;
+  return { comm, net, fcfa };
+}
+function showToast(msg, type='info') {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = `toast ${type}`;
+  t.innerHTML = `<span>${type==='success'?'✅':type==='error'?'❌':'📌'}</span><span class="toast-msg">${msg}</span>`;
+  c.appendChild(t);
+  setTimeout(() => t.remove(), 3500);
+}
+function badgeHTML(s) {
+  const m = { pending:['badge-pending','⏳ En attente'], review:['badge-review','🔍 En examen'], validated:['badge-validated','✅ Validé'], rejected:['badge-rejected','✕ Rejeté'] };
+  const [cls, label] = m[s] || ['badge-pending', s];
+  return `<span class="badge ${cls}">${label}</span>`;
+}
+function methodLabel(m) {
+  const map = { virement:'🏦 Virement', wave:'🌊 Wave', mtn:'📱 MTN MoMo', moov:'📲 Moov Money', orange:'🟠 Orange Money', paypal:'💙 PayPal' };
+  return map[m] || m;
+}
+function setLoading(btnId, loading) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  if (loading) btn.innerHTML = `<span class="spinner"></span> Chargement...`;
+}
+
+// ══ HOME ════════════════════════════════════════════════════
+function calcSim() {
+  const v = parseFloat(document.getElementById('simAmount').value) || 0;
+  const { comm, net, fcfa } = calcAmount(v);
+  document.getElementById('simSend').innerHTML = fmt(v) + '<span class="currency">€</span>';
+  document.getElementById('simReceive').innerHTML = fmt(Math.round(fcfa)) + '<span class="currency">FCFA</span>';
+  document.getElementById('simComm').textContent = fmt(comm.toFixed(2)) + ' €';
+  document.getElementById('simNet').textContent = fmt(net.toFixed(2)) + ' €';
+}
+
+// ══ CLIENT AUTH ══════════════════════════════════════════════
+function toggleRegister() {
+  const lf = document.getElementById('loginForm'), rf = document.getElementById('registerForm');
+  lf.style.display = lf.style.display === 'none' ? '' : 'none';
+  rf.style.display = rf.style.display === 'none' ? '' : 'none';
+}
+
+async function clientLogin() {
+  const email = document.getElementById('loginEmail').value.trim();
+  const pwd = document.getElementById('loginPwd').value;
+  if (!email || !pwd) { showToast('Remplissez tous les champs','error'); return; }
+  setLoading('loginBtn', true);
+  try {
+    const r = await fetch(`${API}/api/login`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({email, password: pwd}) });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Erreur','error'); return; }
+    currentUser = d;
+    showToast(`Bienvenue, ${d.first} !`, 'success');
+    showClientDash();
+  } catch(e) { showToast('Erreur de connexion','error'); }
+  finally { document.getElementById('loginBtn').innerHTML = 'Se connecter'; document.getElementById('loginBtn').disabled = false; }
+}
+
+async function clientRegister() {
+  const first = document.getElementById('regFirst').value.trim();
+  const last = document.getElementById('regLast').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const pwd = document.getElementById('regPwd').value;
+  if (!first || !last || !email || !pwd) { showToast('Remplissez tous les champs','error'); return; }
+  if (pwd.length < 6) { showToast('Mot de passe trop court (min 6 car.)','error'); return; }
+  setLoading('regBtn', true);
+  try {
+    const r = await fetch(`${API}/api/register`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({first, last, email, phone, password: pwd}) });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Erreur','error'); return; }
+    currentUser = d;
+    showToast(`Compte créé ! Bienvenue ${first} 🎉`, 'success');
+    showClientDash();
+  } catch(e) { showToast('Erreur serveur','error'); }
+  finally { document.getElementById('regBtn').innerHTML = 'Créer mon compte'; document.getElementById('regBtn').disabled = false; }
+}
+
+function showClientDash() {
+  document.getElementById('clientLogin').style.display = 'none';
+  document.getElementById('clientDashboard').style.display = 'block';
+  document.getElementById('clientName').textContent = currentUser.first;
+  document.getElementById('accFullName').textContent = (currentUser.first || '') + ' ' + (currentUser.last || '');
+  document.getElementById('accEmailDisplay').textContent = currentUser.email;
+  document.getElementById('avatarInit').textContent = (currentUser.first || '?')[0].toUpperCase();
+  document.getElementById('accPhone').value = currentUser.phone || '';
+  loadClientTx();
+}
+
+async function clientLogout() {
+  await fetch(`${API}/api/logout`, { method:'POST', credentials:'include' });
+  currentUser = null;
+  document.getElementById('clientDashboard').style.display = 'none';
+  document.getElementById('clientLogin').style.display = 'flex';
+  document.getElementById('loginEmail').value = '';
+  document.getElementById('loginPwd').value = '';
+  showToast('Déconnecté','info');
+}
+
+// ══ CLIENT TABS ══════════════════════════════════════════════
+function showClientTab(tab) {
+  document.getElementById('cTabNew').style.display = tab==='new' ? '' : 'none';
+  document.getElementById('cTabHistory').style.display = tab==='history' ? '' : 'none';
+  document.getElementById('cTabAccount').style.display = tab==='account' ? '' : 'none';
+  ['1','2','3'].forEach((n, i) => {
+    const t = document.getElementById('cTab'+n);
+    const active = ['new','history','account'][i] === tab;
+    t.className = active ? 'btn btn-primary btn-sm' : 'btn btn-outline btn-sm';
+  });
+  if (tab === 'history') loadClientTx();
+}
+
+async function loadClientTx() {
+  try {
+    const r = await fetch(`${API}/api/transactions/mine`, { credentials:'include' });
+    if (!r.ok) return;
+    const txs = await r.json();
+    document.getElementById('cTotalTx').textContent = txs.length;
+    document.getElementById('cValidated').textContent = txs.filter(t=>t.status==='validated').length;
+    document.getElementById('cPending').textContent = txs.filter(t=>t.status==='pending'||t.status==='review').length;
+    const tbody = document.getElementById('clientTxTable');
+    if (!txs.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:2rem">Aucun transfert pour l\'instant</td></tr>'; return; }
+    tbody.innerHTML = txs.map(t => `<tr>
+      <td class="mono" style="font-size:.75rem">${t.ref}</td>
+      <td style="font-size:.78rem;color:var(--text-dim)">${t.created}</td>
+      <td class="mono">${fmt(t.amount)} €</td>
+      <td class="mono">${fmt(t.fcfa)} FCFA</td>
+      <td>${t.beneficiary}</td>
+      <td>${methodLabel(t.method)}</td>
+      <td>${badgeHTML(t.status)}</td>
+    </tr>`).join('');
+  } catch(e) {}
+}
+
+// ══ TRANSFER FORM ════════════════════════════════════════════
+function calcTx() {
+  const v = parseFloat(document.getElementById('txAmount').value) || 0;
+  if (!v) { document.getElementById('txConverter').style.display = 'none'; return; }
+  const { comm, net, fcfa } = calcAmount(v);
+  document.getElementById('txConverter').style.display = '';
+  document.getElementById('txSend').innerHTML = fmt(v) + '<span class="currency">€</span>';
+  document.getElementById('txReceive').innerHTML = fmt(Math.round(fcfa)) + '<span class="currency">FCFA</span>';
+  document.getElementById('txComm').textContent = fmt(comm.toFixed(2)) + ' €';
+  document.getElementById('txNet').textContent = fmt(net.toFixed(2)) + ' €';
+}
+
+function handleFileSelect(input) { if (input.files[0]) processFile(input.files[0]); }
+function handleDrop(e) { e.preventDefault(); document.getElementById('uploadZone').classList.remove('dragover'); if (e.dataTransfer.files[0]) processFile(e.dataTransfer.files[0]); }
+
+function processFile(file) {
+  if (file.size > 5*1024*1024) { showToast('Fichier trop grand (max 5 Mo)','error'); return; }
+  uploadedFile = file;
+  const prev = document.getElementById('uploadPreview');
+  prev.classList.add('show');
+  if (file.type.startsWith('image/')) {
+    const reader = new FileReader();
+    reader.onload = e => { document.getElementById('previewImg').src = e.target.result; document.getElementById('previewImg').style.display = 'block'; };
+    reader.readAsDataURL(file);
+  } else { document.getElementById('previewImg').style.display = 'none'; }
+  document.getElementById('previewName').textContent = file.name;
+  document.getElementById('previewSize').textContent = (file.size/1024).toFixed(1) + ' Ko';
+  showToast('Fichier chargé ✅','success');
+}
+
+function clearUpload() { uploadedFile = null; document.getElementById('uploadPreview').classList.remove('show'); document.getElementById('fileInput').value = ''; }
+
+async function submitTransfer() {
+  if (!currentUser) { showToast('Veuillez vous connecter','error'); return; }
+  const amount = parseFloat(document.getElementById('txAmount').value);
+  const beneficiary = document.getElementById('txBenef').value.trim();
+  if (!amount || amount < 10) { showToast('Montant invalide (min. 10€)','error'); return; }
+  if (!beneficiary) { showToast('Renseignez le bénéficiaire','error'); return; }
+  if (!uploadedFile) { showToast('Veuillez joindre une preuve de paiement','error'); return; }
+
+  const formData = new FormData();
+  formData.append('amount', amount);
+  formData.append('beneficiary', beneficiary);
+  formData.append('benef_phone', document.getElementById('txBenefPhone').value);
+  formData.append('method', document.getElementById('txMethod').value);
+  formData.append('note', document.getElementById('txNote').value);
+  formData.append('proof', uploadedFile);
+
+  setLoading('submitBtn', true);
+  try {
+    const r = await fetch(`${API}/api/transactions`, { method:'POST', credentials:'include', body: formData });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Erreur','error'); return; }
+
+    // WhatsApp notif
+    const settings = await (await fetch(`${API}/api/settings/public`)).json();
+    const waNum = (document.getElementById('waNumber')?.value || '+33600000000').replace(/\s/g,'');
+    const { comm, net, fcfa } = calcAmount(amount);
+    const msg = encodeURIComponent(`🔔 *EcoTransfert — Nouvelle preuve reçue*\n\n👤 Client : ${currentUser.first} ${currentUser.last}\n📨 Réf. : ${d.ref}\n💶 Montant : ${amount} €\n💰 FCFA : ${fmt(d.fcfa)} FCFA\n👥 Bénéficiaire : ${d.beneficiary}\n📱 Méthode : ${d.method}\n\n✅ Connectez-vous à l'admin pour valider.`);
+    const waSettings = await (await fetch(`${API}/api/admin/settings`, {credentials:'include'}).catch(()=>({json:()=>({wa_number:'+33600000000'})}))).json().catch(()=>({wa_number:'+33600000000'}));
+    const waTarget = (waSettings?.wa_number || '+33600000000').replace(/\s/g,'');
+    setTimeout(() => window.open(`https://wa.me/${waTarget}?text=${msg}`, '_blank'), 300);
+
+    showToast('Demande soumise ! Notification WhatsApp envoyée 📱','success');
+    resetTransferForm();
+    loadClientTx();
+    showClientTab('history');
+  } catch(e) { showToast('Erreur lors de la soumission','error'); }
+  finally { document.getElementById('submitBtn').innerHTML = '📨 Soumettre la demande'; document.getElementById('submitBtn').disabled = false; }
+}
+
+function resetTransferForm() {
+  document.getElementById('txAmount').value = '';
+  document.getElementById('txBenef').value = '';
+  document.getElementById('txBenefPhone').value = '';
+  document.getElementById('txNote').value = '';
+  document.getElementById('txConverter').style.display = 'none';
+  clearUpload();
+}
+
+async function saveAccount() {
+  const phone = document.getElementById('accPhone').value;
+  await fetch(`${API}/api/me`, { method:'PUT', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({phone}) });
+  showToast('Compte mis à jour ✅','success');
+}
+
+// ══ ADMIN AUTH ═══════════════════════════════════════════════
+async function adminLogin() {
+  const username = document.getElementById('adminUser').value;
+  const password = document.getElementById('adminPwd').value;
+  setLoading('adminLoginBtn', true);
+  try {
+    const r = await fetch(`${API}/api/admin/login`, { method:'POST', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({username, password}) });
+    const d = await r.json();
+    if (!r.ok) { showToast(d.error || 'Identifiants incorrects','error'); return; }
+    showToast('Bienvenue Administrateur !','success');
+    showAdminDash();
+    refreshAdmin();
+  } catch(e) { showToast('Erreur de connexion','error'); }
+  finally { document.getElementById('adminLoginBtn').innerHTML = 'Accéder au panneau'; document.getElementById('adminLoginBtn').disabled = false; }
+}
+
+function showAdminDash() {
+  document.getElementById('adminLogin').style.display = 'none';
+  document.getElementById('adminDashboard').style.display = 'block';
+}
+
+async function adminLogout() {
+  await fetch(`${API}/api/admin/logout`, { method:'POST', credentials:'include' });
+  document.getElementById('adminDashboard').style.display = 'none';
+  document.getElementById('adminLogin').style.display = 'flex';
+  showToast('Déconnecté','info');
+}
+
+// ══ ADMIN TABS ═══════════════════════════════════════════════
+function showAdminTab(tab, el) {
+  ['Overview','Pending','All','Users','Settings'].forEach(t => {
+    document.getElementById('aTab'+t).style.display = 'none';
+  });
+  document.getElementById('aTab' + tab.charAt(0).toUpperCase() + tab.slice(1)).style.display = '';
+  document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (tab==='pending') loadAdminTx('pending','aPendingTable',8);
+  if (tab==='all') loadAdminTx('','aAllTable',100);
+  if (tab==='users') loadAdminUsers();
+  if (tab==='settings') loadAdminSettings();
+  if (tab==='overview') refreshAdmin();
+}
+
+async function refreshAdmin() {
+  try {
+    const [statsR, txR] = await Promise.all([
+      fetch(`${API}/api/admin/stats`, {credentials:'include'}),
+      fetch(`${API}/api/admin/transactions?limit=8`, {credentials:'include'})
+    ]);
+    if (statsR.ok) {
+      const s = await statsR.json();
+      document.getElementById('aTotalTx').textContent = s.total;
+      document.getElementById('aVolume').textContent = fmt(s.volume) + ' €';
+      document.getElementById('aCommission').textContent = fmt(s.commission.toFixed(2)) + ' €';
+      document.getElementById('aPending').textContent = s.pending;
+      document.getElementById('aUsers').textContent = s.users;
+      document.getElementById('pendingBadge').textContent = s.pending;
+    }
+    if (txR.ok) {
+      const txs = await txR.json();
+      renderRecentTable(txs.slice(0,8));
+    }
+  } catch(e) {}
+}
+
+async function loadAdminTx(status='', tbodyId='aAllTable', limit=100) {
+  const url = status ? `${API}/api/admin/transactions?status=${status}` : `${API}/api/admin/transactions`;
+  const r = await fetch(url, {credentials:'include'});
+  if (!r.ok) return;
+  const txs = await r.json();
+  adminTxCache = txs;
+  if (tbodyId === 'aPendingTable') renderPendingTable(txs);
+  else renderAllTable(txs);
+}
+
+async function loadAdminUsers() {
+  const r = await fetch(`${API}/api/admin/users`, {credentials:'include'});
+  if (!r.ok) return;
+  const users = await r.json();
+  const tbody = document.getElementById('aUsersTable');
+  if (!users.length) { tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:var(--text-dim);padding:2rem">Aucun utilisateur</td></tr>'; return; }
+  tbody.innerHTML = users.map(u => `<tr>
+    <td>${u.first} ${u.last}</td><td>${u.email}</td><td>${u.phone||'—'}</td>
+    <td style="font-size:.78rem">${u.created}</td>
+    <td class="mono">${u.tx_count}</td>
+    <td class="mono">${fmt(u.volume.toFixed(0))} €</td>
+  </tr>`).join('');
+}
+
+async function loadAdminSettings() {
+  try {
+    const r = await fetch(`${API}/api/admin/settings`, {credentials:'include'});
+    if (!r.ok) return;
+    const s = await r.json();
+    document.getElementById('rateInput').value = s.eur_fcfa || 655.96;
+    document.getElementById('commInput').value = s.commission || 2;
+    document.getElementById('waNumber').value = s.wa_number || '';
+    document.getElementById('ibanInput').value = s.iban || '';
+    document.getElementById('ibanName').value = s.iban_name || '';
+  } catch(e) {}
+}
+
+async function saveSettings() {
+  const data = {
+    eur_fcfa: document.getElementById('rateInput').value,
+    commission: document.getElementById('commInput').value,
+    wa_number: document.getElementById('waNumber').value,
+    iban: document.getElementById('ibanInput').value,
+    iban_name: document.getElementById('ibanName').value,
+  };
+  const r = await fetch(`${API}/api/admin/settings`, { method:'PUT', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data) });
+  if (r.ok) {
+    RATE.eur_fcfa = parseFloat(data.eur_fcfa);
+    RATE.commission = parseFloat(data.commission);
+    document.getElementById('liveRate').textContent = parseFloat(data.eur_fcfa).toFixed(2);
+    showToast('Paramètres sauvegardés ✅','success');
+  }
+}
+
+function testWhatsApp() {
+  const waNum = (document.getElementById('waNumber')?.value || '+33600000000').replace(/\s/g,'');
+  const msg = encodeURIComponent('🧪 *Test EcoTransfert* — Notifications WhatsApp opérationnelles ✅');
+  window.open(`https://wa.me/${waNum}?text=${msg}`, '_blank');
+}
+
+// ══ TABLE RENDERS ════════════════════════════════════════════
+function renderRecentTable(txs) {
+  const tbody = document.getElementById('aRecentTable');
+  if (!txs.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:2rem">Aucune transaction</td></tr>'; return; }
+  tbody.innerHTML = txs.map(t => `<tr>
+    <td>${t.client_name || '—'}</td>
+    <td class="mono">${fmt(t.amount)} €</td>
+    <td class="mono">${fmt(t.fcfa)} FCFA</td>
+    <td>${t.proof_url ? `<img class="proof-thumb" src="${t.proof_url}" onclick="openModal(${t.id},'${t.client_name||''}','${t.ref}',${t.amount},${t.fcfa})">` : '<div class="no-proof">📎</div>'}</td>
+    <td style="font-size:.75rem;color:var(--text-dim)">${t.created}</td>
+    <td>${badgeHTML(t.status)}</td>
+    <td>${t.status==='pending' ? `<div style="display:flex;gap:.4rem"><button class="btn btn-success btn-sm" onclick="quickUpdate(${t.id},'validated')">✓</button><button class="btn btn-danger btn-sm" onclick="quickUpdate(${t.id},'rejected')">✕</button></div>` : '—'}</td>
+  </tr>`).join('');
+}
+
+function renderPendingTable(txs) {
+  const tbody = document.getElementById('aPendingTable');
+  if (!txs.length) { tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--text-dim);padding:2rem">Aucune transaction en attente ✅</td></tr>'; return; }
+  tbody.innerHTML = txs.map(t => `<tr>
+    <td class="mono" style="font-size:.75rem">${t.ref}</td>
+    <td>${t.client_name}</td>
+    <td class="mono">${fmt(t.amount)} €</td>
+    <td class="mono">${fmt(t.fcfa)} FCFA</td>
+    <td>${t.beneficiary}</td>
+    <td>${methodLabel(t.method)}</td>
+    <td>${t.proof_url ? `<img class="proof-thumb" src="${t.proof_url}" onclick="openModal(${t.id},'${t.client_name}','${t.ref}',${t.amount},${t.fcfa})">` : '<div class="no-proof">📎</div>'}</td>
+    <td><div style="display:flex;gap:.4rem">
+      <button class="btn btn-success btn-sm" onclick="quickUpdate(${t.id},'validated')">✓ Valider</button>
+      <button class="btn btn-danger btn-sm" onclick="quickUpdate(${t.id},'rejected')">✕</button>
+      ${t.proof_url ? `<button class="btn btn-outline btn-sm" onclick="openModal(${t.id},'${t.client_name}','${t.ref}',${t.amount},${t.fcfa})">👁</button>` : ''}
+    </div></td>
+  </tr>`).join('');
+}
+
+function renderAllTable(txs) {
+  const tbody = document.getElementById('aAllTable');
+  if (!txs.length) { tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;color:var(--text-dim);padding:2rem">Aucune transaction</td></tr>'; return; }
+  tbody.innerHTML = txs.map(t => `<tr>
+    <td class="mono" style="font-size:.72rem">${t.ref}</td>
+    <td>${t.client_name}</td>
+    <td class="mono">${fmt(t.amount)} €</td>
+    <td class="mono">${fmt(t.fcfa)} FCFA</td>
+    <td>${t.beneficiary}</td>
+    <td>${methodLabel(t.method)}</td>
+    <td>${t.proof_url ? `<img class="proof-thumb" src="${t.proof_url}" onclick="openModal(${t.id},'${t.client_name}','${t.ref}',${t.amount},${t.fcfa})">` : '<div class="no-proof">📎</div>'}</td>
+    <td style="font-size:.72rem;color:var(--text-dim)">${t.created}</td>
+    <td>${badgeHTML(t.status)}</td>
+    <td>${t.status==='pending' ? `<div style="display:flex;gap:.3rem"><button class="btn btn-success btn-sm" onclick="quickUpdate(${t.id},'validated')">✓</button><button class="btn btn-danger btn-sm" onclick="quickUpdate(${t.id},'rejected')">✕</button></div>` : '—'}</td>
+  </tr>`).join('');
+}
+
+function filterAdminTable(q) {
+  document.getElementById('aAllTable').querySelectorAll('tr').forEach(r => {
+    r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+  });
+}
+
+// ══ MODAL ════════════════════════════════════════════════════
+function openModal(id, name, ref, amount, fcfa) {
+  currentModalTxId = id;
+  document.getElementById('modalTitle').textContent = 'Preuve — ' + name;
+  document.getElementById('modalRef').textContent = ref + ' · ' + fmt(amount) + ' € → ' + fmt(fcfa) + ' FCFA';
+  // Find proof URL from cache
+  const all = adminTxCache.find(t => t.id === id);
+  if (all && all.proof_url) document.getElementById('modalImg').src = all.proof_url;
+  document.getElementById('proofModal').classList.add('open');
+}
+function closeModal() { document.getElementById('proofModal').classList.remove('open'); currentModalTxId = null; }
+async function modalAction(status) {
+  if (!currentModalTxId) return;
+  await quickUpdate(currentModalTxId, status);
+  closeModal();
+}
+
+async function quickUpdate(id, status) {
+  try {
+    const r = await fetch(`${API}/api/admin/transactions/${id}`, { method:'PATCH', credentials:'include', headers:{'Content-Type':'application/json'}, body: JSON.stringify({status}) });
+    if (r.ok) {
+      showToast(status==='validated' ? 'Transaction validée ✅' : 'Transaction rejetée', status==='validated' ? 'success' : 'error');
+      refreshAdmin();
+      const activePending = document.getElementById('aTabPending').style.display !== 'none';
+      const activeAll = document.getElementById('aTabAll').style.display !== 'none';
+      if (activePending) loadAdminTx('pending','aPendingTable');
+      if (activeAll) loadAdminTx('','aAllTable');
+    }
+  } catch(e) { showToast('Erreur','error'); }
+}
+
+document.getElementById('proofModal').addEventListener('click', e => { if (e.target === document.getElementById('proofModal')) closeModal(); });
+</script>
+</body>
+</html>
