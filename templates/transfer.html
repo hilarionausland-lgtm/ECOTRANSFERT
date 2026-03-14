@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nouveau transfert — EcoTransfert</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--gold-light:#D4A843;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+
+nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--ink);border-color:var(--ink)}
+.btn-gold{background:var(--gold);color:var(--white)}
+.btn-gold:hover{background:#9A7A22;transform:translateY(-1px)}
+.btn-gold:disabled{opacity:.5;cursor:not-allowed;transform:none}
+
+/* STEPPER */
+.page-wrap{max-width:680px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);text-decoration:none;margin-bottom:2rem;transition:color .2s}
+.back-link:hover{color:var(--ink)}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--muted);margin-bottom:2.5rem;font-weight:300}
+
+/* STEP INDICATOR */
+.steps-bar{display:flex;align-items:center;gap:0;margin-bottom:2.5rem}
+.step-dot{display:flex;flex-direction:column;align-items:center;gap:.3rem;flex:1}
+.step-dot-circle{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:var(--muted);transition:all .3s;position:relative;z-index:1}
+.step-dot.active .step-dot-circle{border-color:var(--gold);background:var(--gold);color:var(--white)}
+.step-dot.done .step-dot-circle{border-color:var(--green);background:var(--green);color:var(--white)}
+.step-dot-label{font-size:.68rem;font-weight:500;color:var(--muted);text-align:center}
+.step-dot.active .step-dot-label{color:var(--gold)}
+.step-dot.done .step-dot-label{color:var(--green)}
+.step-line{flex:1;height:1px;background:var(--border);margin-bottom:1.2rem;max-width:60px}
+.step-line.done{background:var(--green)}
+
+/* FORM SECTIONS */
+.step-panel{display:none}
+.step-panel.active{display:block}
+.section-block{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1.25rem}
+.section-block-title{font-size:.88rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem}
+.form-group{margin-bottom:1rem}
+.form-group:last-child{margin-bottom:0}
+.form-group label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.35rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);background:var(--white)}
+.form-group textarea{resize:vertical;min-height:70px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+
+/* CONVERTER */
+.converter{background:var(--surface);border:1px solid rgba(184,146,42,.25);border-radius:8px;padding:1.25rem;margin-top:1rem}
+.conv-row{display:flex;align-items:center;gap:1rem;margin-bottom:.75rem}
+.conv-item{flex:1}
+.conv-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.2rem}
+.conv-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:var(--ink)}
+.conv-currency{font-size:.85rem;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:300}
+.conv-arrow{color:var(--gold);font-size:1.1rem}
+.conv-details{display:flex;gap:1.5rem;font-size:.75rem;color:var(--muted);flex-wrap:wrap}
+.conv-details strong{color:var(--ink)}
+
+/* ACCOUNT INFO BOX */
+.account-box{background:rgba(184,146,42,.04);border:1px solid rgba(184,146,42,.2);border-radius:8px;padding:1.25rem}
+.account-box-title{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:1rem;display:flex;align-items:center;gap:.4rem}
+.account-method{margin-bottom:.85rem;padding-bottom:.85rem;border-bottom:1px solid rgba(184,146,42,.12)}
+.account-method:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.method-name{font-size:.82rem;font-weight:600;margin-bottom:.2rem}
+.method-detail{font-size:.88rem;color:var(--ink);font-weight:500;display:flex;align-items:center;gap:.5rem}
+.copy-btn{background:none;border:none;cursor:pointer;color:var(--gold);font-size:.8rem;padding:.1rem .3rem;border-radius:3px;transition:background .2s}
+.copy-btn:hover{background:rgba(184,146,42,.1)}
+.method-hint{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--border);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:all .3s;background:var(--surface)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--gold);background:rgba(184,146,42,.03)}
+.upload-icon{font-size:2rem;margin-bottom:.5rem;opacity:.5}
+.upload-zone p{font-size:.83rem;color:var(--muted);font-weight:300}
+.upload-zone strong{color:var(--gold);font-weight:500}
+.upload-preview{display:none;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;align-items:center;gap:.75rem;margin-top:.75rem}
+.upload-preview.show{display:flex}
+.preview-thumb{width:44px;height:44px;border-radius:4px;object-fit:cover;border:1px solid var(--border)}
+.preview-info{flex:1;min-width:0}
+.preview-name{font-size:.82rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.preview-size{font-size:.72rem;color:var(--muted)}
+.remove-file{background:none;border:none;cursor:pointer;color:var(--muted);font-size:1rem;padding:.2rem}
+.remove-file:hover{color:var(--red)}
+
+/* SUMMARY */
+.summary-row{display:flex;justify-content:space-between;align-items:center;padding:.6rem 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.summary-row:last-child{border-bottom:none;padding-top:.85rem;margin-top:.1rem}
+.summary-row.total{font-weight:600;font-size:.95rem}
+.summary-label{color:var(--muted)}
+.summary-val{font-weight:500;color:var(--ink)}
+.summary-val.gold{color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:1.2rem}
+
+/* ACTIONS */
+.step-actions{display:flex;gap:.75rem;margin-top:1.5rem;flex-wrap:wrap}
+
+/* ALERT */
+.alert{padding:.85rem 1rem;border-radius:6px;font-size:.83rem;margin-bottom:1rem;line-height:1.5}
+.alert-error{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);color:var(--red)}
+.alert-success{background:rgba(26,122,74,.08);border:1px solid rgba(26,122,74,.2);color:var(--green)}
+.alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.5rem}
+.toast{background:var(--ink);color:var(--white);padding:.85rem 1.25rem;border-radius:8px;font-size:.83rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:toastIn .3s ease;max-width:300px}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.success{border-left:3px solid var(--green)}
+.toast.error{border-left:3px solid var(--red)}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* SUCCESS */
+.success-view{text-align:center;padding:3rem 1rem}
+.success-icon{font-size:4rem;margin-bottom:1.5rem}
+.success-view h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;margin-bottom:.75rem}
+.success-view p{color:var(--muted);font-size:.9rem;line-height:1.7;max-width:380px;margin:0 auto 2rem}
+
+@media(max-width:600px){
+  .form-grid{grid-template-columns:1fr}
+  .conv-row{flex-direction:column;gap:.5rem}
+  nav{padding:0 1rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="/" class="nav-logo">Eco<span>Transfert</span></a>
+  <span id="navUser" style="font-size:.82rem;color:var(--muted)">—</span>
+</nav>
+
+<div class="page-wrap">
+  <a href="/dashboard" class="back-link">← Retour au tableau de bord</a>
+
+  <div id="mainForm">
+    <h1 class="page-title">Nouveau transfert</h1>
+    <p class="page-sub">Suivez les étapes pour effectuer votre transfert en toute sécurité</p>
+
+    <!-- STEPPER -->
+    <div class="steps-bar" id="stepsBar">
+      <div class="step-dot active" id="dot1"><div class="step-dot-circle">1</div><div class="step-dot-label">Montant</div></div>
+      <div class="step-line" id="line1"></div>
+      <div class="step-dot" id="dot2"><div class="step-dot-circle">2</div><div class="step-dot-label">Paiement</div></div>
+      <div class="step-line" id="line2"></div>
+      <div class="step-dot" id="dot3"><div class="step-dot-circle">3</div><div class="step-dot-label">Preuve</div></div>
+      <div class="step-line" id="line3"></div>
+      <div class="step-dot" id="dot4"><div class="step-dot-circle">4</div><div class="step-dot-label">Confirmation</div></div>
+    </div>
+
+    <!-- STEP 1 : Montant & bénéficiaire -->
+    <div class="step-panel active" id="step1">
+      <div class="section-block">
+        <div class="section-block-title">💶 Montant du transfert</div>
+        <div class="form-group">
+          <label>Montant à envoyer (€)</label>
+          <input type="number" id="txAmount" placeholder="Ex : 150" min="10" oninput="calcConv()">
+        </div>
+        <div class="converter" id="convBox" style="display:none">
+          <div class="conv-row">
+            <div class="conv-item">
+              <div class="conv-label">Vous envoyez</div>
+              <div class="conv-val" id="convSend">—<span class="conv-currency"> €</span></div>
+            </div>
+            <div class="conv-arrow">→</div>
+            <div class="conv-item">
+              <div class="conv-label">Bénéficiaire reçoit</div>
+              <div class="conv-val" id="convReceive">—<span class="conv-currency"> FCFA</span></div>
+            </div>
+          </div>
+          <div class="conv-details">
+            <span>Taux : <strong id="convRate">655.96</strong> FCFA/€</span>
+            <span>Commission : <strong id="convComm">—</strong></span>
+            <span>Net : <strong id="convNet">—</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-block">
+        <div class="section-block-title">👤 Bénéficiaire</div>
+        <div class="form-grid">
+          <div class="form-group"><label>Nom complet</label><input type="text" id="txBenef" placeholder="Prénom Nom"></div>
+          <div class="form-group"><label>Téléphone</label><input type="tel" id="txBenefPhone" placeholder="+229 XX XX XX XX"></div>
+        </div>
+        <div class="form-group">
+          <label>Compte / Numéro de réception bénéficiaire</label>
+          <input type="text" id="txBenefAccount" placeholder="Ex : numéro Mobile Money, IBAN...">
+        </div>
+        <div class="form-group">
+          <label>Note (optionnel)</label>
+          <textarea id="txNote" placeholder="Raison du transfert, instructions..."></textarea>
+        </div>
+      </div>
+
+      <div id="step1Alert"></div>
+      <div class="step-actions">
+        <button class="btn btn-gold" onclick="goStep2()">Continuer →</button>
+        <a href="/dashboard" class="btn btn-ghost">Annuler</a>
+      </div>
+    </div>
+
+    <!-- STEP 2 : Comment payer -->
+    <div class="step-panel" id="step2">
+      <div class="section-block">
+        <div class="section-block-title">📤 Méthode de paiement</div>
+        <div class="form-group">
+          <label>Comment souhaitez-vous envoyer l'argent ?</label>
+          <select id="txMethod" onchange="showPaymentInfo()">
+            <option value="">Choisissez une méthode</option>
+            <option value="virement">🏦 Virement bancaire</option>
+            <option value="wave">🌊 Wave</option>
+            <option value="mtn">📱 MTN Mobile Money</option>
+            <option value="moov">📲 Moov Money</option>
+            <option value="orange">🟠 Orange Money</option>
+            <option value="paypal">💙 PayPal</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- COMPTE DE RÉCEPTION -->
+      <div class="section-block" id="paymentInfoBox" style="display:none">
+        <div class="section-block-title">🏦 Envoyez l'argent sur ce compte</div>
+        <div class="alert alert-info" style="margin-bottom:1rem">
+          ⚠️ Effectuez votre paiement <strong>uniquement</strong> sur ce compte avant de passer à l'étape suivante.
+        </div>
+        <div id="paymentDetails"></div>
+        <div style="margin-top:1rem;padding:1rem;background:var(--surface);border-radius:6px;font-size:.82rem;color:var(--muted)">
+          📌 Montant exact à envoyer : <strong id="payAmount" style="color:var(--ink);font-size:.95rem">—</strong>
+        </div>
+      </div>
+
+      <div id="step2Alert"></div>
+      <div class="step-actions">
+        <button class="btn btn-gold" id="step2Next" onclick="goStep3()" disabled>J'ai effectué le paiement →</button>
+        <button class="btn btn-ghost" onclick="goStep(1)">← Retour</button>
+      </div>
+    </div>
+
+    <!-- STEP 3 : Preuve -->
+    <div class="step-panel" id="step3">
+      <div class="section-block">
+        <div class="section-block-title">📎 Preuve de paiement</div>
+        <p style="font-size:.83rem;color:var(--muted);margin-bottom:1.25rem;font-weight:300">
+          Téléversez la capture d'écran ou le reçu de votre paiement. Cela nous permet de vérifier et valider votre transfert rapidement.
+        </p>
+        <div class="upload-zone" id="uploadZone"
+          onclick="document.getElementById('fileInput').click()"
+          ondragover="event.preventDefault();this.classList.add('dragover')"
+          ondragleave="this.classList.remove('dragover')"
+          ondrop="handleDrop(event)">
+          <div class="upload-icon">📤</div>
+          <p><strong>Cliquez pour choisir un fichier</strong></p>
+          <p>ou glissez-déposez ici · JPG, PNG, PDF · Max 5 Mo</p>
+          <input type="file" id="fileInput" accept="image/*,.pdf" style="display:none" onchange="handleFile(this.files[0])">
+        </div>
+        <div class="upload-preview" id="uploadPreview">
+          <img class="preview-thumb" id="previewImg" src="" alt="">
+          <div class="preview-info">
+            <div class="preview-name" id="previewName">—</div>
+            <div class="preview-size" id="previewSize">—</div>
+          </div>
+          <button class="remove-file" onclick="clearFile()">✕</button>
+        </div>
+      </div>
+
+      <div id="step3Alert"></div>
+      <div class="step-actions">
+        <button class="btn btn-gold" id="step3Next" onclick="goStep4()" disabled>Continuer →</button>
+        <button class="btn btn-ghost" onclick="goStep(2)">← Retour</button>
+      </div>
+    </div>
+
+    <!-- STEP 4 : Récapitulatif -->
+    <div class="step-panel" id="step4">
+      <div class="section-block">
+        <div class="section-block-title">📋 Récapitulatif</div>
+        <div id="summaryContent"></div>
+      </div>
+
+      <div class="alert alert-info">
+        En soumettant, vous confirmez avoir effectué le paiement et vous acceptez que nous vérifiions votre preuve avant libération des fonds.
+      </div>
+
+      <div id="step4Alert"></div>
+      <div class="step-actions">
+        <button class="btn btn-gold" id="submitBtn" onclick="submitTransfer()">✓ Confirmer et soumettre</button>
+        <button class="btn btn-ghost" onclick="goStep(3)">← Retour</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-view" id="successView" style="display:none">
+    <div class="success-icon">✅</div>
+    <h2>Demande envoyée !</h2>
+    <p>Votre demande de transfert <strong id="successRef">—</strong> a bien été reçue. Nous allons vérifier votre preuve de paiement et vous notifier dès la validation.</p>
+    <a href="/dashboard" class="btn btn-gold">Voir mon tableau de bord</a>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+let RATE={eur_fcfa:655.96,commission:2};
+let uploadedFile=null;
+let txData={};
+
+async function init(){
+  try{
+    const r=await fetch('/api/me',{credentials:'include'});
+    if(!r.ok){window.location.href='/';return;}
+    const u=await r.json();
+    document.getElementById('navUser').textContent=u.first+' '+u.last;
+  }catch(e){window.location.href='/';}
+  try{
+    const r=await fetch('/api/settings/public');
+    if(r.ok){
+      const s=await r.json();
+      RATE=s;
+      document.getElementById('convRate').textContent=s.eur_fcfa.toFixed(2);
+    }
+  }catch(e){}
+}
+init();
+
+function calcConv(){
+  const v=parseFloat(document.getElementById('txAmount').value)||0;
+  if(!v){document.getElementById('convBox').style.display='none';return;}
+  const comm=v*RATE.commission/100;
+  const net=v-comm;
+  const fcfa=Math.round(net*RATE.eur_fcfa);
+  document.getElementById('convBox').style.display='block';
+  document.getElementById('convSend').innerHTML=fmt(v)+'<span class="conv-currency"> €</span>';
+  document.getElementById('convReceive').innerHTML=fmt(fcfa)+'<span class="conv-currency"> FCFA</span>';
+  document.getElementById('convComm').textContent=comm.toFixed(2)+' €';
+  document.getElementById('convNet').textContent=net.toFixed(2)+' €';
+  document.getElementById('payAmount').textContent=fmt(v)+' €';
+}
+
+function goStep2(){
+  const amount=parseFloat(document.getElementById('txAmount').value);
+  const benef=document.getElementById('txBenef').value.trim();
+  const account=document.getElementById('txBenefAccount').value.trim();
+  if(!amount||amount<10){showAlert('step1Alert','Montant invalide (minimum 10€)');return;}
+  if(!benef){showAlert('step1Alert','Veuillez renseigner le nom du bénéficiaire');return;}
+  if(!account){showAlert('step1Alert','Veuillez renseigner le compte de réception du bénéficiaire');return;}
+  clearAlert('step1Alert');
+  txData.amount=amount;
+  txData.benef=benef;
+  txData.benefPhone=document.getElementById('txBenefPhone').value;
+  txData.benefAccount=account;
+  txData.note=document.getElementById('txNote').value;
+  goStep(2);
+}
+
+function showPaymentInfo(){
+  const method=document.getElementById('txMethod').value;
+  const box=document.getElementById('paymentInfoBox');
+  const details=document.getElementById('paymentDetails');
+  const nextBtn=document.getElementById('step2Next');
+  if(!method){box.style.display='none';nextBtn.disabled=true;return;}
+  
+  // Build payment info from public settings
+  fetch('/api/settings/public').then(r=>r.json()).then(s=>{
+    let html='';
+    const amount=document.getElementById('payAmount').textContent;
+    if(method==='virement'){
+      html=`<div class="account-method">
+        <div class="method-name">🏦 Virement bancaire</div>
+        <div class="method-detail">${s.iban_name||'EcoTransfert'}</div>
+        <div class="method-detail">IBAN : <strong>${s.iban||'Non configuré'}</strong> <button class="copy-btn" onclick="copyText('${s.iban}')">📋 Copier</button></div>
+        <div class="method-hint">Référence à indiquer dans le virement : votre email</div>
+      </div>`;
+    }else if(method==='wave'){
+      html=`<div class="account-method">
+        <div class="method-name">🌊 Wave</div>
+        <div class="method-detail">Numéro : <strong>${s.wave_number||'Non configuré'}</strong> ${s.wave_number?`<button class="copy-btn" onclick="copyText('${s.wave_number}')">📋 Copier</button>`:''}</div>
+      </div>`;
+    }else if(method==='mtn'){
+      html=`<div class="account-method">
+        <div class="method-name">📱 MTN Mobile Money</div>
+        <div class="method-detail">Numéro : <strong>${s.mtn_number||'Non configuré'}</strong> ${s.mtn_number?`<button class="copy-btn" onclick="copyText('${s.mtn_number}')">📋 Copier</button>`:''}</div>
+      </div>`;
+    }else if(method==='moov'){
+      html=`<div class="account-method">
+        <div class="method-name">📲 Moov Money</div>
+        <div class="method-detail">Numéro : <strong>${s.moov_number||'Non configuré'}</strong> ${s.moov_number?`<button class="copy-btn" onclick="copyText('${s.moov_number}')">📋 Copier</button>`:''}</div>
+      </div>`;
+    }else if(method==='orange'){
+      html=`<div class="account-method">
+        <div class="method-name">🟠 Orange Money</div>
+        <div class="method-detail">Numéro : <strong>${s.orange_number||'Non configuré'}</strong> ${s.orange_number?`<button class="copy-btn" onclick="copyText('${s.orange_number}')">📋 Copier</button>`:''}</div>
+      </div>`;
+    }else if(method==='paypal'){
+      html=`<div class="account-method">
+        <div class="method-name">💙 PayPal</div>
+        <div class="method-detail">Email : <strong>${s.iban||'Non configuré'}</strong></div>
+      </div>`;
+    }
+    details.innerHTML=`<div class="account-box"><div class="account-box-title">📌 Coordonnées de paiement</div>${html}</div>`;
+    box.style.display='block';
+    nextBtn.disabled=false;
+    txData.method=method;
+  });
+}
+
+function copyText(text){
+  if(!text||text==='Non configuré')return;
+  navigator.clipboard.writeText(text).then(()=>showToast('Copié !'));
+}
+
+function goStep3(){
+  clearAlert('step2Alert');
+  txData.method=document.getElementById('txMethod').value;
+  if(!txData.method){showAlert('step2Alert','Choisissez une méthode de paiement');return;}
+  goStep(3);
+}
+
+function goStep4(){
+  if(!uploadedFile){showAlert('step3Alert','Veuillez joindre votre preuve de paiement');return;}
+  clearAlert('step3Alert');
+  // Build summary
+  const comm=txData.amount*RATE.commission/100;
+  const net=txData.amount-comm;
+  const fcfa=Math.round(net*RATE.eur_fcfa);
+  const methodNames={virement:'Virement bancaire',wave:'Wave',mtn:'MTN Mobile Money',moov:'Moov Money',orange:'Orange Money',paypal:'PayPal'};
+  document.getElementById('summaryContent').innerHTML=`
+    <div class="summary-row"><span class="summary-label">Montant envoyé</span><span class="summary-val">${fmt(txData.amount)} €</span></div>
+    <div class="summary-row"><span class="summary-label">Commission (${RATE.commission}%)</span><span class="summary-val">- ${fmt(comm.toFixed(2))} €</span></div>
+    <div class="summary-row"><span class="summary-label">Bénéficiaire reçoit</span><span class="summary-val gold">${fmt(fcfa)} FCFA</span></div>
+    <div class="summary-row"><span class="summary-label">Bénéficiaire</span><span class="summary-val">${txData.benef}</span></div>
+    <div class="summary-row"><span class="summary-label">Compte bénéficiaire</span><span class="summary-val">${txData.benefAccount}</span></div>
+    <div class="summary-row"><span class="summary-label">Méthode</span><span class="summary-val">${methodNames[txData.method]||txData.method}</span></div>
+    <div class="summary-row"><span class="summary-label">Preuve jointe</span><span class="summary-val">✅ ${uploadedFile.name}</span></div>
+  `;
+  goStep(4);
+}
+
+async function submitTransfer(){
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;
+  btn.innerHTML='<span class="spinner"></span> Envoi en cours...';
+  try{
+    const fd=new FormData();
+    fd.append('amount',txData.amount);
+    fd.append('beneficiary',txData.benef);
+    fd.append('benef_phone',txData.benefPhone||'');
+    fd.append('benef_account',txData.benefAccount||'');
+    fd.append('method',txData.method);
+    fd.append('note',txData.note||'');
+    fd.append('proof',uploadedFile);
+
+    const r=await fetch('/api/transactions',{method:'POST',credentials:'include',body:fd});
+    const d=await r.json();
+    if(!r.ok){showAlert('step4Alert',d.error||'Erreur');btn.disabled=false;btn.innerHTML='✓ Confirmer et soumettre';return;}
+
+    // WhatsApp
+    try{
+      const s=await (await fetch('/api/settings/public')).json();
+      const wa=(s.wa_number||'+33600000000').replace(/\s/g,'');
+      const msg=encodeURIComponent(`🔔 *EcoTransfert — Nouvelle preuve reçue*\n\n📨 Réf : ${d.ref}\n💶 Montant : ${txData.amount} €\n👥 Bénéficiaire : ${txData.benef}\n📱 Méthode : ${txData.method}\n\n✅ Validez sur le panneau admin.`);
+      setTimeout(()=>window.open(`https://wa.me/${wa}?text=${msg}`,'_blank'),400);
+    }catch(e){}
+
+    document.getElementById('successRef').textContent=d.ref;
+    document.getElementById('mainForm').style.display='none';
+    document.getElementById('successView').style.display='block';
+  }catch(e){showAlert('step4Alert','Erreur lors de la soumission');btn.disabled=false;btn.innerHTML='✓ Confirmer et soumettre';}
+}
+
+// STEPPER
+function goStep(n){
+  for(let i=1;i<=4;i++){
+    document.getElementById('step'+i).classList.toggle('active',i===n);
+    const dot=document.getElementById('dot'+i);
+    dot.classList.remove('active','done');
+    if(i===n)dot.classList.add('active');
+    else if(i<n)dot.classList.add('done');
+    if(i<4){
+      const line=document.getElementById('line'+i);
+      line.classList.toggle('done',i<n);
+    }
+  }
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// FILE
+function handleFile(file){
+  if(!file)return;
+  if(file.size>5*1024*1024){showAlert('step3Alert','Fichier trop grand (max 5 Mo)');return;}
+  uploadedFile=file;
+  const prev=document.getElementById('uploadPreview');
+  prev.classList.add('show');
+  if(file.type.startsWith('image/')){
+    const reader=new FileReader();
+    reader.onload=e=>{document.getElementById('previewImg').src=e.target.result;document.getElementById('previewImg').style.display='block';};
+    reader.readAsDataURL(file);
+  }else{document.getElementById('previewImg').style.display='none';}
+  document.getElementById('previewName').textContent=file.name;
+  document.getElementById('previewSize').textContent=(file.size/1024).toFixed(1)+' Ko';
+  document.getElementById('step3Next').disabled=false;
+  clearAlert('step3Alert');
+}
+function handleDrop(e){e.preventDefault();document.getElementById('uploadZone').classList.remove('dragover');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);}
+function clearFile(){uploadedFile=null;document.getElementById('uploadPreview').classList.remove('show');document.getElementById('fileInput').value='';document.getElementById('step3Next').disabled=true;}
+
+function showAlert(id,msg){const el=document.getElementById(id);el.innerHTML=`<div class="alert alert-error">${msg}</div>`;}
+function clearAlert(id){document.getElementById(id).innerHTML='';}
+function fmt(n){return Number(n).toLocaleString('fr-FR')}
+function showToast(msg,type='success'){
+  const c=document.getElementById('toastContainer');
+  const t=document.createElement('div');
+  t.className=`toast ${type}`;t.textContent=msg;
+  c.appendChild(t);setTimeout(()=>t.remove(),3000);
+}
+</script>
+</body>
+</html>
