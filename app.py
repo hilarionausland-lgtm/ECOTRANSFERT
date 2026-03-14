@@ -11,12 +11,14 @@ app.secret_key = os.environ.get('SECRET_KEY', 'ecotransfert-secret-change-in-pro
 CORS(app, supports_credentials=True)
 
 # ─── MAIL CONFIG ─────────────────────────────────────────────
+MAIL_ENABLED = bool(os.environ.get('MAIL_USERNAME') and os.environ.get('MAIL_PASSWORD'))
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', '')
 app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', '')
 app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME', 'noreply@ecotransfert.com')
+app.config['MAIL_SUPPRESS_SEND'] = not MAIL_ENABLED
 mail = Mail(app)
 
 DB_PATH = os.environ.get('DB_PATH', 'ecotransfert.db')
@@ -206,19 +208,21 @@ def register():
     expiry = (datetime.now() + timedelta(hours=24)).isoformat()
 
     try:
+        verified = 1 if not MAIL_ENABLED else 0
         with get_db() as db:
             db.execute(
-                "INSERT INTO users (first,last,email,phone,country,password,verify_token,token_expiry) VALUES (?,?,?,?,?,?,?,?)",
+                "INSERT INTO users (first,last,email,phone,country,password,verify_token,token_expiry,verified) VALUES (?,?,?,?,?,?,?,?,?)",
                 (d['first'], d['last'], d['email'], d.get('phone',''), d.get('country',''),
-                 generate_password_hash(d['password']), token, expiry)
+                 generate_password_hash(d['password']),
+                 token if MAIL_ENABLED else None,
+                 expiry if MAIL_ENABLED else None,
+                 verified)
             )
-        mail_sent = send_verification_email(d['email'], d['first'], token)
-        return jsonify({
-            'ok': True,
-            'mail_sent': mail_sent,
-            'message': 'Compte créé ! Vérifiez votre email pour activer votre compte.'
-        })
-    except sqlite3.IntegrityError:
+        if MAIL_ENABLED:
+            send_verification_email(d['email'], d['first'], token)
+            return jsonify({'ok': True, 'mail_sent': True, 'message': 'Compte créé ! Vérifiez votre email.'})
+        else:
+            return jsonify({'ok': True, 'mail_sent': False, 'auto_verified': True})
         return jsonify({'error': 'Cette adresse email est déjà utilisée'}), 409
 
 @app.route('/api/login', methods=['POST'])
