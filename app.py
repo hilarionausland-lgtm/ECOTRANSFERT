@@ -223,6 +223,7 @@ def register():
             return jsonify({'ok': True, 'mail_sent': True, 'message': 'Compte créé ! Vérifiez votre email.'})
         else:
             return jsonify({'ok': True, 'mail_sent': False, 'auto_verified': True})
+    except sqlite3.IntegrityError:
         return jsonify({'error': 'Cette adresse email est déjà utilisée'}), 409
 
 @app.route('/api/login', methods=['POST'])
