@@ -393,6 +393,15 @@ def admin_users():
         """).fetchall()
     return jsonify([dict(r) for r in rows])
 
+@app.route('/api/admin/cleanup-unverified', methods=['POST'])
+@admin_required
+def cleanup_unverified():
+    with get_db() as db:
+        users = db.execute("SELECT email FROM users WHERE verified=0").fetchall()
+        count = len(users)
+        db.execute("DELETE FROM users WHERE verified=0")
+    return jsonify({'ok': True, 'deleted': count, 'emails': [u['email'] for u in users]})
+
 @app.route('/api/admin/settings', methods=['GET'])
 @admin_required
 def get_settings():
