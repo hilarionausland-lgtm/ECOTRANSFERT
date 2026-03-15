@@ -7,22 +7,22 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
+:root{--ink:#0D0D0D;--paper:#F4F8F5;--primary:#00784A;--primary-light:#00A865;--primary-dark:#005C38;--gold:#B8922A;--muted:#5C6B62;--border:#D4E4DA;--white:#FFFFFF;--surface:#F9FCF9;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
 body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
 nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
-.nav-logo span{color:var(--gold)}
+.nav-logo span{color:var(--primary)}
 .nav-links{display:flex;align-items:center;gap:1.5rem}
 .nav-link{font-size:.85rem;color:var(--muted);text-decoration:none;transition:color .2s}
 .nav-link:hover,.nav-link.active{color:var(--ink);font-weight:500}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
-.btn-gold{background:var(--gold);color:white}
-.btn-gold:hover{background:#9A7A22;transform:translateY(-1px)}
+.btn-gold{background:var(--primary);color:white}
+.btn-gold:hover{background:var(--primary-dark);transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-ghost:hover{color:var(--ink)}
 .btn-sm{padding:.4rem .9rem;font-size:.78rem}
-.btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold)}
-.btn-outline:hover{background:var(--gold);color:white}
+.btn-outline{background:transparent;color:var(--primary);border:1px solid var(--gold)}
+.btn-outline:hover{background:var(--primary);color:white}
 
 /* PAGE */
 .page-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 1.5rem}
@@ -35,12 +35,12 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .filter-label{font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
 .filter-tabs{display:flex;gap:.35rem}
 .filter-tab{padding:.4rem .9rem;border-radius:6px;border:1px solid var(--border);background:transparent;font-family:'Outfit',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s;color:var(--muted)}
-.filter-tab.active{background:var(--gold);color:white;border-color:var(--gold)}
+.filter-tab.active{background:var(--primary);color:white;border-color:var(--primary)}
 
 /* RATE BAR */
 .rate-bar{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
 .rate-item{display:flex;align-items:center;gap:.5rem;font-size:.85rem}
-.rate-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.rate-dot{width:7px;height:7px;border-radius:50%;background:var(--primary);animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .rate-val{font-weight:600;color:var(--ink)}
 .rate-label{color:var(--muted)}
@@ -48,7 +48,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 /* GRID */
 .annonces-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem}
 .annonce-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all .25s;cursor:pointer}
-.annonce-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 20px rgba(184,146,42,.1)}
+.annonce-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 20px rgba(184,146,42,.1)}
 .ann-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem}
 .ann-user{display:flex;align-items:center;gap:.65rem}
 .ann-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#9A7A22);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:white;flex-shrink:0}
@@ -56,7 +56,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .ann-meta{font-size:.72rem;color:var(--muted)}
 .badge{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:50px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
 .badge-eur{background:rgba(29,78,216,.08);color:var(--blue);border:1px solid rgba(29,78,216,.15)}
-.badge-fcfa{background:rgba(184,146,42,.08);color:#8B6914;border:1px solid rgba(184,146,42,.15)}
+.badge-fcfa{background:rgba(0,120,74,.08);color:var(--primary);border:1px solid rgba(184,146,42,.15)}
 .ann-amounts{margin-bottom:1.25rem}
 .ann-main-amount{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;line-height:1;margin-bottom:.2rem}
 .ann-range{font-size:.75rem;color:var(--muted)}
@@ -123,7 +123,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-let RATE = {eur_fcfa:655.96, commission:1};
+let RATE = {eur_fcfa:655.96, commission:0.5};
 let currentFilter = '';
 let currentUser = null;
 
@@ -178,7 +178,7 @@ async function loadAnnonces(){
       <div class="ann-footer">
         <div class="ann-rating">${a.note?`💬 "${a.note.substring(0,40)}${a.note.length>40?'...':''}"`:''}</div>
         ${isOwn
-          ? '<span style="font-size:.72rem;color:var(--gold);font-weight:500">Votre annonce</span>'
+          ? '<span style="font-size:.72rem;color:var(--primary);font-weight:500">Votre annonce</span>'
           : '<span class="btn btn-outline btn-sm">Proposer un match →</span>'}
       </div>
     </div>`;
