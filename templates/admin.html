@@ -7,16 +7,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
+:root{--ink:#0D0D0D;--paper:#F4F8F5;--primary:#00784A;--primary-light:#00A865;--primary-dark:#005C38;--gold:#B8922A;--muted:#5C6B62;--border:#D4E4DA;--white:#FFFFFF;--surface:#F9FCF9;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
 body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
 nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
-.nav-logo span{color:var(--gold)}
+.nav-logo span{color:var(--primary)}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-ghost:hover{color:var(--ink)}
-.btn-gold{background:var(--gold);color:white}
-.btn-gold:hover{background:#9A7A22}
+.btn-gold{background:var(--primary);color:white}
+.btn-gold:hover{background:var(--primary-dark)}
 .btn-green{background:var(--green);color:white}
 .btn-green:hover{background:#145F38}
 .btn-red{background:var(--red);color:white}
@@ -32,10 +32,10 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .form-group{margin-bottom:1rem}
 .form-group label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.35rem}
 .form-group input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s}
-.form-group input:focus{border-color:var(--gold)}
+.form-group input:focus{border-color:var(--primary)}
 .alert{padding:.75rem 1rem;border-radius:6px;font-size:.82rem;margin-bottom:1rem}
 .alert-error{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);color:var(--red)}
-.alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
+.alert-info{background:rgba(0,120,74,.08);border:1px solid rgba(184,146,42,.2);color:var(--primary)}
 .btn-full{width:100%;justify-content:center;padding:.75rem}
 
 .layout{display:flex;min-height:calc(100vh - 60px)}
@@ -43,7 +43,7 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .sidebar-section{padding:.5rem 1.25rem;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:1rem}
 .sidebar-item{display:flex;align-items:center;gap:.65rem;padding:.65rem 1.25rem;font-size:.85rem;color:var(--muted);cursor:pointer;transition:all .15s;border-left:2px solid transparent}
 .sidebar-item:hover{color:var(--ink);background:var(--paper)}
-.sidebar-item.active{color:var(--ink);background:var(--paper);border-left-color:var(--gold);font-weight:500}
+.sidebar-item.active{color:var(--ink);background:var(--paper);border-left-color:var(--primary);font-weight:500}
 .sidebar-badge{margin-left:auto;background:var(--red);color:white;border-radius:50px;padding:.1rem .45rem;font-size:.65rem;font-weight:700}
 .main{flex:1;padding:2rem;overflow-x:hidden}
 
@@ -63,7 +63,7 @@ tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--paper)}
 .mono{font-variant-numeric:tabular-nums;font-size:.8rem}
 .badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border-radius:50px;font-size:.66rem;font-weight:600;text-transform:uppercase;white-space:nowrap}
-.badge-pending{background:rgba(184,146,42,.1);color:#8B6914;border:1px solid rgba(184,146,42,.2)}
+.badge-pending{background:rgba(0,120,74,.1);color:var(--primary);border:1px solid rgba(184,146,42,.2)}
 .badge-validating{background:rgba(29,78,216,.1);color:var(--blue);border:1px solid rgba(29,78,216,.2)}
 .badge-completed{background:rgba(26,122,74,.1);color:var(--green);border:1px solid rgba(26,122,74,.2)}
 .badge-cancelled{background:rgba(107,101,96,.1);color:var(--muted);border:1px solid rgba(107,101,96,.2)}
@@ -242,6 +242,13 @@ tr:hover td{background:var(--paper)}
             <div class="form-group"><label>Orange Money</label><input type="tel" id="sOrange"></div>
             <button class="btn btn-gold btn-sm" onclick="saveSettings()">Sauvegarder</button>
           </div>
+          <div class="settings-card">
+            <div class="settings-title">💸 Wero & PayPal</div>
+            <div class="settings-sub">Méthodes de réception en Euros</div>
+            <div class="form-group"><label>Numéro Wero</label><input type="tel" id="sWero" placeholder="+33 6 XX XX XX XX"></div>
+            <div class="form-group"><label>Email PayPal</label><input type="email" id="sPaypal" placeholder="email@paypal.com"></div>
+            <button class="btn btn-gold btn-sm" onclick="saveSettings()">Sauvegarder</button>
+          </div>
         </div>
       </div>
     </main>
@@ -398,7 +405,7 @@ async function loadAnnonces(){
       <td>
         <div style="display:flex;align-items:center;gap:.5rem">
           <div style="flex:1;background:var(--border);border-radius:50px;height:4px;min-width:60px">
-            <div style="width:${prog}%;background:var(--gold);border-radius:50px;height:4px"></div>
+            <div style="width:${prog}%;background:var(--primary);border-radius:50px;height:4px"></div>
           </div>
           <span style="font-size:.72rem;color:var(--muted)">${prog}%</span>
         </div>
@@ -439,6 +446,8 @@ async function loadSettings(){
   document.getElementById('sMtn').value=s.mtn_number||'';
   document.getElementById('sMoov').value=s.moov_number||'';
   document.getElementById('sOrange').value=s.orange_number||'';
+  document.getElementById('sWero').value=s.wero_number||'';
+  document.getElementById('sPaypal').value=s.paypal_email||'';
 }
 
 async function saveSettings(){
