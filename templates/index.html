@@ -328,7 +328,7 @@ async function doLogin(){
     const r=await fetch('/api/login',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pwd})});
     const d=await r.json();
     if(!r.ok){
-      if(d.unverified) showAlert('loginAlert','Confirmez votre email avant de vous connecter. <a onclick="resendVerif(\''+email+'\')" style="color:var(--gold);cursor:pointer;font-weight:500">Renvoyer le lien</a>','info');
+      if(d.unverified) showAlert('loginAlert',`Email non confirmé. <a onclick="resendVerif('${email}')" style="color:var(--gold);cursor:pointer;font-weight:500;text-decoration:underline">Renvoyer le lien</a>`,'info');
       else showAlert('loginAlert',d.error||'Erreur de connexion');
       return;
     }
@@ -355,6 +355,12 @@ async function doRegister(){
     if(d.auto_verified){
       const lr=await fetch('/api/login',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pwd})});
       if(lr.ok){window.location.href='/dashboard';return;}
+    }
+    if(d.mail_sent){
+      document.getElementById('successEmail').textContent=email;
+      switchView('success');
+      window._lastEmail=email;
+      return;
     }
     document.getElementById('successEmail').textContent=email;
     switchView('success');
