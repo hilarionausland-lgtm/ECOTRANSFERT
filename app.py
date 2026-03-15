@@ -384,8 +384,14 @@ def register():
                  expiry if MAIL_ENABLED else None)
             )
         if MAIL_ENABLED:
-            send_verification_email(d['email'], d['first'], token)
-            return jsonify({'ok': True, 'mail_sent': True})
+            mail_sent = send_verification_email(d['email'], d['first'], token)
+            if mail_sent:
+                return jsonify({'ok': True, 'mail_sent': True})
+            else:
+                # Mail failed — auto-verify so user can still login
+                with get_db() as db2:
+                    db2.execute("UPDATE users SET verified=1, verify_token=NULL WHERE email=?", (d['email'],))
+                return jsonify({'ok': True, 'auto_verified': True})
         return jsonify({'ok': True, 'auto_verified': True})
     except sqlite3.IntegrityError:
         return jsonify({'error': 'Cette adresse email est déjà utilisée'}), 409
