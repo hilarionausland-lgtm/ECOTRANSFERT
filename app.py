@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, session, send_from_directory, render_template
 from flask_cors import CORS
-from flask_mail import Mail, Message
 import sqlite3, os, uuid, secrets
 from datetime import datetime, timedelta
 from functools import wraps
@@ -11,15 +10,7 @@ app.secret_key = os.environ.get('SECRET_KEY', 'ecotransfert-secret-change-in-pro
 CORS(app, supports_credentials=True)
 
 # ─── MAIL CONFIG ─────────────────────────────────────────────
-MAIL_ENABLED = bool(os.environ.get('MAIL_USERNAME') and os.environ.get('MAIL_PASSWORD'))
-app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', '')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', '')
-app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('MAIL_USERNAME', 'noreply@ecotransfert.com')
-app.config['MAIL_SUPPRESS_SEND'] = not MAIL_ENABLED
-mail = Mail(app)
+MAIL_ENABLED = False  # Set to True after configuring MAIL_USERNAME and MAIL_PASSWORD
 
 DB_PATH = os.environ.get('DB_PATH', 'ecotransfert.db')
 UPLOAD_FOLDER = 'static/uploads'
@@ -122,35 +113,8 @@ def tx_to_dict(t):
     return d
 
 def send_verification_email(email, first, token):
-    try:
-        verify_url = f"{BASE_URL}/verify/{token}"
-        msg = Message(
-            subject="✅ Confirmez votre compte EcoTransfert",
-            recipients=[email],
-            html=f"""
-            <div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;padding:40px 20px;background:#0A0E1A;color:#F0EDE8">
-              <div style="text-align:center;margin-bottom:32px">
-                <h1 style="color:#C9A84C;font-size:28px;margin:0">EcoTransfert</h1>
-                <p style="color:#8A9AB5;font-size:13px;margin:8px 0 0">Plateforme de médiation financière sécurisée</p>
-              </div>
-              <div style="background:#111827;border:1px solid rgba(201,168,76,0.2);border-radius:12px;padding:32px">
-                <h2 style="color:#F0EDE8;font-size:20px;margin:0 0 12px">Bonjour {first},</h2>
-                <p style="color:#8A9AB5;line-height:1.6;margin:0 0 24px">Merci de vous être inscrit sur EcoTransfert. Cliquez sur le bouton ci-dessous pour confirmer votre adresse email et activer votre compte.</p>
-                <div style="text-align:center;margin:32px 0">
-                  <a href="{verify_url}" style="background:linear-gradient(135deg,#C9A84C,#9A7A32);color:#0A0E1A;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;display:inline-block">
-                    Confirmer mon compte
-                  </a>
-                </div>
-                <p style="color:#8A9AB5;font-size:12px;margin:0;text-align:center">Ce lien expire dans 24 heures.<br>Si vous n'avez pas créé de compte, ignorez cet email.</p>
-              </div>
-            </div>
-            """
-        )
-        mail.send(msg)
-        return True
-    except Exception as e:
-        print(f"Mail error: {e}")
-        return False
+    # Email disabled — configure MAIL_USERNAME and MAIL_PASSWORD to enable
+    return False
 
 # ─── FRONTEND ROUTES ─────────────────────────────────────────
 @app.route('/')
