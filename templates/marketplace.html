@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketplace — EcoTransfert</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;align-items:center;gap:1.5rem}
+.nav-link{font-size:.85rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.nav-link:hover,.nav-link.active{color:var(--ink);font-weight:500}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-gold{background:var(--gold);color:white}
+.btn-gold:hover{background:#9A7A22;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--ink)}
+.btn-sm{padding:.4rem .9rem;font-size:.78rem}
+.btn-outline{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.btn-outline:hover{background:var(--gold);color:white}
+
+/* PAGE */
+.page-wrap{max-width:1100px;margin:0 auto;padding:2.5rem 1.5rem}
+.page-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600}
+.page-sub{font-size:.88rem;color:var(--muted);margin-top:.25rem;font-weight:300}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:.75rem;margin-bottom:2rem;flex-wrap:wrap;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1rem 1.25rem}
+.filter-label{font-size:.75rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.filter-tabs{display:flex;gap:.35rem}
+.filter-tab{padding:.4rem .9rem;border-radius:6px;border:1px solid var(--border);background:transparent;font-family:'Outfit',sans-serif;font-size:.8rem;cursor:pointer;transition:all .2s;color:var(--muted)}
+.filter-tab.active{background:var(--gold);color:white;border-color:var(--gold)}
+
+/* RATE BAR */
+.rate-bar{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1rem 1.5rem;margin-bottom:2rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.rate-item{display:flex;align-items:center;gap:.5rem;font-size:.85rem}
+.rate-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.rate-val{font-weight:600;color:var(--ink)}
+.rate-label{color:var(--muted)}
+
+/* GRID */
+.annonces-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.25rem}
+.annonce-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:all .25s;cursor:pointer}
+.annonce-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 20px rgba(184,146,42,.1)}
+.ann-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.25rem}
+.ann-user{display:flex;align-items:center;gap:.65rem}
+.ann-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#9A7A22);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:.95rem;font-weight:700;color:white;flex-shrink:0}
+.ann-name{font-size:.88rem;font-weight:600;line-height:1.2}
+.ann-meta{font-size:.72rem;color:var(--muted)}
+.badge{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:50px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
+.badge-eur{background:rgba(29,78,216,.08);color:var(--blue);border:1px solid rgba(29,78,216,.15)}
+.badge-fcfa{background:rgba(184,146,42,.08);color:#8B6914;border:1px solid rgba(184,146,42,.15)}
+.ann-amounts{margin-bottom:1.25rem}
+.ann-main-amount{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;line-height:1;margin-bottom:.2rem}
+.ann-range{font-size:.75rem;color:var(--muted)}
+.ann-convert{font-size:.82rem;color:var(--muted);margin-top:.3rem}
+.ann-footer{display:flex;justify-content:space-between;align-items:center;padding-top:1rem;border-top:1px solid var(--border)}
+.ann-rating{font-size:.78rem;color:var(--muted);display:flex;align-items:center;gap:.3rem}
+.ann-date{font-size:.72rem;color:var(--muted)}
+
+/* EMPTY */
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--muted)}
+.empty-state .icon{font-size:3rem;margin-bottom:1rem;opacity:.3;display:block}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.5rem}
+.toast{background:var(--ink);color:white;padding:.85rem 1.25rem;border-radius:8px;font-size:.83rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:toastIn .3s ease;max-width:300px}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.success{border-left:3px solid var(--green)}
+
+@media(max-width:768px){nav{padding:0 1rem}.page-wrap{padding:1.5rem 1rem}.annonces-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">Eco<span>Transfert</span></a>
+  <div class="nav-links">
+    <a href="/dashboard" class="nav-link">Mon espace</a>
+    <a href="/marketplace" class="nav-link active">Marketplace</a>
+  </div>
+  <a href="/annonce/new" class="btn btn-gold">+ Nouvelle annonce</a>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Marketplace</div>
+      <div class="page-sub">Trouvez un partenaire d'échange et matchez en toute sécurité</div>
+    </div>
+  </div>
+
+  <!-- RATE BAR -->
+  <div class="rate-bar">
+    <div class="rate-item"><div class="rate-dot"></div><span class="rate-label">Taux EUR/FCFA</span><span class="rate-val" id="rateVal">655.96</span></div>
+    <div class="rate-item"><span class="rate-label">Commission</span><span class="rate-val" id="commVal">1%</span> <span class="rate-label">chaque partie</span></div>
+    <div class="rate-item"><span class="rate-label">Délai max</span><span class="rate-val">72h</span></div>
+    <div style="margin-left:auto"><span id="annCount" style="font-size:.82rem;color:var(--muted)">Chargement...</span></div>
+  </div>
+
+  <!-- FILTERS -->
+  <div class="filter-bar">
+    <span class="filter-label">Filtrer :</span>
+    <div class="filter-tabs">
+      <button class="filter-tab active" onclick="setFilter('',this)">Toutes</button>
+      <button class="filter-tab" onclick="setFilter('EUR_TO_FCFA',this)">€ → FCFA</button>
+      <button class="filter-tab" onclick="setFilter('FCFA_TO_EUR',this)">FCFA → €</button>
+    </div>
+  </div>
+
+  <!-- GRID -->
+  <div class="annonces-grid" id="annoncesGrid">
+    <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--muted)">Chargement...</div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+let RATE = {eur_fcfa:655.96, commission:1};
+let currentFilter = '';
+let currentUser = null;
+
+async function init(){
+  try{
+    const [sr, ur] = await Promise.all([
+      fetch('/api/settings/public'),
+      fetch('/api/me',{credentials:'include'})
+    ]);
+    if(sr.ok){const s=await sr.json();RATE=s;document.getElementById('rateVal').textContent=s.eur_fcfa.toFixed(2);document.getElementById('commVal').textContent=s.commission+'%';}
+    if(ur.ok) currentUser = await ur.json();
+  }catch(e){}
+  loadAnnonces();
+}
+
+async function loadAnnonces(){
+  const url = currentFilter ? `/api/annonces?direction=${currentFilter}` : '/api/annonces';
+  const r = await fetch(url);
+  if(!r.ok)return;
+  const anns = await r.json();
+  document.getElementById('annCount').textContent = `${anns.length} annonce${anns.length>1?'s':''} disponible${anns.length>1?'s':''}`;
+  const grid = document.getElementById('annoncesGrid');
+  if(!anns.length){
+    grid.innerHTML=`<div style="grid-column:1/-1"><div class="empty-state"><span class="icon">🌍</span><p>Aucune annonce pour le moment.<br>Soyez le premier à poster !</p><a href="/annonce/new" class="btn btn-gold" style="margin-top:1rem;display:inline-flex">+ Créer une annonce</a></div></div>`;
+    return;
+  }
+  grid.innerHTML = anns.map(a => {
+    const isEur = a.direction === 'EUR_TO_FCFA';
+    const converted = isEur
+      ? `≈ ${fmt(Math.round(a.amount * (1-RATE.commission/100) * RATE.eur_fcfa))} FCFA reçus`
+      : `≈ ${fmt((a.amount*(1-RATE.commission/100)/RATE.eur_fcfa).toFixed(0))} € reçus`;
+    const rating = a.rating_count > 0 ? `⭐ ${a.rating.toFixed(1)} (${a.rating_count})` : 'Nouveau';
+    const initials = a.first[0]+(a.last[0]||'');
+    const isOwn = currentUser && a.user_id === currentUser.id;
+    return `
+    <div class="annonce-card" onclick="goAnnonce(${a.id},${isOwn})">
+      <div class="ann-header">
+        <div class="ann-user">
+          <div class="ann-avatar">${initials.toUpperCase()}</div>
+          <div>
+            <div class="ann-name">${a.first} ${a.last}</div>
+            <div class="ann-meta">${a.country||''} · ${rating}</div>
+          </div>
+        </div>
+        ${isEur ? '<span class="badge badge-eur">€ → FCFA</span>' : '<span class="badge badge-fcfa">FCFA → €</span>'}
+      </div>
+      <div class="ann-amounts">
+        <div class="ann-main-amount">${fmt(a.amount)} <span style="font-size:1rem;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:300">${a.currency_give}</span></div>
+        <div class="ann-range">Fourchette : ${fmt(a.amount_min)} – ${fmt(a.amount_max)} ${a.currency_give}</div>
+        <div class="ann-convert">${converted}</div>
+      </div>
+      <div class="ann-footer">
+        <div class="ann-rating">${a.note?`💬 "${a.note.substring(0,40)}${a.note.length>40?'...':''}"`:''}</div>
+        ${isOwn
+          ? '<span style="font-size:.72rem;color:var(--gold);font-weight:500">Votre annonce</span>'
+          : '<span class="btn btn-outline btn-sm">Proposer un match →</span>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function goAnnonce(id, isOwn){
+  if(isOwn){window.location.href='/dashboard';return;}
+  if(!currentUser){showToast('Connectez-vous pour matcher');setTimeout(()=>window.location.href='/',1500);return;}
+  window.location.href=`/annonce/new?match=${id}`;
+}
+
+function setFilter(dir, btn){
+  currentFilter = dir;
+  document.querySelectorAll('.filter-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  loadAnnonces();
+}
+
+function fmt(n){return Number(n).toLocaleString('fr-FR')}
+function showToast(msg,type='success'){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),3000);}
+
+init();
+</script>
+</body>
+</html>
