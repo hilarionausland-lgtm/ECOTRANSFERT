@@ -3,54 +3,62 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EcoTransfert — Transferts sécurisés France · Afrique</title>
+<title>EcoTransfert — Échanges EUR ↔ FCFA sécurisés</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--gold-light:#D4A843;
-  --muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;
-  --surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A;
+  --primary:#00784A;--primary-light:#00A865;--primary-dark:#005C38;
+  --gold:#B8922A;--gold-light:#D4A843;
+  --ink:#0D0D0D;--paper:#F4F8F5;--muted:#5C6B62;
+  --border:#D4E4DA;--white:#FFFFFF;--surface:#F9FCF9;
+  --red:#C0392B;--green:#00784A;
 }
 html{scroll-behavior:smooth}
 body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;-webkit-font-smoothing:antialiased}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(247,244,239,0.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none;letter-spacing:0.02em}
-.nav-logo span{color:var(--gold)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(244,248,245,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+.nav-logo .dot{width:8px;height:8px;border-radius:50%;background:var(--primary)}
 .nav-actions{display:flex;gap:.75rem;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.25rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
 .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--border)}
 .btn-ghost:hover{background:var(--ink);color:var(--white)}
-.btn-gold{background:var(--gold);color:var(--white)}
-.btn-gold:hover{background:#9A7A22;transform:translateY(-1px)}
-.btn-outline-gold{background:transparent;color:var(--gold);border:1px solid var(--gold)}
-.btn-outline-gold:hover{background:var(--gold);color:var(--white)}
+.btn-primary{background:var(--primary);color:var(--white)}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
+.btn-outline{background:transparent;color:var(--primary);border:1px solid var(--primary)}
+.btn-outline:hover{background:var(--primary);color:var(--white)}
 
 /* HERO */
 .hero{min-height:100vh;display:flex;align-items:center;padding:80px 2rem 60px;max-width:1100px;margin:0 auto}
 .hero-content{max-width:580px}
-.hero-tag{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);padding:.3rem .8rem;border-radius:50px;margin-bottom:2rem}
-.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);animation:blink 2s infinite}
+.hero-tag{display:inline-flex;align-items:center;gap:.4rem;font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--primary);background:rgba(0,120,74,.08);border:1px solid rgba(0,120,74,.2);padding:.3rem .8rem;border-radius:50px;margin-bottom:2rem}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--primary);animation:blink 2s infinite}
 @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,4.5rem);font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem;color:var(--ink)}
-h1 em{font-style:italic;color:var(--gold)}
+h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2.8rem,6vw,4.5rem);font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin-bottom:1.5rem}
+h1 em{font-style:italic;color:var(--primary)}
+h1 .gold{color:var(--gold)}
 .hero-sub{font-size:1.05rem;color:var(--muted);line-height:1.7;max-width:460px;margin-bottom:2.5rem;font-weight:300}
 .hero-cta{display:flex;gap:.75rem;flex-wrap:wrap}
+
+/* STATS BAR */
+.stats-bar{display:flex;gap:2.5rem;padding:1.5rem 0;border-top:1px solid var(--border);margin-top:3rem;flex-wrap:wrap}
+.stat-item{display:flex;flex-direction:column}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--primary);line-height:1}
+.stat-label{font-size:.75rem;color:var(--muted);margin-top:.2rem}
 
 /* SIMULATOR */
 .sim-section{background:var(--white);border-top:1px solid var(--border);padding:5rem 2rem}
 .sim-inner{max-width:700px;margin:0 auto}
-.section-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--gold);margin-bottom:.75rem}
+.section-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--primary);margin-bottom:.75rem}
 h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;margin-bottom:.5rem}
 .section-sub{color:var(--muted);font-size:.95rem;margin-bottom:2.5rem;font-weight:300}
 .sim-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:2rem}
 .sim-row{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin-bottom:1.5rem}
 .sim-field label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block;margin-bottom:.4rem}
 .sim-field input{width:100%;background:var(--white);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:1.1rem;font-weight:500;color:var(--ink);outline:none;transition:border-color .2s}
-.sim-field input:focus{border-color:var(--gold)}
-.sim-arrow{color:var(--gold);font-size:1.2rem;text-align:center}
+.sim-field input:focus{border-color:var(--primary)}
+.sim-arrow{color:var(--primary);font-size:1.2rem;text-align:center}
 .sim-result{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--ink)}
 .sim-result span{font-size:1rem;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:300}
 .sim-details{display:flex;gap:2rem;padding-top:1.25rem;border-top:1px solid var(--border);flex-wrap:wrap}
@@ -60,37 +68,49 @@ h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;margi
 /* HOW */
 .how-section{padding:5rem 2rem;max-width:1100px;margin:0 auto}
 .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:2.5rem}
-.step-card{padding:2rem;border:1px solid var(--border);border-radius:12px;background:var(--white);transition:border-color .3s}
-.step-card:hover{border-color:var(--gold)}
-.step-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--gold);opacity:.5;line-height:1;margin-bottom:.75rem}
+.step-card{padding:2rem;border:1px solid var(--border);border-radius:12px;background:var(--white);transition:all .3s}
+.step-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,120,74,.08)}
+.step-num{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--primary);opacity:.4;line-height:1;margin-bottom:.75rem}
 .step-card h3{font-size:1rem;font-weight:600;margin-bottom:.5rem}
 .step-card p{font-size:.85rem;color:var(--muted);line-height:1.6;font-weight:300}
+
+/* TRUST */
+.trust-section{background:var(--primary);color:var(--white);padding:4rem 2rem;margin-top:4rem}
+.trust-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;text-align:center}
+.trust-item .icon{font-size:2rem;margin-bottom:.75rem}
+.trust-item h3{font-size:1rem;font-weight:600;margin-bottom:.4rem}
+.trust-item p{font-size:.82rem;opacity:.75;line-height:1.5;font-weight:300}
 
 /* AUTH MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(13,13,13,.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:16px;padding:2.5rem;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:modalIn .25s ease}
+.modal{background:var(--white);border-radius:16px;padding:2.5rem;width:100%;max-width:420px;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:modalIn .25s ease;position:relative}
 @keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
-.modal-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:.25rem}
-.modal-logo span{color:var(--gold)}
+.modal-logo{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;text-align:center;margin-bottom:.25rem;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.modal-logo .dot{width:8px;height:8px;border-radius:50%;background:var(--primary)}
 .modal-sub{text-align:center;font-size:.82rem;color:var(--muted);margin-bottom:2rem;font-weight:300}
 .form-group{margin-bottom:1.1rem}
 .form-group label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.4rem}
 .form-group input,.form-group select{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);outline:none;transition:border-color .2s}
-.form-group input:focus,.form-group select:focus{border-color:var(--gold)}
+.form-group input:focus,.form-group select:focus{border-color:var(--primary)}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
 .btn-full{width:100%;justify-content:center;padding:.75rem}
 .modal-toggle{text-align:center;font-size:.82rem;color:var(--muted);margin-top:1.25rem}
-.modal-toggle a{color:var(--gold);cursor:pointer;font-weight:500;text-decoration:none}
+.modal-toggle a{color:var(--primary);cursor:pointer;font-weight:500;text-decoration:none}
 .modal-toggle a:hover{text-decoration:underline}
-.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted);line-height:1}
-.modal{position:relative}
+.modal-close{position:absolute;top:1.25rem;right:1.25rem;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--muted)}
 .alert{padding:.85rem 1rem;border-radius:6px;font-size:.83rem;margin-bottom:1rem;display:flex;align-items:flex-start;gap:.6rem;line-height:1.5}
-.alert-success{background:rgba(26,122,74,.08);border:1px solid rgba(26,122,74,.2);color:#1A7A4A}
+.alert-success{background:rgba(0,120,74,.08);border:1px solid rgba(0,120,74,.2);color:var(--primary)}
 .alert-error{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);color:#C0392B}
 .alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
 .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
+
+/* SUCCESS VIEW */
+.success-view{text-align:center;padding:1rem 0}
+.success-view .icon{font-size:3rem;margin-bottom:1rem}
+.success-view h3{font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-bottom:.75rem}
+.success-view p{color:var(--muted);font-size:.88rem;line-height:1.6;margin-bottom:1.5rem}
 
 /* TOAST */
 .toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.5rem}
@@ -99,39 +119,40 @@ h2{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:600;margi
 .toast.success{border-left:3px solid var(--green)}
 .toast.error{border-left:3px solid var(--red)}
 
-/* FOOTER */
 footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:.8rem;color:var(--muted)}
 
-/* RESPONSIVE */
 @media(max-width:768px){
-  .steps-grid{grid-template-columns:1fr}
+  .steps-grid,.trust-inner{grid-template-columns:1fr}
   .sim-row{grid-template-columns:1fr;gap:.75rem}
   .sim-arrow{transform:rotate(90deg)}
-  .hero-cta{flex-direction:column}
-  .hero-cta .btn{justify-content:center}
+  .hero-cta,.stats-bar{flex-direction:column}
   nav{padding:0 1rem}
   .hero{padding:80px 1rem 40px}
 }
 </style>
 </head>
 <body>
-
 <nav>
-  <a href="/" class="nav-logo">Eco<span>Transfert</span></a>
+  <a href="/" class="nav-logo"><div class="dot"></div>EcoTransfert</a>
   <div class="nav-actions">
     <button class="btn btn-ghost" onclick="openModal('login')">Se connecter</button>
-    <button class="btn btn-gold" onclick="openModal('register')">Créer un compte</button>
+    <button class="btn btn-primary" onclick="openModal('register')">Créer un compte</button>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-content">
     <div class="hero-tag">Tiers de confiance sécurisé</div>
-    <h1>Envoyez de l'argent<br>en toute <em>confiance</em></h1>
-    <p class="hero-sub">EcoTransfert garantit chaque transfert entre la France et l'Afrique. Votre argent est libéré uniquement après validation manuelle de votre preuve de paiement.</p>
+    <h1>Échangez EUR ↔ FCFA<br>en toute <em>confiance</em></h1>
+    <p class="hero-sub">La marketplace P2P qui met en relation les personnes souhaitant échanger des euros contre des FCFA — et vice versa — en toute sécurité.</p>
     <div class="hero-cta">
-      <button class="btn btn-gold" onclick="openModal('register')">Démarrer maintenant →</button>
-      <button class="btn btn-ghost" onclick="document.getElementById('simulator').scrollIntoView({behavior:'smooth'})">Simuler un transfert</button>
+      <button class="btn btn-primary" onclick="openModal('register')">Commencer gratuitement →</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('simulator').scrollIntoView({behavior:'smooth'})">Simuler un échange</button>
+    </div>
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-val" id="liveRate">655.96</div><div class="stat-label">FCFA par Euro</div></div>
+      <div class="stat-item"><div class="stat-val">0.5%</div><div class="stat-label">Commission seulement</div></div>
+      <div class="stat-item"><div class="stat-val">72h</div><div class="stat-label">Délai maximum</div></div>
     </div>
   </div>
 </section>
@@ -139,24 +160,18 @@ footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-si
 <section class="sim-section" id="simulator">
   <div class="sim-inner">
     <div class="section-label">Simulateur</div>
-    <h2>Combien recevra votre bénéficiaire ?</h2>
-    <p class="section-sub">Calculez instantanément avec notre taux du jour et 2% de commission</p>
+    <h2>Combien recevrez-vous ?</h2>
+    <p class="section-sub">Calculez instantanément avec le taux du jour et 0.5% de commission</p>
     <div class="sim-box">
       <div class="sim-row">
-        <div class="sim-field">
-          <label>Vous envoyez</label>
-          <input type="number" id="simAmount" value="200" min="10" oninput="calcSim()">
-        </div>
+        <div class="sim-field"><label>Vous envoyez (€)</label><input type="number" id="simAmount" value="200" min="10" oninput="calcSim()"></div>
         <div class="sim-arrow">→</div>
-        <div class="sim-field">
-          <label>Bénéficiaire reçoit</label>
-          <div class="sim-result" id="simResult">— <span>FCFA</span></div>
-        </div>
+        <div class="sim-field"><label>Bénéficiaire reçoit</label><div class="sim-result" id="simResult">— <span>FCFA</span></div></div>
       </div>
       <div class="sim-details">
         <div class="sim-detail">Taux : <strong id="simRate">655.96</strong> FCFA/€</div>
-        <div class="sim-detail">Commission (2%) : <strong id="simComm">—</strong></div>
-        <div class="sim-detail">Net transféré : <strong id="simNet">—</strong></div>
+        <div class="sim-detail">Commission (0.5%) : <strong id="simComm">—</strong></div>
+        <div class="sim-detail">Net : <strong id="simNet">—</strong></div>
       </div>
     </div>
   </div>
@@ -164,51 +179,43 @@ footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-si
 
 <section class="how-section">
   <div class="section-label">Fonctionnement</div>
-  <h2>Simple, sécurisé, transparent</h2>
-  <p class="section-sub">3 étapes pour un transfert sans risque d'arnaque</p>
+  <h2>Simple, rapide, sécurisé</h2>
+  <p class="section-sub">4 étapes pour un échange sans risque</p>
   <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-num">01</div>
-      <h3>Créez votre demande</h3>
-      <p>Renseignez le montant, le bénéficiaire et choisissez votre méthode de paiement.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">02</div>
-      <h3>Effectuez le virement</h3>
-      <p>Envoyez l'argent sur notre compte et téléversez la preuve de paiement.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">03</div>
-      <h3>Validation & libération</h3>
-      <p>Nous vérifions votre preuve et libérons les FCFA chez votre bénéficiaire sous 24h.</p>
-    </div>
+    <div class="step-card"><div class="step-num">01</div><h3>Postez votre annonce</h3><p>Indiquez le montant et la méthode de réception souhaitée (MTN, Wave, Virement...).</p></div>
+    <div class="step-card"><div class="step-num">02</div><h3>Matching automatique</h3><p>Notre algorithme trouve automatiquement un partenaire compatible dans un rayon de ±10%.</p></div>
+    <div class="step-card"><div class="step-num">03</div><h3>Échange sécurisé</h3><p>Les deux parties envoient leur preuve de paiement. Les coordonnées sont révélées après acceptation.</p></div>
   </div>
 </section>
 
+<div class="trust-section">
+  <div class="trust-inner">
+    <div class="trust-item"><div class="icon">🔒</div><h3>Zéro arnaque</h3><p>Les fonds ne sont libérés qu'après validation des deux preuves par notre équipe.</p></div>
+    <div class="trust-item"><div class="icon">⭐</div><h3>Système de réputation</h3><p>Chaque utilisateur est noté après chaque échange. Les mauvais acteurs sont exclus.</p></div>
+    <div class="trust-item"><div class="icon">💬</div><h3>Support réactif</h3><p>Notre équipe répond sous 24h pour tout litige ou question.</p></div>
+  </div>
+</div>
+
 <footer>
   <p>© 2025 EcoTransfert — Plateforme de médiation financière sécurisée</p>
-  <a href="/admin" style="font-size:.7rem;color:var(--border);text-decoration:none;margin-top:.5rem;display:inline-block;transition:color .2s" onmouseover="this.style.color='var(--muted)'" onmouseout="this.style.color='var(--border)'">admin</a>
+  <a href="/admin" style="font-size:.7rem;color:var(--border);text-decoration:none;margin-top:.4rem;display:inline-block;transition:color .2s" onmouseover="this.style.color='var(--muted)'" onmouseout="this.style.color='var(--border)'">admin</a>
 </footer>
 
 <!-- AUTH MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
-
-    <!-- LOGIN -->
     <div id="loginView">
-      <div class="modal-logo">Eco<span>Transfert</span></div>
+      <div class="modal-logo"><div class="dot"></div>EcoTransfert</div>
       <div class="modal-sub">Connectez-vous à votre espace</div>
       <div id="loginAlert"></div>
       <div class="form-group"><label>Email</label><input type="email" id="loginEmail" placeholder="vous@exemple.com" autocomplete="email"></div>
       <div class="form-group"><label>Mot de passe</label><input type="password" id="loginPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
-      <button class="btn btn-gold btn-full" id="loginBtn" onclick="doLogin()">Se connecter</button>
+      <button class="btn btn-primary btn-full" id="loginBtn" onclick="doLogin()">Se connecter</button>
       <div class="modal-toggle">Pas de compte ? <a onclick="switchView('register')">Créer un compte</a></div>
     </div>
-
-    <!-- REGISTER -->
     <div id="registerView" style="display:none">
-      <div class="modal-logo">Eco<span>Transfert</span></div>
+      <div class="modal-logo"><div class="dot"></div>EcoTransfert</div>
       <div class="modal-sub">Créez votre compte gratuitement</div>
       <div id="registerAlert"></div>
       <div class="form-grid">
@@ -225,10 +232,7 @@ footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-si
           <option value="SN">🇸🇳 Sénégal</option><option value="CI">🇨🇮 Côte d'Ivoire</option>
           <option value="ML">🇲🇱 Mali</option><option value="BF">🇧🇫 Burkina Faso</option>
           <option value="TG">🇹🇬 Togo</option><option value="GN">🇬🇳 Guinée</option>
-          <option value="NE">🇳🇪 Niger</option><option value="CM">🇨🇲 Cameroun</option>
-          <option value="GA">🇬🇦 Gabon</option><option value="CD">🇨🇩 RD Congo</option>
-          <option value="CG">🇨🇬 Congo</option><option value="MA">🇲🇦 Maroc</option>
-          <option value="DZ">🇩🇿 Algérie</option><option value="TN">🇹🇳 Tunisie</option>
+          <option value="CM">🇨🇲 Cameroun</option><option value="MA">🇲🇦 Maroc</option>
           <option value="BE">🇧🇪 Belgique</option><option value="CH">🇨🇭 Suisse</option>
           <option value="DE">🇩🇪 Allemagne</option><option value="ES">🇪🇸 Espagne</option>
           <option value="IT">🇮🇹 Italie</option><option value="GB">🇬🇧 Royaume-Uni</option>
@@ -237,99 +241,59 @@ footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-si
         </select>
       </div>
       <div class="form-group"><label>Mot de passe</label><input type="password" id="regPwd" placeholder="Minimum 6 caractères" autocomplete="new-password"></div>
-      <button class="btn btn-gold btn-full" id="registerBtn" onclick="doRegister()">Créer mon compte</button>
+      <button class="btn btn-primary btn-full" id="registerBtn" onclick="doRegister()">Créer mon compte</button>
       <div class="modal-toggle">Déjà un compte ? <a onclick="switchView('login')">Se connecter</a></div>
     </div>
-
-    <!-- SUCCESS -->
-    <div id="successView" style="display:none;text-align:center;padding:1rem 0">
-      <div style="font-size:3rem;margin-bottom:1rem">📧</div>
-      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;margin-bottom:.75rem">Vérifiez votre email</h3>
-      <p style="color:var(--muted);font-size:.88rem;line-height:1.6;margin-bottom:1.5rem">Un lien de confirmation a été envoyé à <strong id="successEmail">—</strong>.<br>Cliquez sur le lien pour activer votre compte.</p>
-      <p style="font-size:.78rem;color:var(--muted)">Pas reçu ? <a id="resendLink" style="color:var(--gold);cursor:pointer;font-weight:500" onclick="resendVerif()">Renvoyer l'email</a></p>
+    <div id="successView" style="display:none">
+      <div class="success-view">
+        <div class="icon">📧</div>
+        <h3>Vérifiez votre email</h3>
+        <p>Un lien de confirmation a été envoyé à <strong id="successEmail">—</strong>.<br>Cliquez sur le lien pour activer votre compte.</p>
+        <p style="font-size:.78rem;color:var(--muted)">Pas reçu ? <a id="resendLink" style="color:var(--primary);cursor:pointer;font-weight:500" onclick="resendVerif()">Renvoyer l'email</a></p>
+      </div>
     </div>
-
   </div>
 </div>
 
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-let RATE = {eur_fcfa:655.96, commission:2};
-
+let RATE = {eur_fcfa:655.96, commission:0.5};
 async function loadRate(){
-  try{
-    const r = await fetch('/api/settings/public');
-    if(r.ok){const s=await r.json();RATE=s;document.getElementById('simRate').textContent=s.eur_fcfa.toFixed(2);}
-  }catch(e){}
+  try{const r=await fetch('/api/settings/public');if(r.ok){const s=await r.json();RATE=s;document.getElementById('liveRate').textContent=s.eur_fcfa.toFixed(2);document.getElementById('simRate').textContent=s.eur_fcfa.toFixed(2);}}catch(e){}
   calcSim();
 }
 loadRate();
-
-// Check if already logged in
-(async()=>{
-  try{
-    const r=await fetch('/api/me',{credentials:'include'});
-    if(r.ok) window.location.href='/dashboard';
-  }catch(e){}
-})();
+(async()=>{try{const r=await fetch('/api/me',{credentials:'include'});if(r.ok)window.location.href='/dashboard';}catch(e){}})();
 
 function calcSim(){
   const v=parseFloat(document.getElementById('simAmount').value)||0;
-  const comm=v*RATE.commission/100;
-  const net=v-comm;
-  const fcfa=Math.round(net*RATE.eur_fcfa);
+  const comm=v*RATE.commission/100;const net=v-comm;const fcfa=Math.round(net*RATE.eur_fcfa);
   document.getElementById('simResult').innerHTML=fmt(fcfa)+'<span> FCFA</span>';
   document.getElementById('simComm').textContent=comm.toFixed(2)+' €';
   document.getElementById('simNet').textContent=net.toFixed(2)+' €';
 }
 
 function fmt(n){return Number(n).toLocaleString('fr-FR')}
+function openModal(view='login'){switchView(view);document.getElementById('authModal').classList.add('open');}
+function closeModal(){document.getElementById('authModal').classList.remove('open');}
+function switchView(v){['loginView','registerView','successView'].forEach(id=>document.getElementById(id).style.display='none');document.getElementById(v+'View').style.display='block';}
+document.getElementById('authModal').addEventListener('click',e=>{if(e.target===document.getElementById('authModal'))closeModal();});
 
-function openModal(view='login'){
-  switchView(view);
-  document.getElementById('authModal').classList.add('open');
-}
-function closeModal(){document.getElementById('authModal').classList.remove('open')}
-function switchView(v){
-  ['loginView','registerView','successView'].forEach(id=>document.getElementById(id).style.display='none');
-  document.getElementById(v+'View').style.display='block';
-}
-
-document.getElementById('authModal').addEventListener('click',e=>{if(e.target===document.getElementById('authModal'))closeModal()});
-
-function showAlert(id,msg,type='error'){
-  const el=document.getElementById(id);
-  el.innerHTML=`<div class="alert alert-${type}">${msg}</div>`;
-}
+function showAlert(id,msg,type='error'){document.getElementById(id).innerHTML=`<div class="alert alert-${type}">${msg}</div>`;}
 function clearAlert(id){document.getElementById(id).innerHTML='';}
-
-function setBtn(id,loading,text){
-  const b=document.getElementById(id);
-  b.disabled=loading;
-  b.innerHTML=loading?`<span class="spinner"></span> Chargement...`:text;
-}
-
-function showToast(msg,type='success'){
-  const c=document.getElementById('toastContainer');
-  const t=document.createElement('div');
-  t.className=`toast ${type}`;
-  t.textContent=msg;
-  c.appendChild(t);
-  setTimeout(()=>t.remove(),3500);
-}
+function setBtn(id,loading,text){const b=document.getElementById(id);b.disabled=loading;b.innerHTML=loading?`<span class="spinner"></span> Chargement...`:text;}
 
 async function doLogin(){
   const email=document.getElementById('loginEmail').value.trim();
   const pwd=document.getElementById('loginPwd').value;
   if(!email||!pwd){showAlert('loginAlert','Remplissez tous les champs');return;}
-  clearAlert('loginAlert');
-  setBtn('loginBtn',true,'Se connecter');
+  clearAlert('loginAlert');setBtn('loginBtn',true,'Se connecter');
   try{
     const r=await fetch('/api/login',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pwd})});
     const d=await r.json();
     if(!r.ok){
-      if(d.unverified) showAlert('loginAlert',`Email non confirmé. <a onclick="resendVerif('${email}')" style="color:var(--gold);cursor:pointer;font-weight:500;text-decoration:underline">Renvoyer le lien</a>`,'info');
+      if(d.unverified) showAlert('loginAlert',`Email non confirmé. <a onclick="resendVerif('${email}')" style="color:var(--primary);cursor:pointer;font-weight:500;text-decoration:underline">Renvoyer le lien</a>`,'info');
       else showAlert('loginAlert',d.error||'Erreur de connexion');
       return;
     }
@@ -347,8 +311,7 @@ async function doRegister(){
   const pwd=document.getElementById('regPwd').value;
   if(!first||!last||!email||!pwd){showAlert('registerAlert','Remplissez tous les champs obligatoires');return;}
   if(pwd.length<6){showAlert('registerAlert','Mot de passe trop court (minimum 6 caractères)');return;}
-  clearAlert('registerAlert');
-  setBtn('registerBtn',true,'Créer mon compte');
+  clearAlert('registerAlert');setBtn('registerBtn',true,'Créer mon compte');
   try{
     const r=await fetch('/api/register',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({first,last,email,phone,country,password:pwd})});
     const d=await r.json();
@@ -357,25 +320,19 @@ async function doRegister(){
       const lr=await fetch('/api/login',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pwd})});
       if(lr.ok){window.location.href='/dashboard';return;}
     }
-    if(d.mail_sent){
-      document.getElementById('successEmail').textContent=email;
-      switchView('success');
-      window._lastEmail=email;
-      return;
-    }
     document.getElementById('successEmail').textContent=email;
-    switchView('success');
-    window._lastEmail=email;
+    switchView('success');window._lastEmail=email;
   }catch(e){showAlert('registerAlert','Erreur serveur');}
   finally{setBtn('registerBtn',false,'Créer mon compte');}
 }
 
 async function resendVerif(email){
-  const e=email||window._lastEmail||'';
-  if(!e)return;
+  const e=email||window._lastEmail||'';if(!e)return;
   await fetch('/api/resend-verification',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e})});
   showToast('Email renvoyé !');
 }
+
+function showToast(msg,type='success'){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),3500);}
 </script>
 </body>
 </html>
