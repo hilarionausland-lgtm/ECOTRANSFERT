@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A}
+:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
 body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
 nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
@@ -15,19 +15,20 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-ghost:hover{color:var(--ink)}
-.btn-gold{background:var(--gold);color:var(--white)}
+.btn-gold{background:var(--gold);color:white}
 .btn-gold:hover{background:#9A7A22}
-.btn-green{background:var(--green);color:var(--white)}
+.btn-green{background:var(--green);color:white}
 .btn-green:hover{background:#145F38}
-.btn-red{background:var(--red);color:var(--white)}
+.btn-red{background:var(--red);color:white}
 .btn-red:hover{background:#A93226}
 .btn-sm{padding:.35rem .75rem;font-size:.75rem}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* LOGIN */
 .login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
 .login-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:2.5rem;width:100%;max-width:380px}
 .login-title{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;text-align:center;margin-bottom:.25rem}
-.login-sub{font-size:.82rem;color:var(--muted);text-align:center;margin-bottom:2rem;font-weight:300}
+.login-sub{font-size:.82rem;color:var(--muted);text-align:center;margin-bottom:2rem}
 .form-group{margin-bottom:1rem}
 .form-group label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.35rem}
 .form-group input{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:.9rem;color:var(--ink);outline:none;transition:border-color .2s}
@@ -37,25 +38,22 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
 .btn-full{width:100%;justify-content:center;padding:.75rem}
 
-/* LAYOUT */
 .layout{display:flex;min-height:calc(100vh - 60px)}
 .sidebar{width:220px;background:var(--white);border-right:1px solid var(--border);padding:1.5rem 0;flex-shrink:0;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto}
 .sidebar-section{padding:.5rem 1.25rem;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-top:1rem}
 .sidebar-item{display:flex;align-items:center;gap:.65rem;padding:.65rem 1.25rem;font-size:.85rem;color:var(--muted);cursor:pointer;transition:all .15s;border-left:2px solid transparent}
 .sidebar-item:hover{color:var(--ink);background:var(--paper)}
 .sidebar-item.active{color:var(--ink);background:var(--paper);border-left-color:var(--gold);font-weight:500}
-.sidebar-badge{margin-left:auto;background:var(--red);color:var(--white);border-radius:50px;padding:.1rem .45rem;font-size:.65rem;font-weight:700}
+.sidebar-badge{margin-left:auto;background:var(--red);color:white;border-radius:50px;padding:.1rem .45rem;font-size:.65rem;font-weight:700}
 .main{flex:1;padding:2rem;overflow-x:hidden}
 
-/* STATS */
 .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
 .stat{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem}
-.stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:var(--ink);line-height:1}
-.stat-label{font-size:.75rem;color:var(--muted);margin-top:.25rem;font-weight:300}
+.stat-val{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;line-height:1}
+.stat-label{font-size:.75rem;color:var(--muted);margin-top:.25rem}
 
-/* TABLE */
 .card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.5rem}
-.card-head{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.card-head{padding:1.1rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem}
 .card-title{font-size:.88rem;font-weight:600}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:.82rem}
@@ -64,57 +62,47 @@ td{padding:.85rem 1rem;border-bottom:1px solid var(--border);vertical-align:midd
 tr:last-child td{border-bottom:none}
 tr:hover td{background:var(--paper)}
 .mono{font-variant-numeric:tabular-nums;font-size:.8rem}
-.badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border-radius:50px;font-size:.66rem;font-weight:600;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.badge{display:inline-flex;align-items:center;padding:.18rem .55rem;border-radius:50px;font-size:.66rem;font-weight:600;text-transform:uppercase;white-space:nowrap}
 .badge-pending{background:rgba(184,146,42,.1);color:#8B6914;border:1px solid rgba(184,146,42,.2)}
-.badge-review{background:rgba(59,130,246,.1);color:#1D4ED8;border:1px solid rgba(59,130,246,.2)}
-.badge-validated{background:rgba(26,122,74,.1);color:var(--green);border:1px solid rgba(26,122,74,.2)}
-.badge-rejected{background:rgba(192,57,43,.1);color:var(--red);border:1px solid rgba(192,57,43,.2)}
+.badge-validating{background:rgba(29,78,216,.1);color:var(--blue);border:1px solid rgba(29,78,216,.2)}
+.badge-completed{background:rgba(26,122,74,.1);color:var(--green);border:1px solid rgba(26,122,74,.2)}
+.badge-cancelled{background:rgba(107,101,96,.1);color:var(--muted);border:1px solid rgba(107,101,96,.2)}
+.badge-disputed{background:rgba(192,57,43,.1);color:var(--red);border:1px solid rgba(192,57,43,.2)}
 .proof-thumb{width:36px;height:36px;border-radius:4px;object-fit:cover;cursor:pointer;border:1px solid var(--border);transition:transform .2s}
 .proof-thumb:hover{transform:scale(1.1)}
-.no-proof{width:36px;height:36px;border-radius:4px;background:var(--surface);border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--muted)}
-.action-btns{display:flex;gap:.35rem}
+.no-proof{width:36px;height:36px;border-radius:4px;background:var(--surface);border:1px dashed var(--border);display:flex;align-items:center;justify-content:center;font-size:.75rem;color:var(--muted)}
 .empty{padding:2.5rem;text-align:center;color:var(--muted);font-size:.85rem}
 
 /* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(13,13,13,.5);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center;padding:1rem}
 .modal-overlay.open{display:flex}
-.modal{background:var(--white);border-radius:12px;padding:2rem;width:100%;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:modalIn .25s ease;position:relative;max-height:90vh;overflow-y:auto}
+.modal{background:var(--white);border-radius:12px;padding:2rem;width:100%;max-width:560px;box-shadow:0 20px 60px rgba(0,0,0,.15);animation:modalIn .25s ease;position:relative;max-height:90vh;overflow-y:auto}
 @keyframes modalIn{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
 .modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;cursor:pointer;font-size:1.2rem;color:var(--muted)}
 .modal-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;margin-bottom:.25rem}
-.modal-ref{font-size:.78rem;color:var(--muted);margin-bottom:1.25rem}
-.modal-img{width:100%;border-radius:6px;border:1px solid var(--border);margin-bottom:1.25rem;max-height:320px;object-fit:contain}
-.modal-details{background:var(--surface);border-radius:6px;padding:1rem;margin-bottom:1.25rem;font-size:.83rem}
-.detail-row{display:flex;justify-content:space-between;padding:.35rem 0;border-bottom:1px solid var(--border)}
+.modal-img{width:100%;border-radius:6px;border:1px solid var(--border);margin:1rem 0;max-height:320px;object-fit:contain}
+.detail-row{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--border);font-size:.83rem}
 .detail-row:last-child{border-bottom:none}
-.detail-label{color:var(--muted)}
-.detail-val{font-weight:500}
-.modal-actions{display:flex;gap:.75rem;justify-content:flex-end}
 
 /* SETTINGS */
 .settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
 .settings-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.5rem}
 .settings-title{font-size:.88rem;font-weight:600;margin-bottom:.25rem}
-.settings-sub{font-size:.75rem;color:var(--muted);margin-bottom:1.25rem;font-weight:300}
+.settings-sub{font-size:.75rem;color:var(--muted);margin-bottom:1.25rem}
 
-/* TOAST */
 .toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.5rem}
-.toast{background:var(--ink);color:var(--white);padding:.85rem 1.25rem;border-radius:8px;font-size:.83rem;display:flex;align-items:center;gap:.6rem;box-shadow:0 4px 20px rgba(0,0,0,.2);animation:toastIn .3s ease;max-width:300px}
+.toast{background:var(--ink);color:white;padding:.85rem 1.25rem;border-radius:8px;font-size:.83rem;animation:toastIn .3s ease;max-width:300px;display:flex;align-items:center;gap:.5rem}
 @keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
 .toast.success{border-left:3px solid var(--green)}
 .toast.error{border-left:3px solid var(--red)}
-.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 
 @media(max-width:1024px){.stats-row{grid-template-columns:1fr 1fr}}
-@media(max-width:768px){.sidebar{display:none}.main{padding:1.25rem}.stats-row{grid-template-columns:1fr 1fr}.settings-grid{grid-template-columns:1fr}}
-@media(max-width:480px){.stats-row{grid-template-columns:1fr}}
+@media(max-width:768px){.sidebar{display:none}.main{padding:1.25rem}.settings-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-
 <nav>
-  <a href="/" class="nav-logo">Eco<span>Transfert</span> <span style="font-size:.7rem;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:400;margin-left:.25rem">Admin</span></a>
+  <a href="/" class="nav-logo">Eco<span>Transfert</span> <span style="font-size:.7rem;color:var(--muted);font-family:'Outfit',sans-serif">Admin</span></a>
   <button class="btn btn-ghost" id="logoutBtn" onclick="doLogout()" style="display:none">Déconnexion</button>
 </nav>
 
@@ -122,10 +110,10 @@ tr:hover td{background:var(--paper)}
 <div id="loginWrap" class="login-wrap">
   <div class="login-card">
     <div class="login-title">Administration</div>
-    <div class="login-sub">Accès restreint aux administrateurs</div>
+    <div class="login-sub">Accès restreint</div>
     <div id="loginAlert"></div>
     <div class="form-group"><label>Identifiant</label><input type="text" id="adminUser" value="admin" autocomplete="username"></div>
-    <div class="form-group"><label>Mot de passe</label><input type="password" id="adminPwd" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <div class="form-group"><label>Mot de passe</label><input type="password" id="adminPwd" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="btn btn-gold btn-full" id="loginBtn" onclick="doLogin()">Accéder</button>
   </div>
 </div>
@@ -135,86 +123,104 @@ tr:hover td{background:var(--paper)}
   <div class="layout">
     <aside class="sidebar">
       <div class="sidebar-section">Vue</div>
-      <div class="sidebar-item active" onclick="showTab('overview',this)"><span>📊</span> Vue d'ensemble</div>
-      <div class="sidebar-item" onclick="showTab('pending',this)"><span>⏳</span> En attente <span class="sidebar-badge" id="pendingCount">0</span></div>
-      <div class="sidebar-item" onclick="showTab('all',this)"><span>📋</span> Toutes les tx</div>
-      <div class="sidebar-item" onclick="showTab('users',this)"><span>👥</span> Utilisateurs</div>
+      <div class="sidebar-item active" onclick="showTab('overview',this)">📊 Vue d'ensemble</div>
+      <div class="sidebar-item" onclick="showTab('validating',this)">⏳ À valider <span class="sidebar-badge" id="validCount">0</span></div>
+      <div class="sidebar-item" onclick="showTab('allMatches',this)">🤝 Tous les matchs</div>
+      <div class="sidebar-item" onclick="showTab('annonces',this)">📋 Annonces</div>
+      <div class="sidebar-item" onclick="showTab('users',this)">👥 Utilisateurs</div>
       <div class="sidebar-section">Config</div>
-      <div class="sidebar-item" onclick="showTab('settings',this)"><span>⚙️</span> Paramètres</div>
+      <div class="sidebar-item" onclick="showTab('settings',this)">⚙️ Paramètres</div>
     </aside>
 
     <main class="main">
-
       <!-- OVERVIEW -->
       <div id="tabOverview">
-        <div style="margin-bottom:1.75rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Vue d'ensemble</div></div>
+        <div style="margin-bottom:1.75rem;font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Vue d'ensemble</div>
         <div class="stats-row">
-          <div class="stat"><div class="stat-val" id="stTotal">—</div><div class="stat-label">Transactions totales</div></div>
-          <div class="stat"><div class="stat-val" id="stVolume">—</div><div class="stat-label">Volume traité</div></div>
-          <div class="stat"><div class="stat-val" id="stComm">—</div><div class="stat-label">Commissions gagnées</div></div>
-          <div class="stat"><div class="stat-val" id="stUsers">—</div><div class="stat-label">Clients actifs</div></div>
+          <div class="stat"><div class="stat-val" id="stUsers">—</div><div class="stat-label">Utilisateurs</div></div>
+          <div class="stat"><div class="stat-val" id="stAnnonces">—</div><div class="stat-label">Annonces actives</div></div>
+          <div class="stat"><div class="stat-val" id="stVolume">—</div><div class="stat-label">Volume traité (€)</div></div>
+          <div class="stat"><div class="stat-val" id="stComm">—</div><div class="stat-label">Commissions</div></div>
         </div>
         <div class="card">
-          <div class="card-head"><div class="card-title">Activité récente</div></div>
-          <div class="table-wrap"><table><thead><tr><th>Client</th><th>Montant</th><th>FCFA</th><th>Bénéficiaire</th><th>Preuve</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
-          <tbody id="recentTable"><tr><td colspan="8"><div class="empty">Chargement...</div></td></tr></tbody></table></div>
+          <div class="card-head"><div class="card-title">Matchs récents à traiter</div></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Réf.</th><th>Parties</th><th>EUR</th><th>FCFA</th><th>Preuves</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="recentMatchesTable"><tr><td colspan="7"><div class="empty">Chargement...</div></td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
-      <!-- PENDING -->
-      <div id="tabPending" style="display:none">
-        <div style="margin-bottom:1.75rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">En attente de validation</div></div>
-        <div class="alert alert-info" style="margin-bottom:1.25rem">Vérifiez chaque preuve avant de valider un transfert.</div>
+      <!-- VALIDATING -->
+      <div id="tabValidating" style="display:none">
+        <div style="margin-bottom:1.75rem;font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Matchs à valider</div>
+        <div class="alert alert-info" style="margin-bottom:1.25rem">Vérifiez les deux preuves avant de valider un échange.</div>
         <div class="card">
-          <div class="table-wrap"><table><thead><tr><th>Réf.</th><th>Client</th><th>Montant</th><th>Bénéficiaire</th><th>Compte bénéf.</th><th>Méthode</th><th>Preuve</th><th>Date</th><th>Actions</th></tr></thead>
-          <tbody id="pendingTable"><tr><td colspan="9"><div class="empty">Aucune transaction en attente ✅</div></td></tr></tbody></table></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Réf.</th><th>Envoyeur €</th><th>Envoyeur FCFA</th><th>EUR</th><th>FCFA</th><th>Preuve A</th><th>Preuve B</th><th>Actions</th></tr></thead>
+            <tbody id="validatingTable"><tr><td colspan="8"><div class="empty">Aucun match à valider ✅</div></td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
-      <!-- ALL -->
-      <div id="tabAll" style="display:none">
+      <!-- ALL MATCHES -->
+      <div id="tabAllMatches" style="display:none">
         <div style="margin-bottom:1.75rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-          <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Toutes les transactions</div>
-          <div style="display:flex;gap:.75rem;flex-wrap:wrap">
-            <input type="text" placeholder="Rechercher..." style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:.5rem .9rem;font-family:'Outfit',sans-serif;font-size:.82rem;outline:none;width:200px" oninput="filterAll(this.value)">
-            <select style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:.5rem .9rem;font-family:'Outfit',sans-serif;font-size:.82rem;outline:none" onchange="loadAll(this.value)">
-              <option value="">Tous les statuts</option>
-              <option value="pending">En attente</option>
-              <option value="validated">Validé</option>
-              <option value="rejected">Rejeté</option>
-            </select>
-          </div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Tous les matchs</div>
+          <select style="background:var(--white);border:1px solid var(--border);border-radius:6px;padding:.5rem .9rem;font-family:'Outfit',sans-serif;font-size:.82rem;outline:none" onchange="loadAllMatches(this.value)">
+            <option value="">Tous</option>
+            <option value="pending">En attente</option>
+            <option value="validating">À valider</option>
+            <option value="completed">Complétés</option>
+            <option value="cancelled">Annulés</option>
+            <option value="disputed">Litiges</option>
+          </select>
         </div>
         <div class="card">
-          <div class="table-wrap"><table><thead><tr><th>Réf.</th><th>Client</th><th>Montant</th><th>FCFA</th><th>Bénéficiaire</th><th>Compte bénéf.</th><th>Méthode</th><th>Preuve</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
-          <tbody id="allTable"><tr><td colspan="11"><div class="empty">Chargement...</div></td></tr></tbody></table></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Réf.</th><th>Partie A (€)</th><th>Partie B (FCFA)</th><th>EUR</th><th>FCFA</th><th>Preuve A</th><th>Preuve B</th><th>Date</th><th>Statut</th><th>Actions</th></tr></thead>
+            <tbody id="allMatchesTable"><tr><td colspan="10"><div class="empty">Chargement...</div></td></tr></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ANNONCES -->
+      <div id="tabAnnonces" style="display:none">
+        <div style="margin-bottom:1.75rem;font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Annonces</div>
+        <div class="card">
+          <div class="table-wrap"><table>
+            <thead><tr><th>Réf.</th><th>Utilisateur</th><th>Direction</th><th>Montant</th><th>Fourchette</th><th>Progression</th><th>Expire</th><th>Statut</th></tr></thead>
+            <tbody id="annoncesTable"><tr><td colspan="8"><div class="empty">Chargement...</div></td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
       <!-- USERS -->
       <div id="tabUsers" style="display:none">
-        <div style="margin-bottom:1.75rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Utilisateurs</div></div>
+        <div style="margin-bottom:1.75rem;font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Utilisateurs</div>
         <div class="card">
-          <div class="table-wrap"><table><thead><tr><th>Nom</th><th>Email</th><th>Téléphone</th><th>Pays</th><th>Vérifié</th><th>Inscription</th><th>Nb tx</th><th>Volume</th></tr></thead>
-          <tbody id="usersTable"><tr><td colspan="8"><div class="empty">Chargement...</div></td></tr></tbody></table></div>
+          <div class="table-wrap"><table>
+            <thead><tr><th>Nom</th><th>Email</th><th>Pays</th><th>Note</th><th>Annonces</th><th>Matchs</th><th>Inscription</th></tr></thead>
+            <tbody id="usersTable"><tr><td colspan="7"><div class="empty">Chargement...</div></td></tr></tbody>
+          </table></div>
         </div>
       </div>
 
       <!-- SETTINGS -->
       <div id="tabSettings" style="display:none">
-        <div style="margin-bottom:1.75rem"><div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Paramètres</div></div>
+        <div style="margin-bottom:1.75rem;font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600">Paramètres</div>
         <div class="settings-grid">
           <div class="settings-card">
             <div class="settings-title">💱 Taux & Commission</div>
-            <div class="settings-sub">Taux de change EUR → FCFA</div>
-            <div class="form-group"><label>Taux (FCFA/€)</label><input type="number" id="sRate" step="0.01"></div>
-            <div class="form-group"><label>Commission (%)</label><input type="number" id="sComm" step="0.1" min="0" max="20"></div>
+            <div class="settings-sub">Taux de change et commission prélevée</div>
+            <div class="form-group"><label>Taux EUR/FCFA</label><input type="number" id="sRate" step="0.01"></div>
+            <div class="form-group"><label>Commission par partie (%)</label><input type="number" id="sComm" step="0.1" min="0" max="10"></div>
             <button class="btn btn-gold btn-sm" onclick="saveSettings()">Sauvegarder</button>
           </div>
           <div class="settings-card">
             <div class="settings-title">📱 WhatsApp Admin</div>
-            <div class="settings-sub">Numéro pour les notifications</div>
-            <div class="form-group"><label>Numéro WhatsApp</label><input type="tel" id="sWa" placeholder="+33 6 XX XX XX XX"></div>
+            <div class="settings-sub">Notifications de nouveaux matchs</div>
+            <div class="form-group"><label>Numéro WhatsApp</label><input type="tel" id="sWa"></div>
             <div style="display:flex;gap:.5rem">
               <button class="btn btn-gold btn-sm" onclick="saveSettings()">Sauvegarder</button>
               <button class="btn btn-ghost btn-sm" onclick="testWa()">Tester</button>
@@ -222,23 +228,22 @@ tr:hover td{background:var(--paper)}
           </div>
           <div class="settings-card">
             <div class="settings-title">🏦 Virement bancaire</div>
-            <div class="settings-sub">IBAN affiché aux clients</div>
-            <div class="form-group"><label>Nom titulaire</label><input type="text" id="sIbanName" placeholder="EcoTransfert"></div>
-            <div class="form-group"><label>IBAN</label><input type="text" id="sIban" placeholder="FR76 XXXX..."></div>
+            <div class="settings-sub">IBAN affiché aux utilisateurs EUR</div>
+            <div class="form-group"><label>Titulaire</label><input type="text" id="sIbanName"></div>
+            <div class="form-group"><label>IBAN</label><input type="text" id="sIban"></div>
             <button class="btn btn-gold btn-sm" onclick="saveSettings()">Sauvegarder</button>
           </div>
           <div class="settings-card">
             <div class="settings-title">📲 Mobile Money</div>
-            <div class="settings-sub">Numéros affichés aux clients</div>
-            <div class="form-group"><label>Wave</label><input type="tel" id="sWave" placeholder="+229..."></div>
-            <div class="form-group"><label>MTN Mobile Money</label><input type="tel" id="sMtn" placeholder="+229..."></div>
-            <div class="form-group"><label>Moov Money</label><input type="tel" id="sMoov" placeholder="+229..."></div>
-            <div class="form-group"><label>Orange Money</label><input type="tel" id="sOrange" placeholder="+229..."></div>
+            <div class="settings-sub">Numéros pour réception FCFA</div>
+            <div class="form-group"><label>Wave</label><input type="tel" id="sWave"></div>
+            <div class="form-group"><label>MTN Mobile Money</label><input type="tel" id="sMtn"></div>
+            <div class="form-group"><label>Moov Money</label><input type="tel" id="sMoov"></div>
+            <div class="form-group"><label>Orange Money</label><input type="tel" id="sOrange"></div>
             <button class="btn btn-gold btn-sm" onclick="saveSettings()">Sauvegarder</button>
           </div>
         </div>
       </div>
-
     </main>
   </div>
 </div>
@@ -247,13 +252,13 @@ tr:hover td{background:var(--paper)}
 <div class="modal-overlay" id="proofModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-title" id="modalTitle">Preuve de paiement</div>
-    <div class="modal-ref" id="modalRef">—</div>
-    <img class="modal-img" id="modalImg" src="" alt="Preuve">
-    <div class="modal-details" id="modalDetails"></div>
-    <div class="modal-actions">
-      <button class="btn btn-red btn-sm" onclick="modalAction('rejected')">✕ Rejeter</button>
-      <button class="btn btn-green" onclick="modalAction('validated')">✓ Valider</button>
+    <div class="modal-title" id="modalTitle">Preuve</div>
+    <div id="modalRef" style="font-size:.78rem;color:var(--muted);margin-bottom:.5rem">—</div>
+    <img class="modal-img" id="modalImg" src="" alt="">
+    <div id="modalDetails"></div>
+    <div style="display:flex;gap:.75rem;justify-content:flex-end;margin-top:1.25rem">
+      <button class="btn btn-red btn-sm" onclick="modalAction('reject')">✕ Ouvrir litige</button>
+      <button class="btn btn-green" onclick="modalAction('validate')">✓ Valider l'échange</button>
     </div>
   </div>
 </div>
@@ -261,140 +266,147 @@ tr:hover td{background:var(--paper)}
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-let currentModalTxId=null;
-let allTxCache=[];
+let currentModalRef = null;
+let allMatchesCache = [];
 
-// AUTH
 async function doLogin(){
   const u=document.getElementById('adminUser').value;
   const p=document.getElementById('adminPwd').value;
   const btn=document.getElementById('loginBtn');
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>';
   const r=await fetch('/api/admin/login',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({username:u,password:p})});
-  btn.disabled=false;btn.innerHTML='Accéder';
+  btn.disabled=false;btn.textContent='Accéder';
   if(r.ok){showDash();refreshAll();}
   else{const d=await r.json();document.getElementById('loginAlert').innerHTML=`<div class="alert alert-error">${d.error}</div>`;}
 }
-
 function showDash(){
   document.getElementById('loginWrap').style.display='none';
   document.getElementById('adminDash').style.display='block';
   document.getElementById('logoutBtn').style.display='flex';
 }
-
 async function doLogout(){
   await fetch('/api/admin/logout',{method:'POST',credentials:'include'});
   location.reload();
 }
+(async()=>{const r=await fetch('/api/admin/stats',{credentials:'include'});if(r.ok){showDash();refreshAll();}})();
 
-// Check session
-(async()=>{
-  const r=await fetch('/api/admin/stats',{credentials:'include'});
-  if(r.ok){showDash();refreshAll();}
-})();
-
-// TABS
 function showTab(tab,el){
-  ['Overview','Pending','All','Users','Settings'].forEach(t=>document.getElementById('tab'+t).style.display='none');
+  ['Overview','Validating','AllMatches','Annonces','Users','Settings'].forEach(t=>document.getElementById('tab'+t).style.display='none');
   document.getElementById('tab'+tab.charAt(0).toUpperCase()+tab.slice(1)).style.display='block';
   document.querySelectorAll('.sidebar-item').forEach(i=>i.classList.remove('active'));
   if(el)el.classList.add('active');
-  if(tab==='pending')loadPending();
-  if(tab==='all')loadAll('');
+  if(tab==='validating')loadValidating();
+  if(tab==='allMatches')loadAllMatches('');
+  if(tab==='annonces')loadAnnonces();
   if(tab==='users')loadUsers();
   if(tab==='settings')loadSettings();
   if(tab==='overview')refreshAll();
 }
 
 async function refreshAll(){
-  try{
-    const[sr,tr]=await Promise.all([
-      fetch('/api/admin/stats',{credentials:'include'}),
-      fetch('/api/admin/transactions',{credentials:'include'})
-    ]);
-    if(sr.ok){
-      const s=await sr.json();
-      document.getElementById('stTotal').textContent=s.total;
-      document.getElementById('stVolume').textContent=fmt(s.volume)+' €';
-      document.getElementById('stComm').textContent=fmt(s.commission.toFixed(2))+' €';
-      document.getElementById('stUsers').textContent=s.users;
-      document.getElementById('pendingCount').textContent=s.pending;
-    }
-    if(tr.ok){
-      const txs=await tr.json();
-      allTxCache=txs;
-      renderRecent(txs.slice(0,10));
-    }
-  }catch(e){}
+  const r=await fetch('/api/admin/stats',{credentials:'include'});
+  if(!r.ok)return;
+  const s=await r.json();
+  document.getElementById('stUsers').textContent=s.users;
+  document.getElementById('stAnnonces').textContent=s.annonces;
+  document.getElementById('stVolume').textContent=fmt(s.volume)+' €';
+  document.getElementById('stComm').textContent=fmt(s.commission.toFixed(2))+' €';
+  document.getElementById('validCount').textContent=s.matches_validating;
+  // Recent matches
+  const mr=await fetch('/api/admin/matches',{credentials:'include'});
+  if(mr.ok){
+    const matches=await mr.json();
+    allMatchesCache=matches;
+    renderRecentTable(matches.slice(0,8));
+  }
 }
 
-async function loadPending(){
-  const r=await fetch('/api/admin/transactions?status=pending',{credentials:'include'});
+async function loadValidating(){
+  const r=await fetch('/api/admin/matches?status=validating',{credentials:'include'});
   if(!r.ok)return;
-  const txs=await r.json();
-  const tb=document.getElementById('pendingTable');
-  if(!txs.length){tb.innerHTML='<tr><td colspan="9"><div class="empty">Aucune transaction en attente ✅</div></td></tr>';return;}
-  tb.innerHTML=txs.map(t=>`<tr>
-    <td class="mono" style="color:var(--muted)">${t.ref}</td>
-    <td>${t.client_name}</td>
-    <td class="mono"><strong>${fmt(t.amount)} €</strong></td>
-    <td>${t.beneficiary}</td>
-    <td style="font-size:.78rem;color:var(--muted)">${t.benef_account||'—'}</td>
-    <td style="font-size:.78rem">${methodLabel(t.method)}</td>
-    <td>${t.proof_url?`<img class="proof-thumb" src="${t.proof_url}" onclick="openModal(${t.id})" title="Voir la preuve">`:'<div class="no-proof">—</div>'}</td>
-    <td style="font-size:.75rem;color:var(--muted)">${fmtDate(t.created)}</td>
-    <td><div class="action-btns">
-      <button class="btn btn-green btn-sm" onclick="quickUpdate(${t.id},'validated')">✓</button>
-      <button class="btn btn-red btn-sm" onclick="quickUpdate(${t.id},'rejected')">✕</button>
-      ${t.proof_url?`<button class="btn btn-ghost btn-sm" onclick="openModal(${t.id})">👁</button>`:''}
-    </div></td>
+  const matches=await r.json();
+  const tb=document.getElementById('validatingTable');
+  if(!matches.length){tb.innerHTML='<tr><td colspan="8"><div class="empty">Aucun match à valider ✅</div></td></tr>';return;}
+  tb.innerHTML=matches.map(m=>`<tr>
+    <td class="mono" style="font-size:.72rem;color:var(--muted)">${m.ref}</td>
+    <td>${m.user_a_name}</td>
+    <td>${m.user_b_name}</td>
+    <td class="mono">${fmt(m.amount_eur)} €</td>
+    <td class="mono">${fmt(m.amount_fcfa)} FCFA</td>
+    <td>${m.proof_a_url?`<img class="proof-thumb" src="${m.proof_a_url}" onclick="openModal('${m.ref}','a')">`:'<div class="no-proof">—</div>'}</td>
+    <td>${m.proof_b_url?`<img class="proof-thumb" src="${m.proof_b_url}" onclick="openModal('${m.ref}','b')">`:'<div class="no-proof">—</div>'}</td>
+    <td>
+      <div style="display:flex;gap:.35rem;flex-wrap:wrap">
+        <button class="btn btn-green btn-sm" onclick="validateMatch('${m.ref}')">✓ Valider</button>
+        <button class="btn btn-red btn-sm" onclick="rejectMatch('${m.ref}')">✕ Litige</button>
+        ${m.proof_a_url&&m.proof_b_url?`<button class="btn btn-ghost btn-sm" onclick="openModal('${m.ref}','both')">👁 Voir</button>`:''}
+      </div>
+    </td>
   </tr>`).join('');
 }
 
-async function loadAll(status=''){
-  const url=status?`/api/admin/transactions?status=${status}`:'/api/admin/transactions';
+async function loadAllMatches(status=''){
+  const url=status?`/api/admin/matches?status=${status}`:'/api/admin/matches';
   const r=await fetch(url,{credentials:'include'});
   if(!r.ok)return;
-  const txs=await r.json();
-  allTxCache=txs;
-  renderAll(txs);
-}
-
-function filterAll(q){
-  renderAll(allTxCache.filter(t=>JSON.stringify(t).toLowerCase().includes(q.toLowerCase())));
-}
-
-function renderAll(txs){
-  const tb=document.getElementById('allTable');
-  if(!txs.length){tb.innerHTML='<tr><td colspan="11"><div class="empty">Aucune transaction</div></td></tr>';return;}
-  tb.innerHTML=txs.map(t=>`<tr>
-    <td class="mono" style="font-size:.72rem;color:var(--muted)">${t.ref}</td>
-    <td>${t.client_name||'—'}</td>
-    <td class="mono">${fmt(t.amount)} €</td>
-    <td class="mono">${fmt(t.fcfa)} FCFA</td>
-    <td>${t.beneficiary}</td>
-    <td style="font-size:.78rem;color:var(--muted)">${t.benef_account||'—'}</td>
-    <td style="font-size:.78rem">${methodLabel(t.method)}</td>
-    <td>${t.proof_url?`<img class="proof-thumb" src="${t.proof_url}" onclick="openModal(${t.id})">`:'<div class="no-proof">—</div>'}</td>
-    <td style="font-size:.75rem;color:var(--muted)">${fmtDate(t.created)}</td>
-    <td>${badge(t.status)}</td>
-    <td>${t.status==='pending'?`<div class="action-btns"><button class="btn btn-green btn-sm" onclick="quickUpdate(${t.id},'validated')">✓</button><button class="btn btn-red btn-sm" onclick="quickUpdate(${t.id},'rejected')">✕</button></div>`:'—'}</td>
+  const matches=await r.json();
+  allMatchesCache=matches;
+  const tb=document.getElementById('allMatchesTable');
+  if(!matches.length){tb.innerHTML='<tr><td colspan="10"><div class="empty">Aucun match</div></td></tr>';return;}
+  tb.innerHTML=matches.map(m=>`<tr>
+    <td class="mono" style="font-size:.72rem;color:var(--muted)">${m.ref}</td>
+    <td>${m.user_a_name}</td>
+    <td>${m.user_b_name}</td>
+    <td class="mono">${fmt(m.amount_eur)} €</td>
+    <td class="mono">${fmt(m.amount_fcfa)} FCFA</td>
+    <td>${m.proof_a_url?`<img class="proof-thumb" src="${m.proof_a_url}" onclick="openModal('${m.ref}','a')">`:'<div class="no-proof">—</div>'}</td>
+    <td>${m.proof_b_url?`<img class="proof-thumb" src="${m.proof_b_url}" onclick="openModal('${m.ref}','b')">`:'<div class="no-proof">—</div>'}</td>
+    <td style="font-size:.72rem;color:var(--muted)">${fmtDate(m.created)}</td>
+    <td>${statusBadge(m.status)}</td>
+    <td>${m.status==='validating'?`<div style="display:flex;gap:.3rem"><button class="btn btn-green btn-sm" onclick="validateMatch('${m.ref}')">✓</button><button class="btn btn-red btn-sm" onclick="rejectMatch('${m.ref}')">✕</button></div>`:'—'}</td>
   </tr>`).join('');
 }
 
-function renderRecent(txs){
-  const tb=document.getElementById('recentTable');
-  if(!txs.length){tb.innerHTML='<tr><td colspan="8"><div class="empty">Aucune transaction</div></td></tr>';return;}
-  tb.innerHTML=txs.map(t=>`<tr>
-    <td>${t.client_name||'—'}</td>
-    <td class="mono"><strong>${fmt(t.amount)} €</strong></td>
-    <td class="mono">${fmt(t.fcfa)} FCFA</td>
-    <td>${t.beneficiary}</td>
-    <td>${t.proof_url?`<img class="proof-thumb" src="${t.proof_url}" onclick="openModal(${t.id})">`:'<div class="no-proof">—</div>'}</td>
-    <td style="font-size:.75rem;color:var(--muted)">${fmtDate(t.created)}</td>
-    <td>${badge(t.status)}</td>
-    <td>${t.status==='pending'?`<div class="action-btns"><button class="btn btn-green btn-sm" onclick="quickUpdate(${t.id},'validated')">✓</button><button class="btn btn-red btn-sm" onclick="quickUpdate(${t.id},'rejected')">✕</button></div>`:'—'}</td>
+function renderRecentTable(matches){
+  const tb=document.getElementById('recentMatchesTable');
+  if(!matches.length){tb.innerHTML='<tr><td colspan="7"><div class="empty">Aucun match</div></td></tr>';return;}
+  tb.innerHTML=matches.map(m=>`<tr>
+    <td class="mono" style="font-size:.72rem;color:var(--muted)">${m.ref}</td>
+    <td>${m.user_a_name} ↔ ${m.user_b_name}</td>
+    <td class="mono">${fmt(m.amount_eur)} €</td>
+    <td class="mono">${fmt(m.amount_fcfa)} FCFA</td>
+    <td style="display:flex;gap:.25rem">${m.proof_a_url?`<img class="proof-thumb" src="${m.proof_a_url}" onclick="openModal('${m.ref}','a')">`:'<div class="no-proof">—</div>'}${m.proof_b_url?`<img class="proof-thumb" src="${m.proof_b_url}" onclick="openModal('${m.ref}','b')">`:'<div class="no-proof">—</div>'}</td>
+    <td>${statusBadge(m.status)}</td>
+    <td>${m.status==='validating'?`<div style="display:flex;gap:.3rem"><button class="btn btn-green btn-sm" onclick="validateMatch('${m.ref}')">✓</button><button class="btn btn-red btn-sm" onclick="rejectMatch('${m.ref}')">✕</button></div>`:'—'}</td>
   </tr>`).join('');
+}
+
+async function loadAnnonces(){
+  const r=await fetch('/api/admin/annonces',{credentials:'include'});
+  if(!r.ok)return;
+  const anns=await r.json();
+  const tb=document.getElementById('annoncesTable');
+  if(!anns.length){tb.innerHTML='<tr><td colspan="8"><div class="empty">Aucune annonce</div></td></tr>';return;}
+  tb.innerHTML=anns.map(a=>{
+    const prog=a.amount>0?Math.round(a.matched_amount/a.amount*100):0;
+    return`<tr>
+      <td class="mono" style="font-size:.72rem;color:var(--muted)">${a.ref}</td>
+      <td>${a.user_name}</td>
+      <td>${a.direction==='EUR_TO_FCFA'?'€ → FCFA':'FCFA → €'}</td>
+      <td class="mono">${fmt(a.amount)} ${a.currency_give}</td>
+      <td style="font-size:.78rem;color:var(--muted)">${fmt(a.amount_min)}–${fmt(a.amount_max)}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:.5rem">
+          <div style="flex:1;background:var(--border);border-radius:50px;height:4px;min-width:60px">
+            <div style="width:${prog}%;background:var(--gold);border-radius:50px;height:4px"></div>
+          </div>
+          <span style="font-size:.72rem;color:var(--muted)">${prog}%</span>
+        </div>
+      </td>
+      <td style="font-size:.75rem;color:var(--muted)">${fmtDate(a.expires_at)}</td>
+      <td>${annBadge(a.status)}</td>
+    </tr>`;
+  }).join('');
 }
 
 async function loadUsers(){
@@ -402,16 +414,15 @@ async function loadUsers(){
   if(!r.ok)return;
   const users=await r.json();
   const tb=document.getElementById('usersTable');
-  if(!users.length){tb.innerHTML='<tr><td colspan="8"><div class="empty">Aucun utilisateur</div></td></tr>';return;}
+  if(!users.length){tb.innerHTML='<tr><td colspan="7"><div class="empty">Aucun utilisateur</div></td></tr>';return;}
   tb.innerHTML=users.map(u=>`<tr>
     <td>${u.first} ${u.last}</td>
     <td style="font-size:.78rem">${u.email}</td>
-    <td style="font-size:.78rem">${u.phone||'—'}</td>
-    <td style="font-size:.78rem">${u.country||'—'}</td>
-    <td>${u.verified?'<span class="badge badge-validated">✓ Vérifié</span>':'<span class="badge badge-pending">En attente</span>'}</td>
+    <td>${u.country||'—'}</td>
+    <td>${u.rating_count>0?'⭐ '+(u.rating_sum/u.rating_count).toFixed(1)+' ('+u.rating_count+')':'—'}</td>
+    <td class="mono">${u.annonce_count||0}</td>
+    <td class="mono">${u.match_count||0}</td>
     <td style="font-size:.75rem;color:var(--muted)">${fmtDate(u.created)}</td>
-    <td class="mono">${u.tx_count}</td>
-    <td class="mono">${fmt(u.volume.toFixed(0))} €</td>
   </tr>`).join('');
 }
 
@@ -420,7 +431,7 @@ async function loadSettings(){
   if(!r.ok)return;
   const s=await r.json();
   document.getElementById('sRate').value=s.eur_fcfa||655.96;
-  document.getElementById('sComm').value=s.commission||2;
+  document.getElementById('sComm').value=s.commission||1;
   document.getElementById('sWa').value=s.wa_number||'';
   document.getElementById('sIban').value=s.iban||'';
   document.getElementById('sIbanName').value=s.iban_name||'';
@@ -431,76 +442,48 @@ async function loadSettings(){
 }
 
 async function saveSettings(){
-  const data={
-    eur_fcfa:document.getElementById('sRate').value,
-    commission:document.getElementById('sComm').value,
-    wa_number:document.getElementById('sWa').value,
-    iban:document.getElementById('sIban').value,
-    iban_name:document.getElementById('sIbanName').value,
-    wave_number:document.getElementById('sWave').value,
-    mtn_number:document.getElementById('sMtn').value,
-    moov_number:document.getElementById('sMoov').value,
-    orange_number:document.getElementById('sOrange').value,
-  };
+  const data={eur_fcfa:document.getElementById('sRate').value,commission:document.getElementById('sComm').value,wa_number:document.getElementById('sWa').value,iban:document.getElementById('sIban').value,iban_name:document.getElementById('sIbanName').value,wave_number:document.getElementById('sWave').value,mtn_number:document.getElementById('sMtn').value,moov_number:document.getElementById('sMoov').value,orange_number:document.getElementById('sOrange').value};
   const r=await fetch('/api/admin/settings',{method:'PUT',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
-  if(r.ok)showToast('Paramètres sauvegardés','success');
+  if(r.ok)showToast('Paramètres sauvegardés ✅','success');
   else showToast('Erreur','error');
 }
 
-function testWa(){
-  const n=(document.getElementById('sWa').value||'+33600000000').replace(/\s/g,'');
-  window.open(`https://wa.me/${n}?text=${encodeURIComponent('🧪 Test EcoTransfert — Notifications opérationnelles ✅')},'_blank'`);
-}
+function testWa(){const n=(document.getElementById('sWa').value||'').replace(/\s/g,'');window.open(`https://wa.me/${n}?text=${encodeURIComponent('🧪 Test EcoTransfert ✅')}`);}
 
 // MODAL
-function openModal(id){
-  const tx=allTxCache.find(t=>t.id===id);
-  if(!tx)return;
-  currentModalTxId=id;
-  document.getElementById('modalTitle').textContent='Preuve — '+tx.client_name;
-  document.getElementById('modalRef').textContent=tx.ref+' · '+fmt(tx.amount)+' € → '+fmt(tx.fcfa)+' FCFA';
-  document.getElementById('modalImg').src=tx.proof_url||'';
+function openModal(ref, side){
+  const m=allMatchesCache.find(x=>x.ref===ref);
+  if(!m)return;
+  currentModalRef=ref;
+  document.getElementById('modalTitle').textContent='Preuves — '+ref;
+  document.getElementById('modalRef').textContent=m.user_a_name+' ↔ '+m.user_b_name+' · '+fmt(m.amount_eur)+'€';
+  const img = side==='b' ? m.proof_b_url : m.proof_a_url;
+  document.getElementById('modalImg').src=img||'';
   document.getElementById('modalDetails').innerHTML=`
-    <div class="detail-row"><span class="detail-label">Bénéficiaire</span><span class="detail-val">${tx.beneficiary}</span></div>
-    <div class="detail-row"><span class="detail-label">Compte bénéficiaire</span><span class="detail-val">${tx.benef_account||'—'}</span></div>
-    <div class="detail-row"><span class="detail-label">Méthode</span><span class="detail-val">${methodLabel(tx.method)}</span></div>
-    <div class="detail-row"><span class="detail-label">Note client</span><span class="detail-val">${tx.note||'—'}</span></div>
-    <div class="detail-row"><span class="detail-label">Statut actuel</span><span class="detail-val">${badge(tx.status)}</span></div>
-  `;
+    <div class="detail-row"><span style="color:var(--muted)">Montant EUR</span><span>${fmt(m.amount_eur)} €</span></div>
+    <div class="detail-row"><span style="color:var(--muted)">Montant FCFA</span><span>${fmt(m.amount_fcfa)} FCFA</span></div>
+    <div class="detail-row"><span style="color:var(--muted)">Statut</span><span>${statusBadge(m.status)}</span></div>`;
   document.getElementById('proofModal').classList.add('open');
 }
-function closeModal(){document.getElementById('proofModal').classList.remove('open');currentModalTxId=null;}
-async function modalAction(status){
-  if(!currentModalTxId)return;
-  await quickUpdate(currentModalTxId,status);
-  closeModal();
-}
+function closeModal(){document.getElementById('proofModal').classList.remove('open');currentModalRef=null;}
+async function modalAction(action){if(!currentModalRef)return;if(action==='validate')await validateMatch(currentModalRef);else await rejectMatch(currentModalRef);closeModal();}
 document.getElementById('proofModal').addEventListener('click',e=>{if(e.target===document.getElementById('proofModal'))closeModal();});
 
-async function quickUpdate(id,status){
-  const r=await fetch(`/api/admin/transactions/${id}`,{method:'PATCH',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({status})});
-  if(r.ok){
-    showToast(status==='validated'?'Transaction validée ✅':'Transaction rejetée',status==='validated'?'success':'error');
-    refreshAll();
-    if(document.getElementById('tabPending').style.display!=='none')loadPending();
-    if(document.getElementById('tabAll').style.display!=='none')loadAll('');
-  }
+async function validateMatch(ref){
+  const r=await fetch(`/api/admin/matches/${ref}/validate`,{method:'POST',credentials:'include'});
+  if(r.ok){showToast('Échange validé ✅','success');refreshAll();if(document.getElementById('tabValidating').style.display!=='none')loadValidating();}
+}
+async function rejectMatch(ref){
+  const reason=prompt('Raison du litige (optionnel):');
+  const r=await fetch(`/api/admin/matches/${ref}/reject`,{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({reason:reason||'Litige ouvert par l\'administrateur'})});
+  if(r.ok){showToast('Litige ouvert','error');refreshAll();}
 }
 
-// UTILS
 function fmt(n){return Number(n).toLocaleString('fr-FR')}
-function fmtDate(s){return new Date(s).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
-function methodLabel(m){return{virement:'Virement',wave:'Wave',mtn:'MTN MoMo',moov:'Moov Money',orange:'Orange Money',paypal:'PayPal'}[m]||m}
-function badge(s){
-  const m={pending:['badge-pending','En attente'],review:['badge-review','En examen'],validated:['badge-validated','Validé'],rejected:['badge-rejected','Rejeté']};
-  const[cls,l]=m[s]||['badge-pending',s];return`<span class="badge ${cls}">${l}</span>`;
-}
-function showToast(msg,type='success'){
-  const c=document.getElementById('toastContainer');
-  const t=document.createElement('div');
-  t.className=`toast ${type}`;t.textContent=msg;
-  c.appendChild(t);setTimeout(()=>t.remove(),3000);
-}
+function fmtDate(s){if(!s)return'—';return new Date(s).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric'})}
+function statusBadge(s){const m={pending:['badge-pending','En attente'],proof_pending:['badge-pending','Preuves req.'],validating:['badge-validating','À valider'],completed:['badge-completed','Complété'],cancelled:['badge-cancelled','Annulé'],disputed:['badge-disputed','Litige']};const[c,l]=m[s]||['badge-pending',s];return`<span class="badge ${c}">${l}</span>`}
+function annBadge(s){const m={active:['badge-completed','Actif'],matched:['badge-validating','Matché'],completed:['badge-completed','Complété'],cancelled:['badge-cancelled','Annulé'],expired:['badge-cancelled','Expiré']};const[c,l]=m[s]||['badge-pending',s];return`<span class="badge ${c}">${l}</span>`}
+function showToast(msg,type='success'){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),3000);}
 </script>
 </body>
 </html>
