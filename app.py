@@ -16,6 +16,11 @@ BASE_URL = os.environ.get('BASE_URL', 'http://localhost:5000')
 ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'admin123')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+# ─── MAIL CONFIG (Resend) ────────────────────────────────────
+RESEND_API_KEY = os.environ.get('RESEND_API_KEY', '')
+MAIL_FROM = os.environ.get('MAIL_FROM', 'EcoTransfert <onboarding@resend.dev>')
+MAIL_ENABLED = bool(RESEND_API_KEY)
+
 # ─── DB ──────────────────────────────────────────────────────
 def get_db():
     conn = sqlite3.connect(DB_PATH)
