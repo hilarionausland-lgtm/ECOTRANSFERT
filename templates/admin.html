@@ -451,7 +451,7 @@ async function loadSettings(){
 }
 
 async function saveSettings(){
-  const data={eur_fcfa:document.getElementById('sRate').value,commission:document.getElementById('sComm').value,wa_number:document.getElementById('sWa').value,iban:document.getElementById('sIban').value,iban_name:document.getElementById('sIbanName').value,wave_number:document.getElementById('sWave').value,mtn_number:document.getElementById('sMtn').value,moov_number:document.getElementById('sMoov').value,orange_number:document.getElementById('sOrange').value};
+  const data={eur_fcfa:document.getElementById('sRate').value,commission:document.getElementById('sComm').value,wa_number:document.getElementById('sWa').value,iban:document.getElementById('sIban').value,iban_name:document.getElementById('sIbanName').value,wave_number:document.getElementById('sWave').value,mtn_number:document.getElementById('sMtn').value,moov_number:document.getElementById('sMoov').value,orange_number:document.getElementById('sOrange').value,wero_number:document.getElementById('sWero')?.value||'',paypal_email:document.getElementById('sPaypal')?.value||''};
   const r=await fetch('/api/admin/settings',{method:'PUT',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)});
   if(r.ok)showToast('Paramètres sauvegardés ✅','success');
   else showToast('Erreur','error');
