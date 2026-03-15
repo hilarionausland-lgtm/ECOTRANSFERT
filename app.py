@@ -292,20 +292,6 @@ def match_detail(ref): return send_from_directory('templates', 'match.html')
 @app.route('/admin')
 def admin_page(): return send_from_directory('templates', 'admin.html')
 
-@app.route('/api/resend-verification', methods=['POST'])
-def resend_verification():
-    d = request.json
-    with get_db() as db:
-        user = db.execute("SELECT * FROM users WHERE email=?", (d.get('email',''),)).fetchone()
-    if not user or user['verified']:
-        return jsonify({'ok': True})
-    token = secrets.token_urlsafe(32)
-    expiry = (datetime.now() + timedelta(hours=24)).isoformat()
-    with get_db() as db:
-        db.execute("UPDATE users SET verify_token=?, token_expiry=? WHERE id=?", (token, expiry, user['id']))
-    send_verification_email(user['email'], user['first'], token)
-    return jsonify({'ok': True})
-
 @app.route('/verify/<token>')
 def verify_email(token):
     with get_db() as db:
@@ -329,6 +315,55 @@ def public_settings():
     })
 
 # ─── AUTH ─────────────────────────────────────────────────────
+def send_verification_email(email, first, token):
+    if not MAIL_ENABLED:
+        return False
+    try:
+        verify_url = f"{BASE_URL}/verify/{token}"
+        payload = _json.dumps({
+            "from": MAIL_FROM,
+            "to": [email],
+            "subject": "✅ Confirmez votre compte EcoTransfert",
+            "html": f"""<div style="font-family:Georgia,serif;max-width:520px;margin:0 auto;padding:40px 20px;background:#F7F4EF;color:#0D0D0D">
+              <div style="text-align:center;margin-bottom:32px">
+                <h1 style="color:#B8922A;font-size:28px;margin:0">EcoTransfert</h1>
+              </div>
+              <div style="background:#fff;border:1px solid #E2DDD6;border-radius:12px;padding:32px">
+                <h2 style="font-size:20px;margin:0 0 12px">Bonjour {first},</h2>
+                <p style="color:#6B6560;line-height:1.6;margin:0 0 24px">Cliquez sur le bouton ci-dessous pour confirmer votre email et activer votre compte.</p>
+                <div style="text-align:center;margin:32px 0">
+                  <a href="{verify_url}" style="background:#B8922A;color:#fff;padding:14px 32px;border-radius:8px;text-decoration:none;font-weight:700;font-size:15px;display:inline-block">Confirmer mon compte →</a>
+                </div>
+                <p style="color:#6B6560;font-size:12px;margin:0;text-align:center">Ce lien expire dans 24 heures.</p>
+              </div>
+            </div>"""
+        }).encode('utf-8')
+        req = urllib.request.Request(
+            'https://api.resend.com/emails',
+            data=payload,
+            headers={'Authorization': f'Bearer {RESEND_API_KEY}', 'Content-Type': 'application/json'},
+            method='POST'
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return resp.status == 200
+    except Exception as e:
+        print(f"Resend error: {e}")
+        return False
+
+@app.route('/api/resend-verification', methods=['POST'])
+def resend_verification():
+    d = request.json
+    with get_db() as db:
+        user = db.execute("SELECT * FROM users WHERE email=?", (d.get('email',''),)).fetchone()
+    if not user or user['verified']:
+        return jsonify({'ok': True})
+    token = secrets.token_urlsafe(32)
+    expiry = (datetime.now() + timedelta(hours=24)).isoformat()
+    with get_db() as db:
+        db.execute("UPDATE users SET verify_token=?, token_expiry=? WHERE id=?", (token, expiry, user['id']))
+    send_verification_email(user['email'], user['first'], token)
+    return jsonify({'ok': True})
+
 @app.route('/api/register', methods=['POST'])
 def register():
     d = request.json
