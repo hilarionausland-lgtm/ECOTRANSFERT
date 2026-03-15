@@ -393,7 +393,7 @@ def admin_users():
         """).fetchall()
     return jsonify([dict(r) for r in rows])
 
-@app.route('/api/admin/cleanup-unverified', methods=['POST'])
+@app.route('/api/admin/cleanup-unverified', methods=['GET','POST'])
 @admin_required
 def cleanup_unverified():
     with get_db() as db:
