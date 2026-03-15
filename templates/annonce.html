@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nouvelle annonce — EcoTransfert</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-gold{background:var(--gold);color:white}
+.btn-gold:hover{background:#9A7A22;transform:translateY(-1px)}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.page-wrap{max-width:620px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);text-decoration:none;margin-bottom:2rem;transition:color .2s}
+.back-link:hover{color:var(--ink)}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;margin-bottom:.35rem}
+.page-sub{font-size:.88rem;color:var(--muted);margin-bottom:2.5rem;font-weight:300}
+
+/* DIRECTION SELECTOR */
+.dir-select{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+.dir-option{border:2px solid var(--border);border-radius:12px;padding:1.5rem;cursor:pointer;transition:all .25s;background:var(--white);text-align:center}
+.dir-option:hover{border-color:var(--gold)}
+.dir-option.selected{border-color:var(--gold);background:rgba(184,146,42,.04)}
+.dir-icon{font-size:2rem;margin-bottom:.75rem}
+.dir-title{font-size:.95rem;font-weight:600;margin-bottom:.25rem}
+.dir-sub{font-size:.75rem;color:var(--muted);font-weight:300}
+
+/* FORM */
+.section-block{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1.25rem}
+.section-title{font-size:.88rem;font-weight:600;margin-bottom:1.25rem}
+.form-group{margin-bottom:1rem}
+.form-group:last-child{margin-bottom:0}
+.form-group label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.35rem}
+.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);background:var(--white)}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.form-hint{font-size:.72rem;color:var(--muted);margin-top:.3rem}
+
+/* CONVERTER */
+.converter{background:var(--surface);border:1px solid rgba(184,146,42,.2);border-radius:8px;padding:1.25rem;margin-top:1rem}
+.conv-row{display:flex;align-items:center;gap:1rem;margin-bottom:.75rem;flex-wrap:wrap}
+.conv-item{flex:1;min-width:140px}
+.conv-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.2rem}
+.conv-val{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600}
+.conv-currency{font-size:.85rem;color:var(--muted);font-family:'Outfit',sans-serif;font-weight:300}
+.conv-details{display:flex;gap:1.5rem;font-size:.75rem;color:var(--muted);flex-wrap:wrap}
+
+/* ALERT */
+.alert{padding:.85rem 1rem;border-radius:6px;font-size:.83rem;margin-bottom:1rem;line-height:1.5}
+.alert-success{background:rgba(26,122,74,.08);border:1px solid rgba(26,122,74,.2);color:var(--green)}
+.alert-error{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);color:var(--red)}
+.alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
+
+/* SUCCESS */
+.success-view{text-align:center;padding:3rem 1rem}
+.success-icon{font-size:4rem;margin-bottom:1.5rem}
+.success-view h2{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;margin-bottom:.75rem}
+.success-view p{color:var(--muted);font-size:.9rem;line-height:1.7;max-width:380px;margin:0 auto 2rem}
+.success-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.5rem}
+.toast{background:var(--ink);color:white;padding:.85rem 1.25rem;border-radius:8px;font-size:.83rem;animation:toastIn .3s ease;max-width:300px;display:flex;align-items:center;gap:.5rem}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.success{border-left:3px solid var(--green)}
+.toast.error{border-left:3px solid var(--red)}
+
+@media(max-width:600px){.form-grid{grid-template-columns:1fr}.dir-select{grid-template-columns:1fr}.conv-row{flex-direction:column}nav{padding:0 1rem}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">Eco<span>Transfert</span></a>
+  <a href="/marketplace" style="font-size:.82rem;color:var(--muted);text-decoration:none">← Marketplace</a>
+</nav>
+
+<div class="page-wrap">
+  <a href="/marketplace" class="back-link">← Retour à la marketplace</a>
+
+  <div id="mainForm">
+    <h1 class="page-title">Nouvelle annonce</h1>
+    <p class="page-sub">Postez votre offre d'échange et trouvez automatiquement un partenaire compatible.</p>
+
+    <!-- DIRECTION -->
+    <div class="section-block">
+      <div class="section-title">Que souhaitez-vous faire ?</div>
+      <div class="dir-select">
+        <div class="dir-option selected" id="dirEur" onclick="setDir('EUR_TO_FCFA')">
+          <div class="dir-icon">💶</div>
+          <div class="dir-title">J'ai des Euros</div>
+          <div class="dir-sub">Je veux recevoir des FCFA</div>
+        </div>
+        <div class="dir-option" id="dirFcfa" onclick="setDir('FCFA_TO_EUR')">
+          <div class="dir-icon">💰</div>
+          <div class="dir-title">J'ai des FCFA</div>
+          <div class="dir-sub">Je veux recevoir des Euros</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MONTANT -->
+    <div class="section-block">
+      <div class="section-title">Montant de l'échange</div>
+      <div class="form-group">
+        <label id="amountLabel">Montant que vous souhaitez envoyer (€)</label>
+        <input type="number" id="amount" placeholder="Ex : 200" min="10" oninput="calcConv()">
+      </div>
+      <div class="form-group">
+        <label>Fourchette acceptable</label>
+        <div class="form-grid">
+          <div>
+            <input type="number" id="amountMin" placeholder="Minimum" oninput="calcConv()">
+            <div class="form-hint">Montant minimum accepté</div>
+          </div>
+          <div>
+            <input type="number" id="amountMax" placeholder="Maximum" oninput="calcConv()">
+            <div class="form-hint">Montant maximum accepté</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="converter" id="convBox" style="display:none">
+        <div class="conv-row">
+          <div class="conv-item">
+            <div class="conv-label">Vous envoyez</div>
+            <div class="conv-val" id="convSend">—<span class="conv-currency"> €</span></div>
+          </div>
+          <div style="color:var(--gold);font-size:1.2rem">→</div>
+          <div class="conv-item">
+            <div class="conv-label">Vous recevrez</div>
+            <div class="conv-val" id="convReceive">—<span class="conv-currency"> FCFA</span></div>
+          </div>
+        </div>
+        <div class="conv-details">
+          <span>Taux : <strong id="convRate">655.96</strong> FCFA/€</span>
+          <span>Commission (1%) : <strong id="convComm">—</strong></span>
+          <span>Net : <strong id="convNet">—</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTE -->
+    <div class="section-block">
+      <div class="section-title">Message (optionnel)</div>
+      <div class="form-group">
+        <label>Précisions pour les partenaires</label>
+        <textarea id="note" placeholder="Ex : Disponible rapidement, méthode Wave préférée..." rows="3"></textarea>
+      </div>
+    </div>
+
+    <div id="formAlert"></div>
+    <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+      <button class="btn btn-gold" id="submitBtn" onclick="submitAnnonce()">Publier mon annonce →</button>
+      <a href="/marketplace" class="btn btn-ghost">Annuler</a>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-view" id="successView" style="display:none">
+    <div class="success-icon" id="successIcon">📋</div>
+    <h2 id="successTitle">Annonce publiée !</h2>
+    <p id="successMsg">Votre annonce est maintenant visible sur la marketplace. Vous serez notifié dès qu'un partenaire compatible est trouvé.</p>
+    <div class="success-actions">
+      <a href="/dashboard" class="btn btn-gold">Voir mon tableau de bord</a>
+      <a href="/marketplace" class="btn btn-ghost">Voir la marketplace</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+let RATE = {eur_fcfa:655.96, commission:1};
+let selectedDir = 'EUR_TO_FCFA';
+
+async function init(){
+  try{
+    const mr = await fetch('/api/me',{credentials:'include'});
+    if(!mr.ok){window.location.href='/';return;}
+  }catch(e){window.location.href='/';}
+  try{
+    const sr = await fetch('/api/settings/public');
+    if(sr.ok){const s=await sr.json();RATE=s;document.getElementById('convRate').textContent=s.eur_fcfa.toFixed(2);}
+  }catch(e){}
+  // Check if coming from marketplace with match param
+  const params = new URLSearchParams(window.location.search);
+  const matchId = params.get('match');
+  if(matchId) prefillOpposite(matchId);
+}
+
+async function prefillOpposite(annId){
+  try{
+    const r = await fetch('/api/annonces');
+    const anns = await r.json();
+    const ann = anns.find(a=>a.id==annId);
+    if(ann){
+      // Set opposite direction
+      setDir(ann.direction==='EUR_TO_FCFA'?'FCFA_TO_EUR':'EUR_TO_FCFA');
+      document.getElementById('amount').value=ann.amount;
+      document.getElementById('amountMin').value=ann.amount_min;
+      document.getElementById('amountMax').value=ann.amount_max;
+      calcConv();
+      document.getElementById('formAlert').innerHTML=`<div class="alert alert-info">💡 Pré-rempli pour matcher avec l'annonce de ${ann.first} ${ann.last}</div>`;
+    }
+  }catch(e){}
+}
+
+function setDir(dir){
+  selectedDir = dir;
+  document.getElementById('dirEur').classList.toggle('selected', dir==='EUR_TO_FCFA');
+  document.getElementById('dirFcfa').classList.toggle('selected', dir==='FCFA_TO_EUR');
+  const isEur = dir==='EUR_TO_FCFA';
+  document.getElementById('amountLabel').textContent = isEur
+    ? 'Montant que vous souhaitez envoyer (€)'
+    : 'Montant que vous souhaitez envoyer (FCFA)';
+  calcConv();
+}
+
+function calcConv(){
+  const v = parseFloat(document.getElementById('amount').value)||0;
+  const min = document.getElementById('amountMin');
+  const max = document.getElementById('amountMax');
+  if(!min.value && v) min.value = Math.round(v*0.8);
+  if(!max.value && v) max.value = Math.round(v*1.2);
+  if(!v){document.getElementById('convBox').style.display='none';return;}
+  const comm = v*RATE.commission/100;
+  const net = v-comm;
+  const isEur = selectedDir==='EUR_TO_FCFA';
+  const receive = isEur ? Math.round(net*RATE.eur_fcfa) : (net/RATE.eur_fcfa).toFixed(2);
+  document.getElementById('convBox').style.display='block';
+  document.getElementById('convSend').innerHTML=fmt(v)+'<span class="conv-currency"> '+(isEur?'€':'FCFA')+'</span>';
+  document.getElementById('convReceive').innerHTML=fmt(receive)+'<span class="conv-currency"> '+(isEur?'FCFA':'€')+'</span>';
+  document.getElementById('convComm').textContent=isEur?comm.toFixed(2)+' €':Math.round(comm)+' FCFA';
+  document.getElementById('convNet').textContent=isEur?net.toFixed(2)+' €':Math.round(net)+' FCFA';
+}
+
+async function submitAnnonce(){
+  const amount = parseFloat(document.getElementById('amount').value);
+  const amountMin = parseFloat(document.getElementById('amountMin').value);
+  const amountMax = parseFloat(document.getElementById('amountMax').value);
+  if(!amount||amount<10){showAlert('Montant invalide (minimum 10)','error');return;}
+  if(amountMin>amountMax){showAlert('La fourchette min doit être ≤ max','error');return;}
+  const btn = document.getElementById('submitBtn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Publication...';
+  try{
+    const r = await fetch('/api/annonces',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({direction:selectedDir,amount,amount_min:amountMin||amount*0.8,amount_max:amountMax||amount*1.2,note:document.getElementById('note').value})});
+    const d = await r.json();
+    if(!r.ok){showAlert(d.error||'Erreur','error');return;}
+    // Show success
+    document.getElementById('mainForm').style.display='none';
+    if(d.matches_found>0){
+      document.getElementById('successIcon').textContent='🎉';
+      document.getElementById('successTitle').textContent=`${d.matches_found} match${d.matches_found>1?'s':''} trouvé${d.matches_found>1?'s':''}!`;
+      document.getElementById('successMsg').textContent=`Votre annonce a été matchée avec ${d.matches_found} partenaire${d.matches_found>1?'s':''}. Rendez-vous sur votre tableau de bord pour accepter le match.`;
+    }
+    document.getElementById('successView').style.display='block';
+  }catch(e){showAlert('Erreur serveur','error');}
+  finally{btn.disabled=false;btn.innerHTML='Publier mon annonce →';}
+}
+
+function showAlert(msg,type='error'){
+  document.getElementById('formAlert').innerHTML=`<div class="alert alert-${type}">${msg}</div>`;
+}
+
+function fmt(n){return Number(n).toLocaleString('fr-FR')}
+function showToast(msg,type='success'){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),3000);}
+
+init();
+</script>
+</body>
+</html>
