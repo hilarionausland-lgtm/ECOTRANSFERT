@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A}
+:root{--primary:#00784A;--primary-light:#00A865;--primary-dark:#005C38;--gold:#B8922A;--ink:#0D0D0D;--paper:#F4F8F5;--muted:#5C6B62;--border:#D4E4DA;--white:#FFFFFF;--surface:#F9FCF9;--red:#C0392B;--green:#00784A}
 body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
 nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
-.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
-.nav-logo span{color:var(--gold)}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:.4rem}
+.nav-logo .dot{width:7px;height:7px;border-radius:50%;background:var(--primary)}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
-.btn-gold{background:var(--gold);color:white}
-.btn-gold:hover{background:#9A7A22;transform:translateY(-1px)}
+.btn-primary{background:var(--primary);color:white}
+.btn-primary:hover{background:var(--primary-dark);transform:translateY(-1px)}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-ghost:hover{color:var(--ink)}
 .btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
@@ -27,28 +27,37 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .page-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;margin-bottom:.35rem}
 .page-sub{font-size:.88rem;color:var(--muted);margin-bottom:2.5rem;font-weight:300}
 
-/* DIRECTION SELECTOR */
-.dir-select{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem}
+/* DIRECTION */
+.dir-select{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
 .dir-option{border:2px solid var(--border);border-radius:12px;padding:1.5rem;cursor:pointer;transition:all .25s;background:var(--white);text-align:center}
-.dir-option:hover{border-color:var(--gold)}
-.dir-option.selected{border-color:var(--gold);background:rgba(184,146,42,.04)}
+.dir-option:hover{border-color:var(--primary)}
+.dir-option.selected{border-color:var(--primary);background:rgba(0,120,74,.04)}
 .dir-icon{font-size:2rem;margin-bottom:.75rem}
 .dir-title{font-size:.95rem;font-weight:600;margin-bottom:.25rem}
 .dir-sub{font-size:.75rem;color:var(--muted);font-weight:300}
 
+/* RECEIVE METHODS */
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:.75rem}
+.method-option{border:2px solid var(--border);border-radius:10px;padding:1rem;cursor:pointer;transition:all .2s;background:var(--white);text-align:center;display:flex;flex-direction:column;align-items:center;gap:.4rem}
+.method-option:hover{border-color:var(--primary)}
+.method-option.selected{border-color:var(--primary);background:rgba(0,120,74,.04)}
+.method-option .method-icon{font-size:1.5rem}
+.method-option .method-name{font-size:.82rem;font-weight:600}
+.method-option .method-detail{font-size:.72rem;color:var(--muted)}
+
 /* FORM */
 .section-block{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1.25rem}
-.section-title{font-size:.88rem;font-weight:600;margin-bottom:1.25rem}
+.section-title{font-size:.88rem;font-weight:600;margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem}
 .form-group{margin-bottom:1rem}
 .form-group:last-child{margin-bottom:0}
 .form-group label{display:block;font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.35rem}
-.form-group input,.form-group select,.form-group textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);outline:none;transition:border-color .2s}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--gold);background:var(--white)}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+.form-group input,.form-group textarea{width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.7rem 1rem;font-family:'Outfit',sans-serif;font-size:.92rem;color:var(--ink);outline:none;transition:border-color .2s}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--primary);background:var(--white)}
+.form-group textarea{resize:vertical;min-height:70px}
 .form-hint{font-size:.72rem;color:var(--muted);margin-top:.3rem}
 
 /* CONVERTER */
-.converter{background:var(--surface);border:1px solid rgba(184,146,42,.2);border-radius:8px;padding:1.25rem;margin-top:1rem}
+.converter{background:var(--surface);border:1px solid rgba(0,120,74,.2);border-radius:8px;padding:1.25rem;margin-top:1rem}
 .conv-row{display:flex;align-items:center;gap:1rem;margin-bottom:.75rem;flex-wrap:wrap}
 .conv-item{flex:1;min-width:140px}
 .conv-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:.2rem}
@@ -58,9 +67,8 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 
 /* ALERT */
 .alert{padding:.85rem 1rem;border-radius:6px;font-size:.83rem;margin-bottom:1rem;line-height:1.5}
-.alert-success{background:rgba(26,122,74,.08);border:1px solid rgba(26,122,74,.2);color:var(--green)}
 .alert-error{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);color:var(--red)}
-.alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
+.alert-info{background:rgba(0,120,74,.08);border:1px solid rgba(0,120,74,.2);color:var(--primary)}
 
 /* SUCCESS */
 .success-view{text-align:center;padding:3rem 1rem}
@@ -69,32 +77,30 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .success-view p{color:var(--muted);font-size:.9rem;line-height:1.7;max-width:380px;margin:0 auto 2rem}
 .success-actions{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap}
 
-/* TOAST */
 .toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.5rem}
 .toast{background:var(--ink);color:white;padding:.85rem 1.25rem;border-radius:8px;font-size:.83rem;animation:toastIn .3s ease;max-width:300px;display:flex;align-items:center;gap:.5rem}
 @keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
 .toast.success{border-left:3px solid var(--green)}
 .toast.error{border-left:3px solid var(--red)}
 
-@media(max-width:600px){.form-grid{grid-template-columns:1fr}.dir-select{grid-template-columns:1fr}.conv-row{flex-direction:column}nav{padding:0 1rem}}
+@media(max-width:600px){.dir-select,.method-grid{grid-template-columns:1fr}.conv-row{flex-direction:column}nav{padding:0 1rem}}
 </style>
 </head>
 <body>
 <nav>
-  <a href="/" class="nav-logo">Eco<span>Transfert</span></a>
+  <a href="/" class="nav-logo"><div class="dot"></div>EcoTransfert</a>
   <a href="/marketplace" style="font-size:.82rem;color:var(--muted);text-decoration:none">← Marketplace</a>
 </nav>
 
 <div class="page-wrap">
   <a href="/marketplace" class="back-link">← Retour à la marketplace</a>
-
   <div id="mainForm">
     <h1 class="page-title">Nouvelle annonce</h1>
-    <p class="page-sub">Postez votre offre d'échange et trouvez automatiquement un partenaire compatible.</p>
+    <p class="page-sub">Postez votre offre et trouvez automatiquement un partenaire compatible (±10%).</p>
 
-    <!-- DIRECTION -->
+    <!-- STEP 1 : Direction -->
     <div class="section-block">
-      <div class="section-title">Que souhaitez-vous faire ?</div>
+      <div class="section-title">1. Que souhaitez-vous faire ?</div>
       <div class="dir-select">
         <div class="dir-option selected" id="dirEur" onclick="setDir('EUR_TO_FCFA')">
           <div class="dir-icon">💶</div>
@@ -109,59 +115,91 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
       </div>
     </div>
 
-    <!-- MONTANT -->
+    <!-- STEP 2 : Méthode de réception -->
     <div class="section-block">
-      <div class="section-title">Montant de l'échange</div>
-      <div class="form-group">
-        <label id="amountLabel">Montant que vous souhaitez envoyer (€)</label>
-        <input type="number" id="amount" placeholder="Ex : 200" min="10" oninput="calcConv()">
-      </div>
-      <div class="form-group">
-        <label>Fourchette acceptable</label>
-        <div class="form-grid">
-          <div>
-            <input type="number" id="amountMin" placeholder="Minimum" oninput="calcConv()">
-            <div class="form-hint">Montant minimum accepté</div>
+      <div class="section-title">2. Comment voulez-vous recevoir votre argent ?</div>
+      <!-- FCFA receive methods (shown when sending EUR) -->
+      <div id="fcfaMethods">
+        <p style="font-size:.83rem;color:var(--muted);margin-bottom:.75rem;font-weight:300">Choisissez comment vous souhaitez recevoir vos FCFA :</p>
+        <div class="method-grid">
+          <div class="method-option" id="m-mtn" onclick="selectMethod('mtn_momo')">
+            <div class="method-icon">📱</div>
+            <div class="method-name">MTN MoMo</div>
+            <div class="method-detail" id="detail-mtn">—</div>
           </div>
-          <div>
-            <input type="number" id="amountMax" placeholder="Maximum" oninput="calcConv()">
-            <div class="form-hint">Montant maximum accepté</div>
+          <div class="method-option" id="m-wave" onclick="selectMethod('wave')">
+            <div class="method-icon">🌊</div>
+            <div class="method-name">Wave</div>
+            <div class="method-detail" id="detail-wave">—</div>
+          </div>
+          <div class="method-option" id="m-moov" onclick="selectMethod('moov_money')">
+            <div class="method-icon">📲</div>
+            <div class="method-name">Moov Money</div>
+            <div class="method-detail" id="detail-moov">—</div>
+          </div>
+          <div class="method-option" id="m-orange" onclick="selectMethod('orange_money')">
+            <div class="method-icon">🟠</div>
+            <div class="method-name">Orange Money</div>
+            <div class="method-detail" id="detail-orange">—</div>
           </div>
         </div>
       </div>
+      <!-- EUR receive methods (shown when sending FCFA) -->
+      <div id="eurMethods" style="display:none">
+        <p style="font-size:.83rem;color:var(--muted);margin-bottom:.75rem;font-weight:300">Choisissez comment vous souhaitez recevoir vos Euros :</p>
+        <div class="method-grid">
+          <div class="method-option" id="m-virement" onclick="selectMethod('virement')">
+            <div class="method-icon">🏦</div>
+            <div class="method-name">Virement bancaire</div>
+            <div class="method-detail" id="detail-virement">IBAN</div>
+          </div>
+          <div class="method-option" id="m-wero" onclick="selectMethod('wero')">
+            <div class="method-icon">💸</div>
+            <div class="method-name">Wero</div>
+            <div class="method-detail" id="detail-wero">—</div>
+          </div>
+          <div class="method-option" id="m-paypal" onclick="selectMethod('paypal')">
+            <div class="method-icon">💙</div>
+            <div class="method-name">PayPal</div>
+            <div class="method-detail" id="detail-paypal">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <!-- STEP 3 : Montant -->
+    <div class="section-block">
+      <div class="section-title">3. Montant de l'échange</div>
+      <div class="form-group">
+        <label id="amountLabel">Montant à envoyer (€)</label>
+        <input type="number" id="amount" placeholder="Ex : 200" min="10" oninput="calcConv()">
+        <div class="form-hint" id="toleranceHint">Matching automatique dans un rayon de ±10% (180€ – 220€)</div>
+      </div>
       <div class="converter" id="convBox" style="display:none">
         <div class="conv-row">
-          <div class="conv-item">
-            <div class="conv-label">Vous envoyez</div>
-            <div class="conv-val" id="convSend">—<span class="conv-currency"> €</span></div>
-          </div>
-          <div style="color:var(--gold);font-size:1.2rem">→</div>
-          <div class="conv-item">
-            <div class="conv-label">Vous recevrez</div>
-            <div class="conv-val" id="convReceive">—<span class="conv-currency"> FCFA</span></div>
-          </div>
+          <div class="conv-item"><div class="conv-label">Vous envoyez</div><div class="conv-val" id="convSend">—<span class="conv-currency"> €</span></div></div>
+          <div style="color:var(--primary);font-size:1.1rem">→</div>
+          <div class="conv-item"><div class="conv-label">Vous recevrez</div><div class="conv-val" id="convReceive">—<span class="conv-currency"> FCFA</span></div></div>
         </div>
         <div class="conv-details">
           <span>Taux : <strong id="convRate">655.96</strong> FCFA/€</span>
-          <span>Commission (1%) : <strong id="convComm">—</strong></span>
+          <span>Commission (0.5%) : <strong id="convComm">—</strong></span>
           <span>Net : <strong id="convNet">—</strong></span>
         </div>
       </div>
     </div>
 
-    <!-- NOTE -->
+    <!-- STEP 4 : Note -->
     <div class="section-block">
-      <div class="section-title">Message (optionnel)</div>
+      <div class="section-title">4. Message (optionnel)</div>
       <div class="form-group">
-        <label>Précisions pour les partenaires</label>
-        <textarea id="note" placeholder="Ex : Disponible rapidement, méthode Wave préférée..." rows="3"></textarea>
+        <textarea id="note" placeholder="Précisions pour les partenaires..." rows="2"></textarea>
       </div>
     </div>
 
     <div id="formAlert"></div>
     <div style="display:flex;gap:.75rem;flex-wrap:wrap">
-      <button class="btn btn-gold" id="submitBtn" onclick="submitAnnonce()">Publier mon annonce →</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitAnnonce()">Publier mon annonce →</button>
       <a href="/marketplace" class="btn btn-ghost">Annuler</a>
     </div>
   </div>
@@ -170,9 +208,9 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
   <div class="success-view" id="successView" style="display:none">
     <div class="success-icon" id="successIcon">📋</div>
     <h2 id="successTitle">Annonce publiée !</h2>
-    <p id="successMsg">Votre annonce est maintenant visible sur la marketplace. Vous serez notifié dès qu'un partenaire compatible est trouvé.</p>
+    <p id="successMsg">Votre annonce est visible sur la marketplace. Vous serez notifié dès qu'un partenaire est trouvé.</p>
     <div class="success-actions">
-      <a href="/dashboard" class="btn btn-gold">Voir mon tableau de bord</a>
+      <a href="/dashboard" class="btn btn-primary">Mon tableau de bord</a>
       <a href="/marketplace" class="btn btn-ghost">Voir la marketplace</a>
     </div>
   </div>
@@ -181,99 +219,111 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-let RATE = {eur_fcfa:655.96, commission:1};
+let RATE = {eur_fcfa:655.96, commission:0.5};
 let selectedDir = 'EUR_TO_FCFA';
+let selectedMethod = '';
+let SETTINGS = {};
 
 async function init(){
   try{
-    const mr = await fetch('/api/me',{credentials:'include'});
+    const mr=await fetch('/api/me',{credentials:'include'});
     if(!mr.ok){window.location.href='/';return;}
   }catch(e){window.location.href='/';}
   try{
-    const sr = await fetch('/api/settings/public');
-    if(sr.ok){const s=await sr.json();RATE=s;document.getElementById('convRate').textContent=s.eur_fcfa.toFixed(2);}
+    const sr=await fetch('/api/settings/public');
+    if(sr.ok){
+      SETTINGS=await sr.json();
+      RATE=SETTINGS;
+      document.getElementById('convRate').textContent=SETTINGS.eur_fcfa.toFixed(2);
+      // Fill method details
+      document.getElementById('detail-mtn').textContent=SETTINGS.mtn_number||'Disponible';
+      document.getElementById('detail-wave').textContent=SETTINGS.wave_number||'Disponible';
+      document.getElementById('detail-moov').textContent=SETTINGS.moov_number||'Disponible';
+      document.getElementById('detail-orange').textContent=SETTINGS.orange_number||'Disponible';
+      document.getElementById('detail-wero').textContent=SETTINGS.wero_number||'Disponible';
+      document.getElementById('detail-paypal').textContent=SETTINGS.paypal_email||'Disponible';
+      document.getElementById('detail-virement').textContent=SETTINGS.iban_name||'Virement IBAN';
+    }
   }catch(e){}
-  // Check if coming from marketplace with match param
-  const params = new URLSearchParams(window.location.search);
-  const matchId = params.get('match');
+  // Pre-select from marketplace
+  const params=new URLSearchParams(window.location.search);
+  const matchId=params.get('match');
   if(matchId) prefillOpposite(matchId);
 }
 
 async function prefillOpposite(annId){
   try{
-    const r = await fetch('/api/annonces');
-    const anns = await r.json();
-    const ann = anns.find(a=>a.id==annId);
+    const r=await fetch('/api/annonces');
+    const anns=await r.json();
+    const ann=anns.find(a=>a.id==annId);
     if(ann){
-      // Set opposite direction
       setDir(ann.direction==='EUR_TO_FCFA'?'FCFA_TO_EUR':'EUR_TO_FCFA');
       document.getElementById('amount').value=ann.amount;
-      document.getElementById('amountMin').value=ann.amount_min;
-      document.getElementById('amountMax').value=ann.amount_max;
       calcConv();
-      document.getElementById('formAlert').innerHTML=`<div class="alert alert-info">💡 Pré-rempli pour matcher avec l'annonce de ${ann.first} ${ann.last}</div>`;
+      document.getElementById('formAlert').innerHTML=`<div class="alert alert-info">💡 Pré-rempli pour matcher avec l'annonce de ${ann.first} ${ann.last[0]}.</div>`;
     }
   }catch(e){}
 }
 
 function setDir(dir){
-  selectedDir = dir;
-  document.getElementById('dirEur').classList.toggle('selected', dir==='EUR_TO_FCFA');
-  document.getElementById('dirFcfa').classList.toggle('selected', dir==='FCFA_TO_EUR');
-  const isEur = dir==='EUR_TO_FCFA';
-  document.getElementById('amountLabel').textContent = isEur
-    ? 'Montant que vous souhaitez envoyer (€)'
-    : 'Montant que vous souhaitez envoyer (FCFA)';
+  selectedDir=dir;
+  selectedMethod='';
+  document.querySelectorAll('.method-option').forEach(m=>m.classList.remove('selected'));
+  document.getElementById('dirEur').classList.toggle('selected',dir==='EUR_TO_FCFA');
+  document.getElementById('dirFcfa').classList.toggle('selected',dir==='FCFA_TO_EUR');
+  document.getElementById('fcfaMethods').style.display=dir==='EUR_TO_FCFA'?'':'none';
+  document.getElementById('eurMethods').style.display=dir==='FCFA_TO_EUR'?'':'none';
+  const isEur=dir==='EUR_TO_FCFA';
+  document.getElementById('amountLabel').textContent=isEur?'Montant à envoyer (€)':'Montant à envoyer (FCFA)';
   calcConv();
 }
 
+function selectMethod(method){
+  selectedMethod=method;
+  document.querySelectorAll('.method-option').forEach(m=>m.classList.remove('selected'));
+  const idMap={mtn_momo:'m-mtn',wave:'m-wave',moov_money:'m-moov',orange_money:'m-orange',virement:'m-virement',wero:'m-wero',paypal:'m-paypal'};
+  if(idMap[method]) document.getElementById(idMap[method]).classList.add('selected');
+}
+
 function calcConv(){
-  const v = parseFloat(document.getElementById('amount').value)||0;
-  const min = document.getElementById('amountMin');
-  const max = document.getElementById('amountMax');
-  if(!min.value && v) min.value = Math.round(v*0.8);
-  if(!max.value && v) max.value = Math.round(v*1.2);
-  if(!v){document.getElementById('convBox').style.display='none';return;}
-  const comm = v*RATE.commission/100;
-  const net = v-comm;
-  const isEur = selectedDir==='EUR_TO_FCFA';
-  const receive = isEur ? Math.round(net*RATE.eur_fcfa) : (net/RATE.eur_fcfa).toFixed(2);
-  document.getElementById('convBox').style.display='block';
-  document.getElementById('convSend').innerHTML=fmt(v)+'<span class="conv-currency"> '+(isEur?'€':'FCFA')+'</span>';
-  document.getElementById('convReceive').innerHTML=fmt(receive)+'<span class="conv-currency"> '+(isEur?'FCFA':'€')+'</span>';
+  const v=parseFloat(document.getElementById('amount').value)||0;
+  if(!v){document.getElementById('convBox').style.display='none';document.getElementById('toleranceHint').textContent='Matching automatique dans un rayon de ±10%';return;}
+  const min=Math.round(v*0.9),max=Math.round(v*1.1);
+  const isEur=selectedDir==='EUR_TO_FCFA';
+  const unit=isEur?'€':'FCFA';
+  document.getElementById('toleranceHint').textContent=`Matching ±10% : ${fmt(min)}${unit} – ${fmt(max)}${unit}`;
+  const comm=v*RATE.commission/100;const net=v-comm;
+  const receive=isEur?Math.round(net*RATE.eur_fcfa):(net/RATE.eur_fcfa).toFixed(2);
+  document.getElementById('convBox').style.display='';
+  document.getElementById('convSend').innerHTML=fmt(v)+`<span class="conv-currency"> ${unit}</span>`;
+  document.getElementById('convReceive').innerHTML=fmt(receive)+`<span class="conv-currency"> ${isEur?'FCFA':'€'}</span>`;
   document.getElementById('convComm').textContent=isEur?comm.toFixed(2)+' €':Math.round(comm)+' FCFA';
   document.getElementById('convNet').textContent=isEur?net.toFixed(2)+' €':Math.round(net)+' FCFA';
 }
 
 async function submitAnnonce(){
-  const amount = parseFloat(document.getElementById('amount').value);
-  const amountMin = parseFloat(document.getElementById('amountMin').value);
-  const amountMax = parseFloat(document.getElementById('amountMax').value);
+  const amount=parseFloat(document.getElementById('amount').value);
   if(!amount||amount<10){showAlert('Montant invalide (minimum 10)','error');return;}
-  if(amountMin>amountMax){showAlert('La fourchette min doit être ≤ max','error');return;}
-  const btn = document.getElementById('submitBtn');
-  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Publication...';
+  if(!selectedMethod){showAlert('Veuillez choisir une méthode de réception','error');return;}
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span> Publication...';
   try{
-    const r = await fetch('/api/annonces',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({direction:selectedDir,amount,amount_min:amountMin||amount*0.8,amount_max:amountMax||amount*1.2,note:document.getElementById('note').value})});
-    const d = await r.json();
+    const r=await fetch('/api/annonces',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({direction:selectedDir,amount,receive_method:selectedMethod,note:document.getElementById('note').value})});
+    const d=await r.json();
     if(!r.ok){showAlert(d.error||'Erreur','error');return;}
-    // Show success
     document.getElementById('mainForm').style.display='none';
     if(d.matches_found>0){
       document.getElementById('successIcon').textContent='🎉';
-      document.getElementById('successTitle').textContent=`${d.matches_found} match${d.matches_found>1?'s':''} trouvé${d.matches_found>1?'s':''}!`;
-      document.getElementById('successMsg').textContent=`Votre annonce a été matchée avec ${d.matches_found} partenaire${d.matches_found>1?'s':''}. Rendez-vous sur votre tableau de bord pour accepter le match.`;
+      document.getElementById('successTitle').textContent=`${d.matches_found} match${d.matches_found>1?'s':''} trouvé${d.matches_found>1?'s':''} !`;
+      document.getElementById('successMsg').textContent=`Votre annonce a été matchée avec ${d.matches_found} partenaire${d.matches_found>1?'s':''}. Acceptez le match dans votre tableau de bord !`;
     }
     document.getElementById('successView').style.display='block';
   }catch(e){showAlert('Erreur serveur','error');}
   finally{btn.disabled=false;btn.innerHTML='Publier mon annonce →';}
 }
 
-function showAlert(msg,type='error'){
-  document.getElementById('formAlert').innerHTML=`<div class="alert alert-${type}">${msg}</div>`;
-}
-
+function showAlert(msg,type='error'){document.getElementById('formAlert').innerHTML=`<div class="alert alert-${type}">${msg}</div>`;}
 function fmt(n){return Number(n).toLocaleString('fr-FR')}
 function showToast(msg,type='success'){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),3000);}
 
