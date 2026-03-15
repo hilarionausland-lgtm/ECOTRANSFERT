@@ -352,6 +352,10 @@ async function doRegister(){
     const r=await fetch('/api/register',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({first,last,email,phone,country,password:pwd})});
     const d=await r.json();
     if(!r.ok){showAlert('registerAlert',d.error||'Erreur');return;}
+    if(d.auto_verified){
+      const lr=await fetch('/api/login',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pwd})});
+      if(lr.ok){window.location.href='/dashboard';return;}
+    }
     document.getElementById('successEmail').textContent=email;
     switchView('success');
     window._lastEmail=email;
