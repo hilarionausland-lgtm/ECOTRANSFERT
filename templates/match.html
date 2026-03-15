@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Match — EcoTransfert</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
+body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
+.nav-logo span{color:var(--gold)}
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
+.btn-gold{background:var(--gold);color:white}
+.btn-gold:hover{background:#9A7A22}
+.btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
+.btn-ghost:hover{color:var(--ink)}
+.btn-green{background:var(--green);color:white}
+.btn-green:hover{background:#145F38}
+.btn-red{background:var(--red);color:white}
+.btn-red:hover{background:#A93226}
+.btn-sm{padding:.4rem .9rem;font-size:.78rem}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.page-wrap{max-width:740px;margin:0 auto;padding:2.5rem 1.5rem 4rem}
+.back-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.82rem;color:var(--muted);text-decoration:none;margin-bottom:2rem}
+.back-link:hover{color:var(--ink)}
+.page-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;margin-bottom:.25rem}
+.match-ref{font-size:.78rem;color:var(--muted);font-family:'Outfit',sans-serif;margin-bottom:2rem}
+
+/* STATUS TIMELINE */
+.timeline{display:flex;margin-bottom:2.5rem;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.25rem 1.5rem;overflow-x:auto;gap:0}
+.tl-step{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;min-width:80px}
+.tl-step:not(:last-child)::after{content:'';position:absolute;top:14px;left:60%;width:80%;height:2px;background:var(--border)}
+.tl-step.done:not(:last-child)::after{background:var(--green)}
+.tl-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:var(--muted);position:relative;z-index:1;margin-bottom:.4rem}
+.tl-step.done .tl-dot{border-color:var(--green);background:var(--green);color:white}
+.tl-step.active .tl-dot{border-color:var(--gold);background:var(--gold);color:white}
+.tl-label{font-size:.65rem;font-weight:500;color:var(--muted)}
+.tl-step.done .tl-label{color:var(--green)}
+.tl-step.active .tl-label{color:var(--gold)}
+
+/* CARDS */
+.card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1.25rem}
+.card-title{font-size:.9rem;font-weight:600;margin-bottom:1.25rem}
+.info-row{display:flex;justify-content:space-between;align-items:center;padding:.55rem 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.info-row:last-child{border-bottom:none}
+.info-label{color:var(--muted)}
+.info-val{font-weight:500}
+.info-val.big{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600}
+
+/* PARTNER CARD */
+.partner-card{display:flex;align-items:center;gap:1rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+.partner-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#9A7A22);display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:700;color:white;flex-shrink:0}
+.partner-name{font-size:.95rem;font-weight:600}
+.partner-meta{font-size:.75rem;color:var(--muted);margin-top:.15rem}
+.lock-msg{font-size:.72rem;color:var(--muted);margin-top:.3rem;display:flex;align-items:center;gap:.3rem}
+
+/* PAYMENT INFO */
+.payment-box{background:rgba(184,146,42,.04);border:1px solid rgba(184,146,42,.2);border-radius:8px;padding:1.25rem;margin-bottom:1.25rem}
+.payment-title{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:.85rem}
+.payment-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;font-size:.85rem}
+.payment-val{font-weight:600;display:flex;align-items:center;gap:.5rem}
+.copy-btn{background:none;border:none;cursor:pointer;color:var(--gold);font-size:.75rem;padding:.1rem .35rem;border-radius:3px;transition:background .2s}
+.copy-btn:hover{background:rgba(184,146,42,.1)}
+
+/* UPLOAD */
+.upload-zone{border:2px dashed var(--border);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:all .3s;background:var(--surface)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--gold);background:rgba(184,146,42,.03)}
+.upload-zone p{font-size:.83rem;color:var(--muted)}
+.upload-zone strong{color:var(--gold)}
+.upload-preview{display:none;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;align-items:center;gap:.75rem;margin-top:.75rem}
+.upload-preview.show{display:flex}
+.preview-thumb{width:44px;height:44px;border-radius:4px;object-fit:cover;border:1px solid var(--border)}
+.preview-info{flex:1;min-width:0}
+.preview-name{font-size:.82rem;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.preview-size{font-size:.72rem;color:var(--muted)}
+
+/* RATING */
+.stars-input{display:flex;gap:.35rem;font-size:1.8rem;cursor:pointer;margin:.75rem 0}
+.star{color:var(--border);transition:color .15s}
+.star.active{color:#F59E0B}
+
+/* ALERT */
+.alert{padding:.85rem 1rem;border-radius:6px;font-size:.83rem;margin-bottom:1rem;line-height:1.5}
+.alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
+.alert-success{background:rgba(26,122,74,.08);border:1px solid rgba(26,122,74,.2);color:var(--green)}
+.alert-error{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);color:var(--red)}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:50px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.badge-pending{background:rgba(184,146,42,.1);color:#8B6914;border:1px solid rgba(184,146,42,.2)}
+.badge-validating{background:rgba(29,78,216,.1);color:var(--blue);border:1px solid rgba(29,78,216,.2)}
+.badge-completed{background:rgba(26,122,74,.1);color:var(--green);border:1px solid rgba(26,122,74,.2)}
+.badge-cancelled{background:rgba(107,101,96,.1);color:var(--muted);border:1px solid rgba(107,101,96,.2)}
+.badge-disputed{background:rgba(192,57,43,.1);color:var(--red);border:1px solid rgba(192,57,43,.2)}
+
+/* TOAST */
+.toast-container{position:fixed;bottom:1.5rem;right:1.5rem;z-index:400;display:flex;flex-direction:column;gap:.5rem}
+.toast{background:var(--ink);color:white;padding:.85rem 1.25rem;border-radius:8px;font-size:.83rem;animation:toastIn .3s ease;max-width:300px;display:flex;align-items:center;gap:.5rem}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.success{border-left:3px solid var(--green)}
+.toast.error{border-left:3px solid var(--red)}
+
+@media(max-width:600px){nav{padding:0 1rem}.page-wrap{padding:1.5rem 1rem}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="/" class="nav-logo">Eco<span>Transfert</span></a>
+  <a href="/dashboard" style="font-size:.82rem;color:var(--muted);text-decoration:none">← Tableau de bord</a>
+</nav>
+
+<div class="page-wrap" id="pageContent">
+  <div style="text-align:center;padding:3rem;color:var(--muted)">Chargement...</div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+let matchData = null;
+let currentUser = null;
+let uploadedFile = null;
+let selectedRating = 0;
+let SETTINGS = {eur_fcfa:655.96, commission:1};
+
+const ref = window.location.pathname.split('/').pop();
+
+async function init(){
+  try{
+    const [mr, sr] = await Promise.all([
+      fetch('/api/me',{credentials:'include'}),
+      fetch('/api/settings/public')
+    ]);
+    if(!mr.ok){window.location.href='/';return;}
+    currentUser = await mr.json();
+    if(sr.ok) SETTINGS = await sr.json();
+  }catch(e){window.location.href='/';}
+  await loadMatch();
+}
+
+async function loadMatch(){
+  const r = await fetch(`/api/matches/${ref}`,{credentials:'include'});
+  if(!r.ok){document.getElementById('pageContent').innerHTML='<div style="text-align:center;padding:3rem;color:var(--muted)">Match non trouvé</div>';return;}
+  matchData = await r.json();
+  renderMatch();
+}
+
+function renderMatch(){
+  const m = matchData;
+  const isA = m.user_a_id === currentUser.id;
+  const partner = isA ? m.user_b : m.user_a;
+  const myAccepted = isA ? m.accepted_a : m.accepted_b;
+  const partnerAccepted = isA ? m.accepted_b : m.accepted_a;
+  const myProof = isA ? m.proof_a_url : m.proof_b_url;
+  const reveal = m.accepted_a && m.accepted_b;
+
+  // Timeline steps
+  const steps = [
+    {label:'Match', done: true},
+    {label:'Acceptation', done: m.accepted_a && m.accepted_b},
+    {label:'Preuves', done: m.proof_a_url && m.proof_b_url},
+    {label:'Validation', done: m.status==='completed'},
+    {label:'Complété', done: m.status==='completed'},
+  ];
+  const activeStep = steps.findIndex(s=>!s.done);
+  const tlHTML = steps.map((s,i)=>`
+    <div class="tl-step ${s.done?'done':i===activeStep?'active':''}">
+      <div class="tl-dot">${s.done?'✓':i+1}</div>
+      <div class="tl-label">${s.label}</div>
+    </div>`).join('');
+
+  // Partner card
+  const partnerHTML = `
+    <div class="partner-card">
+      <div class="partner-avatar">${(partner?.first||'?')[0].toUpperCase()}</div>
+      <div>
+        <div class="partner-name">${partner?.first||'—'} ${partner?.last||''}</div>
+        <div class="partner-meta">
+          ${partner?.country||''} 
+          ${partner?.rating ? '⭐ '+partner.rating : 'Nouveau membre'}
+        </div>
+        ${reveal
+          ? `<div style="font-size:.75rem;color:var(--green);margin-top:.25rem">✅ Coordonnées visibles ci-dessous</div>`
+          : `<div class="lock-msg">🔒 Coordonnées visibles après acceptation mutuelle</div>`}
+      </div>
+    </div>`;
+
+  // Amount info
+  const amountHTML = `
+    <div class="card">
+      <div class="card-title">💱 Détails de l'échange</div>
+      <div class="info-row"><span class="info-label">Montant EUR</span><span class="info-val big">${fmt(m.amount_eur)} €</span></div>
+      <div class="info-row"><span class="info-label">Montant FCFA</span><span class="info-val big">${fmt(m.amount_fcfa)} FCFA</span></div>
+      <div class="info-row"><span class="info-label">Votre rôle</span><span class="info-val">${isA?'📤 Envoi Euros':'📤 Envoi FCFA'}</span></div>
+      <div class="info-row"><span class="info-label">Votre commission (1%)</span><span class="info-val">${isA?m.commission_a+' €':m.commission_b+' FCFA'}</span></div>
+      <div class="info-row"><span class="info-label">Expire le</span><span class="info-val">${fmtDate(m.expires_at)}</span></div>
+      <div class="info-row"><span class="info-label">Statut</span><span class="info-val">${statusBadge(m.status)}</span></div>
+    </div>`;
+
+  // Action section based on status
+  let actionHTML = '';
+
+  if(m.status === 'cancelled'){
+    actionHTML = `<div class="alert alert-error">❌ Ce match a été annulé. <a href="/marketplace" style="color:var(--red);font-weight:600">Retour à la marketplace →</a></div>`;
+  } else if(m.status === 'disputed'){
+    actionHTML = `<div class="alert alert-error">⚠️ Litige en cours. L'administrateur va examiner les preuves et vous contacter.</div>`;
+  } else if(m.status === 'completed'){
+    actionHTML = buildRatingHTML(m, isA);
+  } else if(!myAccepted){
+    // Need to accept
+    actionHTML = `
+      <div class="card">
+        <div class="card-title">🤝 Accepter le match ?</div>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.25rem;font-weight:300">
+          Vérifiez les détails ci-dessus. En acceptant, vous vous engagez à effectuer l'échange dans les 72 heures.
+        </p>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <button class="btn btn-green" onclick="acceptMatch()">✓ Accepter le match</button>
+          <button class="btn btn-red" style="background:transparent;color:var(--red);border:1px solid var(--red)" onclick="declineMatch()">✕ Refuser</button>
+        </div>
+      </div>`;
+  } else if(!partnerAccepted){
+    actionHTML = `<div class="alert alert-info">⏳ En attente que votre partenaire accepte le match...</div>`;
+  } else if(!myProof){
+    // Need to send proof
+    actionHTML = buildProofHTML(isA, m);
+  } else if(myProof && !(m.proof_a_url && m.proof_b_url)){
+    actionHTML = `
+      <div class="alert alert-success">✅ Votre preuve a été envoyée. En attente de la preuve de votre partenaire...</div>`;
+  } else if(m.status === 'validating'){
+    actionHTML = `<div class="alert alert-info">⏳ Les deux preuves ont été soumises. L'administrateur va valider votre échange sous 24h.</div>`;
+  }
+
+  // Contact info (only after both accepted)
+  let contactHTML = '';
+  if(reveal && partner){
+    contactHTML = `
+      <div class="card">
+        <div class="card-title">📱 Coordonnées de votre partenaire</div>
+        <div class="info-row">
+          <span class="info-label">Téléphone</span>
+          <span class="info-val">${partner.phone||'Non renseigné'} ${partner.phone?`<button class="copy-btn" onclick="copyText('${partner.phone}')">📋</button>`:''}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Email</span>
+          <span class="info-val">${partner.email||'—'}</span>
+        </div>
+      </div>`;
+  }
+
+  // Payment instructions (show account to send to)
+  let paymentHTML = '';
+  if(reveal && m.status !== 'completed' && m.status !== 'cancelled'){
+    paymentHTML = buildPaymentHTML(isA);
+  }
+
+  document.getElementById('pageContent').innerHTML = `
+    <a href="/dashboard" class="back-link">← Tableau de bord</a>
+    <div class="page-title">Match ${isA?'EUR → FCFA':'FCFA → EUR'}</div>
+    <div class="match-ref">Réf. ${m.ref} · Créé le ${fmtDate(m.created)}</div>
+    <div class="timeline">${tlHTML}</div>
+    ${partnerHTML}
+    ${amountHTML}
+    ${contactHTML}
+    ${paymentHTML}
+    ${actionHTML}`;
+
+  // Re-attach event listeners for file upload
+  const fz = document.getElementById('uploadZone');
+  if(fz){
+    fz.addEventListener('dragover',e=>{e.preventDefault();fz.classList.add('dragover');});
+    fz.addEventListener('dragleave',()=>fz.classList.remove('dragover'));
+    fz.addEventListener('drop',e=>{e.preventDefault();fz.classList.remove('dragover');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
+  }
+}
+
+function buildProofHTML(isA, m){
+  const acctInfo = isA
+    ? `Envoyez <strong>${fmt(m.amount_eur)} €</strong> sur le compte de votre partenaire`
+    : `Envoyez <strong>${fmt(m.amount_fcfa)} FCFA</strong> sur le compte de votre partenaire`;
+  return `
+    <div class="card">
+      <div class="card-title">📤 Envoyez votre paiement et joignez la preuve</div>
+      <div class="alert alert-info" style="margin-bottom:1.25rem">💡 ${acctInfo}, puis téléversez la capture d'écran.</div>
+      <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()">
+        <div style="font-size:2rem;margin-bottom:.5rem;opacity:.4">📎</div>
+        <p><strong>Cliquez pour choisir</strong> ou glissez-déposez</p>
+        <p style="margin-top:.25rem;font-size:.75rem">JPG, PNG, PDF · Max 5 Mo</p>
+        <input type="file" id="fileInput" accept="image/*,.pdf" style="display:none" onchange="handleFile(this.files[0])">
+      </div>
+      <div class="upload-preview" id="uploadPreview">
+        <img class="preview-thumb" id="previewImg" src="" alt="">
+        <div class="preview-info">
+          <div class="preview-name" id="previewName">—</div>
+          <div class="preview-size" id="previewSize">—</div>
+        </div>
+        <button style="background:none;border:none;cursor:pointer;color:var(--muted)" onclick="clearFile()">✕</button>
+      </div>
+      <div style="margin-top:1rem">
+        <button class="btn btn-gold" id="proofBtn" onclick="sendProof()" disabled>Envoyer ma preuve →</button>
+      </div>
+    </div>`;
+}
+
+function buildPaymentHTML(isA){
+  const s = SETTINGS;
+  const methods = [];
+  if(isA){
+    // EUR sender — show admin's receiving accounts
+    if(s.iban) methods.push({name:'🏦 Virement', val:s.iban_name+' — '+s.iban});
+    if(s.wave_number) methods.push({name:'🌊 Wave', val:s.wave_number});
+    if(s.paypal) methods.push({name:'💙 PayPal', val:s.paypal});
+  } else {
+    // FCFA sender
+    if(s.mtn_number) methods.push({name:'📱 MTN MoMo', val:s.mtn_number});
+    if(s.moov_number) methods.push({name:'📲 Moov Money', val:s.moov_number});
+    if(s.orange_number) methods.push({name:'🟠 Orange Money', val:s.orange_number});
+    if(s.wave_number) methods.push({name:'🌊 Wave', val:s.wave_number});
+  }
+  if(!methods.length) return '';
+  return `
+    <div class="card">
+      <div class="card-title">🏦 Où envoyer votre paiement</div>
+      <div class="payment-box">
+        <div class="payment-title">Compte EcoTransfert</div>
+        ${methods.map(m=>`
+          <div class="payment-row">
+            <span style="color:var(--muted)">${m.name}</span>
+            <span class="payment-val">${m.val} <button class="copy-btn" onclick="copyText('${m.val}')">📋 Copier</button></span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function buildRatingHTML(m, isA){
+  const rated = isA ? m.user_b_id : m.user_a_id;
+  return `
+    <div class="card">
+      <div class="card-title">✅ Échange complété !</div>
+      <p style="font-size:.85rem;color:var(--muted);margin-bottom:1.25rem;font-weight:300">
+        Votre échange a été validé avec succès. Notez votre partenaire pour aider la communauté.
+      </p>
+      <div style="font-size:.88rem;font-weight:600;margin-bottom:.5rem">Notez votre partenaire</div>
+      <div class="stars-input" id="starsInput">
+        ${[1,2,3,4,5].map(i=>`<span class="star" onclick="setRating(${i})" onmouseover="hoverRating(${i})" onmouseout="resetHover()">★</span>`).join('')}
+      </div>
+      <textarea id="ratingComment" placeholder="Commentaire (optionnel)..." rows="2" style="width:100%;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.65rem 1rem;font-family:'Outfit',sans-serif;font-size:.88rem;color:var(--ink);outline:none;resize:none;margin-bottom:1rem"></textarea>
+      <button class="btn btn-gold btn-sm" id="rateBtn" onclick="submitRating()" disabled>Envoyer la note</button>
+    </div>`;
+}
+
+async function acceptMatch(){
+  const r = await fetch(`/api/matches/${ref}/accept`,{method:'POST',credentials:'include'});
+  if(r.ok){showToast('Match accepté ! ✅');await loadMatch();}
+  else showToast('Erreur','error');
+}
+
+async function declineMatch(){
+  if(!confirm('Refuser ce match ? L\'annonce sera remise en circulation.'))return;
+  const r = await fetch(`/api/matches/${ref}/decline`,{method:'POST',credentials:'include'});
+  if(r.ok){showToast('Match refusé');window.location.href='/dashboard';}
+}
+
+async function sendProof(){
+  if(!uploadedFile)return;
+  const btn = document.getElementById('proofBtn');
+  btn.disabled=true; btn.innerHTML='<span class="spinner"></span> Envoi...';
+  const fd = new FormData();
+  fd.append('proof', uploadedFile);
+  const r = await fetch(`/api/matches/${ref}/proof`,{method:'POST',credentials:'include',body:fd});
+  if(r.ok){showToast('Preuve envoyée ! ✅','success');await loadMatch();}
+  else{showToast('Erreur lors de l\'envoi','error');btn.disabled=false;btn.textContent='Envoyer ma preuve →';}
+}
+
+async function submitRating(){
+  if(!selectedRating)return;
+  const r = await fetch(`/api/matches/${ref}/rate`,{method:'POST',credentials:'include',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({score:selectedRating,comment:document.getElementById('ratingComment')?.value||''})});
+  if(r.ok){showToast('Note envoyée ! Merci ⭐','success');document.getElementById('rateBtn').textContent='Note envoyée ✓';document.getElementById('rateBtn').disabled=true;}
+  else showToast('Déjà noté ou erreur','error');
+}
+
+function handleFile(file){
+  if(!file)return;
+  if(file.size>5*1024*1024){showToast('Fichier trop grand (max 5Mo)','error');return;}
+  uploadedFile=file;
+  document.getElementById('uploadPreview').classList.add('show');
+  if(file.type.startsWith('image/')){
+    const reader=new FileReader();
+    reader.onload=e=>{document.getElementById('previewImg').src=e.target.result;document.getElementById('previewImg').style.display='block';};
+    reader.readAsDataURL(file);
+  }else{document.getElementById('previewImg').style.display='none';}
+  document.getElementById('previewName').textContent=file.name;
+  document.getElementById('previewSize').textContent=(file.size/1024).toFixed(1)+' Ko';
+  document.getElementById('proofBtn').disabled=false;
+}
+
+function clearFile(){uploadedFile=null;document.getElementById('uploadPreview').classList.remove('show');document.getElementById('fileInput').value='';document.getElementById('proofBtn').disabled=true;}
+
+function setRating(n){
+  selectedRating=n;
+  document.querySelectorAll('.star').forEach((s,i)=>s.classList.toggle('active',i<n));
+  document.getElementById('rateBtn').disabled=false;
+}
+function hoverRating(n){document.querySelectorAll('.star').forEach((s,i)=>s.style.color=i<n?'#F59E0B':'var(--border)');}
+function resetHover(){document.querySelectorAll('.star').forEach((s,i)=>s.style.color=i<selectedRating?'#F59E0B':'var(--border)');}
+
+function copyText(t){navigator.clipboard.writeText(t).then(()=>showToast('Copié !'));}
+function fmt(n){return Number(n).toLocaleString('fr-FR')}
+function fmtDate(s){if(!s)return'—';return new Date(s).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})}
+function statusBadge(s){const m={pending:['badge-pending','En attente'],proof_pending:['badge-pending','Preuves requises'],validating:['badge-validating','En validation'],completed:['badge-completed','Complété'],cancelled:['badge-cancelled','Annulé'],disputed:['badge-disputed','Litige']};const[c,l]=m[s]||['badge-pending',s];return`<span class="badge ${c}">${l}</span>`}
+function showToast(msg,type='success'){const c=document.getElementById('toastContainer');const t=document.createElement('div');t.className=`toast ${type}`;t.textContent=msg;c.appendChild(t);setTimeout(()=>t.remove(),3500);}
+
+init();
+</script>
+</body>
+</html>
