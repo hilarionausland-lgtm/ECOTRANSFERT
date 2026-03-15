@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--ink:#0D0D0D;--paper:#F7F4EF;--gold:#B8922A;--muted:#6B6560;--border:#E2DDD6;--white:#FFFFFF;--surface:#FDFAF6;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
+:root{--ink:#0D0D0D;--paper:#F4F8F5;--primary:#00784A;--primary-light:#00A865;--primary-dark:#005C38;--gold:#B8922A;--muted:#5C6B62;--border:#D4E4DA;--white:#FFFFFF;--surface:#F9FCF9;--red:#C0392B;--green:#1A7A4A;--blue:#1D4ED8}
 body{font-family:'Outfit',sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
 nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;display:flex;align-items:center;justify-content:space-between;padding:0 2rem;position:sticky;top:0;z-index:50}
 .nav-logo{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:700;color:var(--ink);text-decoration:none}
-.nav-logo span{color:var(--gold)}
+.nav-logo span{color:var(--primary)}
 .btn{display:inline-flex;align-items:center;gap:.4rem;padding:.5rem 1.1rem;border-radius:6px;font-family:'Outfit',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;border:none;transition:all .2s;text-decoration:none}
-.btn-gold{background:var(--gold);color:white}
-.btn-gold:hover{background:#9A7A22}
+.btn-gold{background:var(--primary);color:white}
+.btn-gold:hover{background:var(--primary-dark)}
 .btn-ghost{background:transparent;color:var(--muted);border:1px solid var(--border)}
 .btn-ghost:hover{color:var(--ink)}
 .btn-green{background:var(--green);color:white}
@@ -39,10 +39,10 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .tl-step.done:not(:last-child)::after{background:var(--green)}
 .tl-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--border);background:var(--white);display:flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:600;color:var(--muted);position:relative;z-index:1;margin-bottom:.4rem}
 .tl-step.done .tl-dot{border-color:var(--green);background:var(--green);color:white}
-.tl-step.active .tl-dot{border-color:var(--gold);background:var(--gold);color:white}
+.tl-step.active .tl-dot{border-color:var(--primary);background:var(--primary);color:white}
 .tl-label{font-size:.65rem;font-weight:500;color:var(--muted)}
 .tl-step.done .tl-label{color:var(--green)}
-.tl-step.active .tl-label{color:var(--gold)}
+.tl-step.active .tl-label{color:var(--primary)}
 
 /* CARDS */
 .card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:1.75rem;margin-bottom:1.25rem}
@@ -61,18 +61,18 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 .lock-msg{font-size:.72rem;color:var(--muted);margin-top:.3rem;display:flex;align-items:center;gap:.3rem}
 
 /* PAYMENT INFO */
-.payment-box{background:rgba(184,146,42,.04);border:1px solid rgba(184,146,42,.2);border-radius:8px;padding:1.25rem;margin-bottom:1.25rem}
-.payment-title{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:.85rem}
+.payment-box{background:rgba(0,120,74,.04);border:1px solid rgba(184,146,42,.2);border-radius:8px;padding:1.25rem;margin-bottom:1.25rem}
+.payment-title{font-size:.75rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--primary);margin-bottom:.85rem}
 .payment-row{display:flex;justify-content:space-between;align-items:center;padding:.4rem 0;font-size:.85rem}
 .payment-val{font-weight:600;display:flex;align-items:center;gap:.5rem}
-.copy-btn{background:none;border:none;cursor:pointer;color:var(--gold);font-size:.75rem;padding:.1rem .35rem;border-radius:3px;transition:background .2s}
-.copy-btn:hover{background:rgba(184,146,42,.1)}
+.copy-btn{background:none;border:none;cursor:pointer;color:var(--primary);font-size:.75rem;padding:.1rem .35rem;border-radius:3px;transition:background .2s}
+.copy-btn:hover{background:rgba(0,120,74,.1)}
 
 /* UPLOAD */
 .upload-zone{border:2px dashed var(--border);border-radius:8px;padding:2rem;text-align:center;cursor:pointer;transition:all .3s;background:var(--surface)}
-.upload-zone:hover,.upload-zone.dragover{border-color:var(--gold);background:rgba(184,146,42,.03)}
+.upload-zone:hover,.upload-zone.dragover{border-color:var(--primary);background:rgba(184,146,42,.03)}
 .upload-zone p{font-size:.83rem;color:var(--muted)}
-.upload-zone strong{color:var(--gold)}
+.upload-zone strong{color:var(--primary)}
 .upload-preview{display:none;background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:.75rem 1rem;align-items:center;gap:.75rem;margin-top:.75rem}
 .upload-preview.show{display:flex}
 .preview-thumb{width:44px;height:44px;border-radius:4px;object-fit:cover;border:1px solid var(--border)}
@@ -87,13 +87,13 @@ nav{background:var(--white);border-bottom:1px solid var(--border);height:60px;di
 
 /* ALERT */
 .alert{padding:.85rem 1rem;border-radius:6px;font-size:.83rem;margin-bottom:1rem;line-height:1.5}
-.alert-info{background:rgba(184,146,42,.08);border:1px solid rgba(184,146,42,.2);color:#8B6914}
+.alert-info{background:rgba(0,120,74,.08);border:1px solid rgba(184,146,42,.2);color:var(--primary)}
 .alert-success{background:rgba(26,122,74,.08);border:1px solid rgba(26,122,74,.2);color:var(--green)}
 .alert-error{background:rgba(192,57,43,.08);border:1px solid rgba(192,57,43,.2);color:var(--red)}
 
 /* BADGE */
 .badge{display:inline-flex;align-items:center;padding:.2rem .6rem;border-radius:50px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
-.badge-pending{background:rgba(184,146,42,.1);color:#8B6914;border:1px solid rgba(184,146,42,.2)}
+.badge-pending{background:rgba(0,120,74,.1);color:var(--primary);border:1px solid rgba(184,146,42,.2)}
 .badge-validating{background:rgba(29,78,216,.1);color:var(--blue);border:1px solid rgba(29,78,216,.2)}
 .badge-completed{background:rgba(26,122,74,.1);color:var(--green);border:1px solid rgba(26,122,74,.2)}
 .badge-cancelled{background:rgba(107,101,96,.1);color:var(--muted);border:1px solid rgba(107,101,96,.2)}
@@ -126,7 +126,7 @@ let matchData = null;
 let currentUser = null;
 let uploadedFile = null;
 let selectedRating = 0;
-let SETTINGS = {eur_fcfa:655.96, commission:1};
+let SETTINGS = {eur_fcfa:655.96, commission:0.5};
 
 const ref = window.location.pathname.split('/').pop();
 
@@ -310,17 +310,30 @@ function buildProofHTML(isA, m){
 function buildPaymentHTML(isA){
   const s = SETTINGS;
   const methods = [];
-  if(isA){
-    // EUR sender — show admin's receiving accounts
-    if(s.iban) methods.push({name:'🏦 Virement', val:s.iban_name+' — '+s.iban});
-    if(s.wave_number) methods.push({name:'🌊 Wave', val:s.wave_number});
-    if(s.paypal) methods.push({name:'💙 PayPal', val:s.paypal});
+  // Show only the method the partner selected
+  const myMethod = isA ? m.receive_method_a : m.receive_method_b;
+  const methodMap = {
+    virement: {name:'🏦 Virement bancaire', val: s.iban_name+' — IBAN: '+s.iban},
+    wero: {name:'💸 Wero', val: s.wero_number},
+    paypal: {name:'💙 PayPal', val: s.paypal_email},
+    mtn_momo: {name:'📱 MTN MoMo', val: s.mtn_number},
+    wave: {name:'🌊 Wave', val: s.wave_number},
+    moov_money: {name:'📲 Moov Money', val: s.moov_number},
+    orange_money: {name:'🟠 Orange Money', val: s.orange_number},
+  };
+  // Show partner's preferred receive method (what YOU need to send to)
+  const partnerMethod = isA ? m.receive_method_b : m.receive_method_a;
+  if(partnerMethod && methodMap[partnerMethod] && methodMap[partnerMethod].val){
+    methods.push(methodMap[partnerMethod]);
   } else {
-    // FCFA sender
-    if(s.mtn_number) methods.push({name:'📱 MTN MoMo', val:s.mtn_number});
-    if(s.moov_number) methods.push({name:'📲 Moov Money', val:s.moov_number});
-    if(s.orange_number) methods.push({name:'🟠 Orange Money', val:s.orange_number});
-    if(s.wave_number) methods.push({name:'🌊 Wave', val:s.wave_number});
+    // Fallback: show all available
+    if(isA){
+      if(s.mtn_number) methods.push({name:'📱 MTN MoMo', val:s.mtn_number});
+      if(s.wave_number) methods.push({name:'🌊 Wave', val:s.wave_number});
+    } else {
+      if(s.iban) methods.push({name:'🏦 Virement', val:s.iban_name+' — '+s.iban});
+      if(s.wero_number) methods.push({name:'💸 Wero', val:s.wero_number});
+    }
   }
   if(!methods.length) return '';
   return `
