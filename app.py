@@ -4,6 +4,7 @@ import sqlite3, os, uuid, secrets
 from datetime import datetime, timedelta
 from functools import wraps
 from werkzeug.security import generate_password_hash, check_password_hash
+import urllib.request, json as _json
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY', 'ecotransfert-secret-v3')
@@ -33,6 +34,8 @@ def init_db():
             country      TEXT,
             password     TEXT NOT NULL,
             verified     INTEGER DEFAULT 1,
+            verify_token TEXT,
+            token_expiry TEXT,
             rating_sum   REAL DEFAULT 0,
             rating_count INTEGER DEFAULT 0,
             created      TEXT DEFAULT (datetime('now'))
@@ -284,10 +287,27 @@ def match_detail(ref): return send_from_directory('templates', 'match.html')
 @app.route('/admin')
 def admin_page(): return send_from_directory('templates', 'admin.html')
 
+@app.route('/api/resend-verification', methods=['POST'])
+def resend_verification():
+    d = request.json
+    with get_db() as db:
+        user = db.execute("SELECT * FROM users WHERE email=?", (d.get('email',''),)).fetchone()
+    if not user or user['verified']:
+        return jsonify({'ok': True})
+    token = secrets.token_urlsafe(32)
+    expiry = (datetime.now() + timedelta(hours=24)).isoformat()
+    with get_db() as db:
+        db.execute("UPDATE users SET verify_token=?, token_expiry=? WHERE id=?", (token, expiry, user['id']))
+    send_verification_email(user['email'], user['first'], token)
+    return jsonify({'ok': True})
+
 @app.route('/verify/<token>')
 def verify_email(token):
     with get_db() as db:
-        db.execute("UPDATE users SET verified=1 WHERE verify_token=?", (token,))
+        user = db.execute("SELECT * FROM users WHERE verify_token=?", (token,)).fetchone()
+        if not user:
+            return "<h2 style='font-family:sans-serif;text-align:center;margin-top:80px'>❌ Lien invalide.</h2>", 400
+        db.execute("UPDATE users SET verified=1, verify_token=NULL, token_expiry=NULL WHERE id=?", (user['id'],))
     return send_from_directory('templates', 'verified.html')
 
 # ─── PUBLIC API ───────────────────────────────────────────────
@@ -312,12 +332,20 @@ def register():
     if len(d['password']) < 6:
         return jsonify({'error': 'Mot de passe trop court (min. 6 caractères)'}), 400
     try:
+        token = secrets.token_urlsafe(32)
+        expiry = (datetime.now() + timedelta(hours=24)).isoformat()
+        verified = 0 if MAIL_ENABLED else 1
         with get_db() as db:
             db.execute(
-                "INSERT INTO users (first,last,email,phone,country,password,verified) VALUES (?,?,?,?,?,?,1)",
+                "INSERT INTO users (first,last,email,phone,country,password,verified,verify_token,token_expiry) VALUES (?,?,?,?,?,?,?,?,?)",
                 (d['first'], d['last'], d['email'], d.get('phone',''), d.get('country',''),
-                 generate_password_hash(d['password']))
+                 generate_password_hash(d['password']), verified,
+                 token if MAIL_ENABLED else None,
+                 expiry if MAIL_ENABLED else None)
             )
+        if MAIL_ENABLED:
+            send_verification_email(d['email'], d['first'], token)
+            return jsonify({'ok': True, 'mail_sent': True})
         return jsonify({'ok': True, 'auto_verified': True})
     except sqlite3.IntegrityError:
         return jsonify({'error': 'Cette adresse email est déjà utilisée'}), 409
@@ -329,6 +357,8 @@ def login():
         user = db.execute("SELECT * FROM users WHERE email=?", (d.get('email',''),)).fetchone()
     if not user or not check_password_hash(user['password'], d.get('password','')):
         return jsonify({'error': 'Email ou mot de passe incorrect'}), 401
+    if not user['verified']:
+        return jsonify({'error': 'Veuillez confirmer votre email avant de vous connecter', 'unverified': True}), 403
     session['user_id'] = user['id']
     return jsonify(user_to_dict(user))
 
